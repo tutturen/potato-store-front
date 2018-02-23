@@ -6,6 +6,10 @@ cache:
     - "node_modules"
   yarn: true
 
+script:
+  - yarn build
+  - yarn test
+
 deploy:
   provider: pages
   skip-cleanup: true
@@ -14,6 +18,4 @@ deploy:
   on:
     branch: master
   local-dir: build
-
-before_deploy: yarn build
 
