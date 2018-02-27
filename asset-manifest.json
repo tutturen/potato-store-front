@@ -1,7 +1,9 @@
 {
-  "main.css": "static/css/main.c17080f1.css",
-  "main.css.map": "static/css/main.c17080f1.css.map",
-  "main.js": "static/js/main.17845fc7.js",
-  "main.js.map": "static/js/main.17845fc7.js.map",
-  "static/media/logo.svg": "static/media/logo.5d5d9eef.svg"
+  "main.css": "static/css/main.11d9cf88.css",
+  "main.css.map": "static/css/main.11d9cf88.css.map",
+  "main.js": "static/js/main.3a4673de.js",
+  "main.js.map": "static/js/main.3a4673de.js.map",
+  "static/media/potato-logo-text.svg": "static/media/potato-logo-text.7a434a0b.svg",
+  "static/media/potato-logo.svg": "static/media/potato-logo.569d04d6.svg",
+  "static/media/shopping-cart.svg": "static/media/shopping-cart.8086dda0.svg"
 }
