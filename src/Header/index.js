@@ -1,0 +1,21 @@
+import React from 'react';
+import './Header.css';
+import potatoLogo from './potato-logo.svg';
+import potatoLogoText from './potato-logo-text.svg';
+import shoppingCartIcon from './shopping-cart.svg';
+
+function Header(props) {
+  return (
+    <div className="header-container">
+      <div className="header-left-content">
+        <img src={potatoLogo} className="potato-logo" />
+        <img src={potatoLogoText} className="potato-logo-text" />
+      </div>
+      <div className="header-right-content">
+        <img src={shoppingCartIcon} className="shopping-cart-icon" />
+      </div>
+    </div>
+  );
+}
+
+export default Header;
