@@ -1,5 +1,5 @@
 .productlist-container {
-  width: 790px;
+  width: 760px;
   display: flex;
   flex-direction: column;
 }
@@ -18,7 +18,7 @@
 }
 
 .productlist-item {
-  width: 180px;
+  width: 160px;
   height: 240px;
   display: flex;
   flex-direction: column;

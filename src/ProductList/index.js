@@ -8,7 +8,7 @@ function ProductList(props) {
       <div className="productlist-products">
         {props.products.map(product => (
           <div className="productlist-item">
-            <img className="productlist-item-image" src={product.image} />
+            <img className="productlist-item-image" src={product.image} alt={product.name} />
             <div className="productlist-item-price">{product.price}</div>
             <div className="productlist-item-name">{product.name}</div>
             <div className="productlist-item-subtitle">{product.subtitle}</div>

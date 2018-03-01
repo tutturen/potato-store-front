@@ -6,6 +6,8 @@ import PageHeader from '../PageHeader';
 import ProductList from '../ProductList';
 import FilterMenu from '../FilterMenu';
 
+import ProductPage from '../ProductPage';
+
 import milkProducts from './milkProducts.json';
 
 storiesOf('Header', module).add('with standard props', () => <Header />);
@@ -19,3 +21,5 @@ storiesOf('ProductList', module).add('with standard props', () => (
 ));
 
 storiesOf('FilterMenu', module).add('with standard props', () => <FilterMenu />);
+
+storiesOf('ProductPage', module).add('with standard props', () => <ProductPage />);
