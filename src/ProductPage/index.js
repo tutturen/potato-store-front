@@ -25,7 +25,6 @@ const data = {
 function ProductPage(props) {
   return (
     <div>
-      <Header />
       <div className="productpage-content">
         <PageHeader title={data.title} />
         <div className="productpage-row-content">
