@@ -6,9 +6,10 @@ function CheckBox(props) {
   return (
     <div className="filterbox-checkbox">
       <label>
-        <input type="checkbox" />
+        <input type="checkbox" checked={props.checked} />
         {props.text}
       </label>
+      <div className="filterbox-checkbox-right-text">{props.rightText}</div>
     </div>
   );
 }
@@ -41,9 +42,9 @@ function TripleSelect(props) {
 function MinMaxSelect(props) {
   return (
     <div className="minmaxselect-container">
-      <input type="number" className="minmaxselect-input" />
+      <input value={props.minimum} type="number" className="minmaxselect-input" />
       <div className="minmaxselect-delimiter">-</div>
-      <input type="number" className="minmaxselect-input" />
+      <input value={props.maximum} type="number" className="minmaxselect-input" />
       <div className="minmaxselect-delimiter">kr</div>
     </div>
   );
@@ -52,18 +53,22 @@ function MinMaxSelect(props) {
 function FilterMenu(props) {
   return (
     <div className="filtermenu-container">
-      <FilterBox title="Brand">
-        <CheckBox text="Tine" />
-        <CheckBox text="Q Meierier" />
-        <CheckBox text="Alpro" />
+      <FilterBox title="Category">
+        {props.categories.map(category => (
+          <CheckBox text={category.name} rightText={category.amount} checked={category.checked} />
+        ))}
       </FilterBox>
 
       <FilterBox title="Organic">
-        <TripleSelect options={['Yes', 'Not important', 'No']} selected="Not important" />
+        <TripleSelect options={['Yes', 'Not important', 'No']} selected={props.organic} />
+      </FilterBox>
+
+      <FilterBox title="On Sale">
+        <TripleSelect options={['Yes', 'Not important', 'No']} selected={props.onSale} />
       </FilterBox>
 
       <FilterBox title="Price">
-        <MinMaxSelect minimum={0} maximum={100} />
+        <MinMaxSelect minimum={props.minPrice} maximum={props.maxPrice} />
       </FilterBox>
     </div>
   );
