@@ -9,8 +9,6 @@ import ProductDetailsPage from '../ProductDetailsPage';
 import CartPage from '../CartPage';
 import CheckoutPage from '../CheckoutPage';
 
-import './Main.css';
-
 /**
  * Component with the main routes for the application.
  */
