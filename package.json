@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
@@ -17,10 +18,10 @@
   },
   "homepage": "http://tutturen.github.io/potato-store-front",
   "devDependencies": {
-    "@storybook/react": "^3.3.14",
     "@storybook/addon-actions": "^3.3.14",
     "@storybook/addon-links": "^3.3.14",
     "@storybook/addons": "^3.3.14",
+    "@storybook/react": "^3.3.14",
     "babel-core": "^6.26.0"
   }
 }

@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import Header from '../Header';
 import PageHeader from '../PageHeader';
 import ProductList from '../ProductList';
+import FilterMenu from '../FilterMenu';
 
 import milkProducts from './milkProducts.json';
 
@@ -16,3 +17,5 @@ storiesOf('PageHeader', module).add('with standard props', () => (
 storiesOf('ProductList', module).add('with standard props', () => (
   <ProductList products={milkProducts} />
 ));
+
+storiesOf('FilterMenu', module).add('with standard props', () => <FilterMenu />);
