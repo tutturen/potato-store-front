@@ -1,0 +1,20 @@
+.pageheader-container {
+  width: 100%;
+  height: 60px;
+  margin-top: 16px;
+}
+
+.pageheader-back-text {
+  font-size: 16px;
+  color: #550000;
+}
+
+.pageheader-back-icon {
+  font-size: 14px;
+}
+
+.pageheader-container h1 {
+  font-size: 36px;
+  color: #171e27;
+  margin: 0;
+}
