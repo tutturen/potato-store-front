@@ -1,17 +1,41 @@
 import React from 'react';
+import { withFormik } from 'formik';
+
 import './Header.css';
 import potatoLogo from './potato-logo.svg';
 import potatoLogoText from './potato-logo-text.svg';
 import shoppingCartIcon from './shopping-cart.svg';
 
-function SearchBar(props) {
-  return (
+import setUrlState from '../state/urlState';
+
+const SearchForm = ({ values, handleChange, handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
     <div className="header-search-bar">
-      <input className="header-search-bar-input" type="text" value={props.text} />
-      <button className="header-search-bar-button">search</button>
+      <input
+        autoFocus
+        name="query"
+        onChange={handleChange}
+        className="header-search-bar-input"
+        type="text"
+        value={values.query}
+      />
+      <input type="submit" value="search" className="header-search-bar-button" />
     </div>
-  );
-}
+  </form>
+);
+
+// Wrap our form with the using withFormik HoC
+const SearchBar = withFormik({
+  mapPropsToValues: props => ({ query: props.query }),
+  handleSubmit: values => {
+    setUrlState(
+      {
+        query: values.query,
+      },
+      null,
+    );
+  },
+})(SearchForm);
 
 function Header(props) {
   return (
