@@ -2,7 +2,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND || 'https://potato-store.herok
 
 function makeApiCall(query, variables, operationName) {
   if (query === undefined) {
-    throw "query argument to makeApiCall is required";
+    throw new Error("query argument to makeApiCall is required");
   }
   const body = {'query': query};
   if (operationName) {

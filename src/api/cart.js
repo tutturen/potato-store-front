@@ -136,7 +136,7 @@ query FetchCart($products: [ID!]!) {
     .then((body) => body.data.cart);
 }
 
-function _fakeFetchCartFromBackend() {
+/*function _fakeFetchCartFromBackend() {
   return Promise.resolve({
     products: [
       {
@@ -162,4 +162,4 @@ function _fakeFetchCartFromBackend() {
     totalDiscount: 0.0,
     total: 25.5,
   });
-}
+}*/
