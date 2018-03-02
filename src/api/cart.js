@@ -3,6 +3,10 @@ const CART_KEY = 'cart';
 const CACHED_CART_KEY = 'cached_processed_cart';
 const MILLIS_TO_CACHE_CART = 5 * 60 * 1000;
 
+/**
+ * Get the local version of the cart, which only contains product IDs and count of items.
+ * @return {{products: [string], productCount: number}}
+ */
 export function getLocalCart() {
   const rawValue = localStorage.getItem(CART_KEY);
 
@@ -18,6 +22,10 @@ export function getLocalCart() {
   return parsedValue;
 }
 
+/**
+ * Add productID to the cart.
+ * @param productID ID of product to add to cart.
+ */
 export function addProductToCart(productID) {
   const cart = getLocalCart();
   cart.products.push(productID);
@@ -25,6 +33,12 @@ export function addProductToCart(productID) {
   invalidateCartCache();
 }
 
+/**
+ * Remove the given productID from the cart.
+ *
+ * If the item is not found in the cart, no error is thrown.
+ * @param productID ID of product to remove from cart.
+ */
 export function removeProductFromCart(productID) {
   const cart = getLocalCart();
   const productIndex = cart.products.indexOf(productID);
@@ -37,6 +51,9 @@ export function removeProductFromCart(productID) {
   invalidateCartCache();
 }
 
+/**
+ * Remove all items from the cart.
+ */
 export function clearCart() {
   _setLocalCart(_newCart());
   invalidateCartCache();
@@ -53,10 +70,19 @@ function _setLocalCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart.products));
 }
 
+/**
+ * Fetch the full cart next time instead of relying on local cache.
+ */
 export function invalidateCartCache() {
   localStorage.removeItem(CACHED_CART_KEY);
 }
 
+/**
+ * Get the full cart, with product details, total sum and discounts.
+ *
+ * See the query in the _fetchCartFromBackend function for details on the return format.
+ * @return {Promise.<*>}
+ */
 export async function getFullCart() {
   const localCart = getLocalCart();
   const cachedValue = localStorage.getItem(CACHED_CART_KEY);
