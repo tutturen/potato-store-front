@@ -19,13 +19,7 @@ function makeApiCall(query, variables, operationName) {
       'Content-Type': 'application/json',
     }),
     body: JSON.stringify(body),
-  }).then(res => res.json())
-    .then(function(body) {
-      if (body.errors && body.errors.length) {
-        throw new Error(JSON.stringify(body.errors));
-      }
-      return body;
-    });
+  }).then(res => res.json());
 }
 
 export {makeApiCall};

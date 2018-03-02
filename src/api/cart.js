@@ -127,6 +127,12 @@ query FetchCart($products: [ID!]!) {
     products: getLocalCart().products,
   };
   return makeApiCall(query, variables)
+    .then((body) => {
+      if (body.errors && body.errors.length) {
+        throw new Error(`Failed to fetch cart: ${body.errors.join('; ')}`);
+      }
+      return body;
+    })
     .then((body) => body.data.cart);
 }
 
