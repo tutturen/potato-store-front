@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import ProductPage from './ProductPage';
+import Main from './Main';
 import './App.css';
+import Layout from './Layout';
 
 class App extends Component {
   render() {
-    return <ProductPage />;
+    return (
+      <Layout>
+        <Main/>
+      </Layout>
+    );
   }
 }
 

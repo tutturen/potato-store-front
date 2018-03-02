@@ -1,7 +1,6 @@
 import React from 'react';
 import './ProductPage.css';
 
-import Header from '../Header';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
@@ -25,19 +24,16 @@ const data = {
 function ProductPage(props) {
   return (
     <div>
-      <Header />
-      <div className="productpage-content">
-        <PageHeader title={data.title} />
-        <div className="productpage-row-content">
-          <FilterMenu
-            categories={data.categories}
-            onSale={data.onSale}
-            organic={data.organic}
-            minPrice={data.minPrice}
-            maxPrice={data.maxPrice}
-          />
-          <ProductList products={milkProducts} />
-        </div>
+      <PageHeader title={data.title} />
+      <div className="productpage-row-content">
+        <FilterMenu
+          categories={data.categories}
+          onSale={data.onSale}
+          organic={data.organic}
+          minPrice={data.minPrice}
+          maxPrice={data.maxPrice}
+        />
+        <ProductList products={milkProducts} />
       </div>
     </div>
   );

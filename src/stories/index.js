@@ -5,6 +5,7 @@ import Header from '../Header';
 import PageHeader from '../PageHeader';
 import ProductList from '../ProductList';
 import FilterMenu from '../FilterMenu';
+import Layout from '../Layout';
 
 import ProductPage from '../ProductPage';
 
@@ -22,4 +23,4 @@ storiesOf('ProductList', module).add('with standard props', () => (
 
 storiesOf('FilterMenu', module).add('with standard props', () => <FilterMenu />);
 
-storiesOf('ProductPage', module).add('with standard props', () => <ProductPage />);
+storiesOf('ProductPage', module).add('with standard props', () => <Layout><ProductPage /></Layout>);
