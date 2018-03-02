@@ -15,14 +15,11 @@ import CheckoutPage from '../CheckoutPage';
 function Main() {
   return (
     <Switch>
-      <Route exact path='/' component={HomePage}/>
-      <Route path='/sign-up' component={SignUpPage}/>
-      <Route path='/log-in' component={LogInPage}/>
-      <Route path='/profile' component={ProfilePage}/>
-      <Route path='/product-list' component={ProductPage}/>
-      <Route path='/product-details' component={ProductDetailsPage}/>
-      <Route path='/cart' component={CartPage}/>
-      <Route path='/checkout' component={CheckoutPage}/>
+      <Route exact path="/" component={ProductPage} />
+      <Route path="/signup" component={SignUpPage} />
+      <Route path="/login" component={LogInPage} />
+      <Route path="/cart" component={CartPage} />
+      <Route path="/checkout" component={CheckoutPage} />
     </Switch>
   );
 }
