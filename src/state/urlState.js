@@ -9,4 +9,8 @@ function setState(newState, keepOtherParams = true) {
   window.location.search = stringified;
 }
 
+export function getState(search = window.location.search) {
+  return queryString.parse(search);
+}
+
 export default setState;

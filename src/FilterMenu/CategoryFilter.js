@@ -33,7 +33,7 @@ const FilterForm = ({ values, handleChange, handleBlur }) => (
           rightText={category.amount}
           onChange={handleChange}
           onBlur={handleBlur}
-          checked={category.checked}
+          checked={values[category.name]}
         />
       ))}
     </form>
@@ -43,17 +43,19 @@ const FilterForm = ({ values, handleChange, handleBlur }) => (
 const CategoryFilter = withFormik({
   mapPropsToValues: props => {
     const values = props.categories.reduce((acc, cat) => {
-      acc[cat.name] = cat.checked;
+      acc[cat.name] = (props.checkedCategories || []).includes(cat.name);
       return acc;
     }, {});
 
-    return { categories: props.categories, ...values };
+    return {
+      categories: props.categories,
+      ...values,
+    };
   },
   validate: values => {
     const newValues = Object.assign({}, values);
     delete newValues['categories'];
     const keys = Object.keys(newValues).filter(key => newValues[key] === true);
-
     setUrlState({ categories: keys });
   },
 })(FilterForm);
