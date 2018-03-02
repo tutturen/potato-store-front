@@ -22,7 +22,7 @@ function makeApiCall(query, variables, operationName) {
   }).then(res => res.json())
     .then(function(body) {
       if (body.errors && body.errors.length) {
-        throw body;
+        throw new Error(JSON.stringify(body.errors));
       }
       return body;
     });

@@ -100,7 +100,10 @@ query FetchCart($products: [ID!]!) {
       price
       unitPrice
       unit
-      category
+      category {
+        name
+        id
+      }
       organic
       percentSale {
         cut
@@ -125,4 +128,32 @@ query FetchCart($products: [ID!]!) {
   };
   return makeApiCall(query, variables)
     .then((body) => body.data.cart);
+}
+
+function _fakeFetchCartFromBackend() {
+  return Promise.resolve({
+    products: [
+      {
+        id: '123',
+        name: 'Økologiske Egg',
+        subtitle: null,
+        image: '/media/uploads/public/217/233/186233-974e6-product_list.jpg',
+        price: 25.5,
+        unitPrice: 63.7,
+        unit: 'kg',
+        category: [
+          {
+            id: '123',
+            name: 'Egg',
+          },
+        ],
+        organic: true,
+        percentSale: null,
+        packageDeal: null,
+      },
+    ],
+    totalBeforeDiscount: 25.5,
+    totalDiscount: 0.0,
+    total: 25.5,
+  });
 }
