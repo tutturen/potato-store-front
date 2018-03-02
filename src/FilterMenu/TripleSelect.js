@@ -15,7 +15,7 @@ function TripleSelectForm({ values, handleChange, handleSubmit }) {
           name={values.name}
           key={option.name}
           className={classNames('tripleselect-item', {
-            'tripleselect-item-selected': option.value === values.selected,
+            'tripleselect-item-selected': option.name === values.selected,
           })}
         />
       ))}
