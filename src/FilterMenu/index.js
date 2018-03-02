@@ -1,33 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import './FilterMenu.css';
-
-function CheckBox(props) {
-  return (
-    <div className="filterbox-checkbox">
-      <label>
-        <input type="checkbox" checked={props.checked} />
-        {props.text}
-      </label>
-      <div className="filterbox-checkbox-right-text">{props.rightText}</div>
-    </div>
-  );
-}
-
-function FilterBox(props) {
-  return (
-    <div className="filterbox-container">
-      <div className="filterbox-header">{props.title}</div>
-      <div className="filterbox-content">{props.children}</div>
-    </div>
-  );
-}
+import CategoryFilter from './CategoryFilter';
+import FilterBox from './FilterBox';
 
 function TripleSelect(props) {
   return (
     <div className="tripleselect-container">
       {props.options.map(option => (
         <div
+          key={option}
           className={classNames('tripleselect-item', {
             'tripleselect-item-selected': option === props.selected,
           })}
@@ -53,11 +35,7 @@ function MinMaxSelect(props) {
 function FilterMenu(props) {
   return (
     <div className="filtermenu-container">
-      <FilterBox title="Category">
-        {props.categories.map(category => (
-          <CheckBox text={category.name} rightText={category.amount} checked={category.checked} />
-        ))}
-      </FilterBox>
+      <CategoryFilter categories={props.categories} />
 
       <FilterBox title="Organic">
         <TripleSelect options={['Yes', 'Not important', 'No']} selected={props.organic} />

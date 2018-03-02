@@ -9,10 +9,10 @@ import milkProducts from '../stories/milkProducts.json';
 const data = {
   title: "Search for 'milk'",
   categories: [
-    { name: 'Fruit and vegetables', amount: 32, checked: false },
-    { name: 'Milk products', amount: 14, checked: true },
-    { name: 'Eggs and Bacon', amount: 8, checked: false },
-    { name: 'Bread and rolls', amount: 29, checked: false },
+    { name: 'fruit-and-vegetables', text: 'Fruit and vegetables', amount: 32, checked: false },
+    { name: 'milk', text: 'Milk products', amount: 14, checked: true },
+    { name: 'eggs-and-bacon', text: 'Eggs and Bacon', amount: 8, checked: false },
+    { name: 'bread', text: 'Bread and rolls', amount: 29, checked: true },
   ],
   organic: 'Yes',
   onSale: 'Not important',
