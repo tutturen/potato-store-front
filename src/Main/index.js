@@ -1,11 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import HomePage from '../HomePage';
 import SignUpPage from '../SignUpPage';
 import LogInPage from '../LogInPage';
-import ProfilePage from '../ProfilePage';
 import ProductPage from '../ProductPage';
-import ProductDetailsPage from '../ProductDetailsPage';
 import CartPage from '../CartPage';
 import CheckoutPage from '../CheckoutPage';
 
