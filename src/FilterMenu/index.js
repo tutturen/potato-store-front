@@ -3,23 +3,7 @@ import classNames from 'classnames';
 import './FilterMenu.css';
 import CategoryFilter from './CategoryFilter';
 import FilterBox from './FilterBox';
-
-function TripleSelect(props) {
-  return (
-    <div className="tripleselect-container">
-      {props.options.map(option => (
-        <div
-          key={option}
-          className={classNames('tripleselect-item', {
-            'tripleselect-item-selected': option === props.selected,
-          })}
-        >
-          {option}
-        </div>
-      ))}
-    </div>
-  );
-}
+import TripleSelect from './TripleSelect';
 
 function MinMaxSelect(props) {
   return (
@@ -38,18 +22,37 @@ function FilterMenu(props) {
       <CategoryFilter categories={props.categories} />
 
       <FilterBox title="Organic">
-        <TripleSelect options={['Yes', 'Not important', 'No']} selected={props.organic} />
+        <TripleSelect
+          name="organic"
+          options={[
+            { name: 'yes', value: 'Yes' },
+            { name: 'ignore', value: 'Not important' },
+            { name: 'no', value: 'No' },
+          ]}
+          selected={props.organic}
+        />
       </FilterBox>
 
       <FilterBox title="On Sale">
-        <TripleSelect options={['Yes', 'Not important', 'No']} selected={props.onSale} />
-      </FilterBox>
-
-      <FilterBox title="Price">
-        <MinMaxSelect minimum={props.minPrice} maximum={props.maxPrice} />
+        <TripleSelect
+          name="sale"
+          options={[
+            { name: 'yes', value: 'Yes' },
+            { name: 'ignore', value: 'Not important' },
+            { name: 'no', value: 'No' },
+          ]}
+          selected={props.onSale}
+        />
       </FilterBox>
     </div>
   );
 }
+
+/*
+  <FilterBox title="Price">
+  <MinMaxSelect minimum={props.minPrice} maximum={props.maxPrice} />
+</FilterBox>
+
+*/
 
 export default FilterMenu;
