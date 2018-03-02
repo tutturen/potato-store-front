@@ -4,17 +4,7 @@ import './FilterMenu.css';
 import CategoryFilter from './CategoryFilter';
 import FilterBox from './FilterBox';
 import TripleSelect from './TripleSelect';
-
-function MinMaxSelect(props) {
-  return (
-    <div className="minmaxselect-container">
-      <input value={props.minimum} type="number" className="minmaxselect-input" />
-      <div className="minmaxselect-delimiter">-</div>
-      <input value={props.maximum} type="number" className="minmaxselect-input" />
-      <div className="minmaxselect-delimiter">kr</div>
-    </div>
-  );
-}
+import MinMaxSelect from './MinMaxSelect';
 
 function FilterMenu(props) {
   return (
@@ -44,15 +34,12 @@ function FilterMenu(props) {
           selected={props.onSale}
         />
       </FilterBox>
+
+      <FilterBox title="Price">
+        <MinMaxSelect minimum={props.minPrice} maximum={props.maxPrice} />
+      </FilterBox>
     </div>
   );
 }
-
-/*
-  <FilterBox title="Price">
-  <MinMaxSelect minimum={props.minPrice} maximum={props.maxPrice} />
-</FilterBox>
-
-*/
 
 export default FilterMenu;
