@@ -12,12 +12,19 @@ function makeApiCall(query, variables, operationName) {
     body.variables = variables;
   }
 
+  const headers = new Headers({
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json',
+  });
+
+  const ourJwt = localStorage.getItem('jwt');
+  if (ourJwt !== null) {
+    headers.set('Authorization', 'Bearer ' + ourJwt);
+  }
+
   return fetch(BACKEND_URL, {
     method: 'post',
-    headers: new Headers({
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json',
-    }),
+    headers: headers,
     body: JSON.stringify(body),
   }).then(res => res.json());
 }
