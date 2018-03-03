@@ -39,14 +39,14 @@ class App extends Component {
 
   updateCart() {
     this._fetchCartFromBackend().then((cart) => {
-      this.setState({cart: cart});
+      this.setState({cart: Map(cart)});
     });
   }
 
   _fetchCartFromBackend() {
     const query = `
   query FetchCart($products: [ID!]!) {
-    cart($products) {
+    cart(products: $products) {
       products {
         id
         name
@@ -84,7 +84,8 @@ class App extends Component {
     return makeApiCall(query, variables)
       .then((body) => {
         if (body.errors && body.errors.length) {
-          throw new Error(`Failed to fetch cart: ${body.errors.join('; ')}`);
+          console.dir(body.errors);
+          throw new Error(`Failed to fetch cart (see error list above)`);
         }
         return body;
       })
