@@ -5,6 +5,7 @@ import LogInPage from '../LogInPage';
 import ProductPage from '../ProductPage';
 import CartPage from '../CartPage';
 import CheckoutPage from '../CheckoutPage';
+import PageNotFoundPage from '../PageNotFoundPage';
 
 /**
  * Component with the main routes for the application.
@@ -17,6 +18,7 @@ function Main() {
       <Route path="/login" component={LogInPage} />
       <Route path="/cart" component={CartPage} />
       <Route path="/checkout" component={CheckoutPage} />
+      <Route component={PageNotFoundPage} />
     </Switch>
   );
 }
