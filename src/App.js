@@ -88,14 +88,7 @@ class App extends Component {
       products: this.state.products,
     };
     return makeApiCall(query, variables)
-      .then((body) => {
-        if (body.errors && body.errors.length) {
-          console.dir(body.errors);
-          throw new Error(`Failed to fetch cart (see error list above)`);
-        }
-        return body;
-      })
-      .then((body) => body.data.cart);
+      .then((data) => data.cart);
   }
 
   /*_fakeFetchCartFromBackend() {

@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import {GraphError} from './error';
 
 // Remember to update the README.md when changing the available environment variables or their defaults
 const BACKEND_URL = process.env.REACT_APP_BACKEND || 'https://potato-store.herokuapp.com';
@@ -10,6 +11,17 @@ const CSRF_HEADER = process.env.REACT_APP_CSRF_HEADER || 'X-CSRFToken';  // Djan
 // waiting for the CSRF token request to come through.
 let CSRF_FETCH = false;
 
+/**
+ * Make a call to the backend's GraphQL API.
+ * @param query The query to send to the API. Mandatory.
+ * @param variables Variables to send to the API. Optional, but recommended when sending varying data with the query.
+ * @param operationName The name of the operation to invoke on the server. Optional, unless you have multiple operations
+ *    in your query.
+ * @returns Promise Promise which resolves with the content of the 'data' attribute from GraphQL's response. Promise which is
+ *    rejected with Error when a network error occurs, or QueryError (instanceof Error) when GraphQL returns an error.
+ *    QueryError includes the 'queryErrors' attribute which equals the errors returned by GraphQL, 'graphQuery' which
+ *    is set to the query that was sent and 'graphData' which equals any data sent with the errors.
+ */
 function makeApiCall(query, variables, operationName) {
   if (query === undefined) {
     throw new Error("query argument to makeApiCall is required");
@@ -70,7 +82,19 @@ function makeApiCall(query, variables, operationName) {
     mode: 'cors',
     headers: headers,
     body: JSON.stringify(body),
-  }).then(res => res.json());
+  }).then(res => {
+    if (!res.ok) {
+      throw new Error(`Failed to query GraphQL, received ${res.status}: ${res.statusText}`);
+    }
+    return res;
+  }).then(res => res.json())
+    .then(body => {
+      if (body.errors && body.errors.length) {
+        throw new GraphError(body.errors, body.data, query, 'GraphQL failed');
+      }
+      return body;
+    }).then(body => {
+      return body.data;
+    });
 }
-
 export {makeApiCall};
