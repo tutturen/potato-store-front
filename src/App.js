@@ -20,13 +20,19 @@ class App extends Component {
   }
 
   _getProductsFromLocalStorage() {
-    return List(JSON.parse(localStorage.getItem(PRODUCT_LIST_KEY) || '[]'));
+    const localStorageValueOrDefault = localStorage.getItem(PRODUCT_LIST_KEY) || '[]';
+    // Use immutable List to help us with updating state only through this.setState
+    return List(JSON.parse(localStorageValueOrDefault));
   }
   _getUserFromLocalStorage() {
-    return Map(JSON.parse(localStorage.getItem(USER_KEY) || '{}'));
+    const localStorageValueOrDefault = localStorage.getItem(USER_KEY) || '{}';
+    // Use immutable Map to help us with updating state only through this.setState
+    return Map(JSON.parse(localStorageValueOrDefault));
   }
 
   componentDidMount() {
+    // componentDidUpdate does not run when mounting the component, so ensure the cart is fetched from back-end
+    // upon initialization.
     this.updateCart();
   }
 
@@ -148,18 +154,23 @@ class App extends Component {
 
   /**
    * Add productID to the cart.
+   *
+   * Available as the add method on the cart property given to the routes.
+   *
    * @param productID ID of product to add to cart.
    */
   addProductToCart(productID) {
     this.setState((prevState, props) => {
       const newProducts = prevState.products.push(productID);
-      this._setLocalProducts(JSON.stringify(newProducts));
+      this._setLocalProducts(newProducts);
       return {products: this._getProductsFromLocalStorage()};
     });
   }
 
   /**
    * Remove the given productID from the cart.
+   *
+   * Available as the remove method on the cart property given to the routes.
    *
    * If the item is not found in the cart, no error is thrown.
    * @param productID ID of product to remove from cart.
@@ -172,17 +183,20 @@ class App extends Component {
         return {};
       }
       const newProducts = prevState.products.splice(productIndex, 1);
-      this._setLocalProducts(JSON.stringify(newProducts));
+      this._setLocalProducts(newProducts);
       return {products: this._getProductsFromLocalStorage()};
     });
   }
 
   /**
    * Remove all items from the cart.
+   *
+   * Available as the clear method on the cart property given to the routes.
    */
   clearCart() {
     this.setState((prevState, props) => {
-      return {products: List()};
+      this._setLocalProducts(List());
+      return {products: this._getProductsFromLocalStorage()};
     });
   }
 
