@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "formik": "^0.11.11",
+    "immutable": "^3.8.2",
     "query-string": "^5.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

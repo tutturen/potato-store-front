@@ -9,14 +9,14 @@ import CheckoutPage from '../CheckoutPage';
 /**
  * Component with the main routes for the application.
  */
-function Main() {
+function Main(props) {
   return (
     <Switch>
-      <Route exact path="/" component={ProductPage} />
-      <Route path="/signup" component={SignUpPage} />
-      <Route path="/login" component={LogInPage} />
-      <Route path="/cart" component={CartPage} />
-      <Route path="/checkout" component={CheckoutPage} />
+      <Route exact path="/" render={(routeProps) => <ProductPage {...routeProps} {...props}/>} />
+      <Route path="/signup" render={(routeProps) => <SignUpPage {...routeProps} {...props}/>} />
+      <Route path="/login" render={(routeProps) => <LogInPage {...routeProps} {...props}/>} />
+      <Route path="/cart" render={(routeProps) => <CartPage {...routeProps} {...props}/>} />
+      <Route path="/checkout" render={(routeProps) => <CheckoutPage {...routeProps} {...props}/>} />
     </Switch>
   );
 }
