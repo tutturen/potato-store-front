@@ -37,7 +37,21 @@ yarn build
 yarn start
 ```
 
-## Important components
+## Technologies
+
+We mention the most important technologies here, to make it easier for readers to understand what's going on.
+
+### [React](https://reactjs.org/)
+
+Too big to describe with own words here, but it lets us create a single page application in a way where you can trace the flow of data easily, and encapsulate the different parts of your page.
+
+### [Immutability](https://facebook.github.io/immutable-js/)
+
+Another aid in making it easier to understand what happens to data. All state property values use this library to become immutable, to ensure we don't change them by accident and to make it easier for React to see what changed.
+
+This library has a little trick to it: You cannot necessarily access properties like you would on native objects. For example, `cart.add` is wrong, but `cart.get('add')` works. If you'd like to use the usual way of accessing the content, you can use methods to convert the immutable object to something more familiar. See the linked documentation.
+
+## Important React components
 
 Component | Description
 ----------|------------

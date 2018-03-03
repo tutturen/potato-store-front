@@ -131,9 +131,9 @@ class App extends Component {
     // Extend cart object with methods for changing it
     // (We extend cart and not products because products is a list, not an object/Map)
     const cartMethods = Map({
-      add: this.addProductToCart,
-      remove: this.removeProductFromCart,
-      clear: this.clearCart,
+      add: this.addProductToCart.bind(this),
+      remove: this.removeProductFromCart.bind(this),
+      clear: this.clearCart.bind(this),
     });
     const cart = this.state.cart.merge(cartMethods);
 
@@ -155,7 +155,7 @@ class App extends Component {
   /**
    * Add productID to the cart.
    *
-   * Available as the add method on the cart property given to the routes.
+   * Available through props.cart.get('add').
    *
    * @param productID ID of product to add to cart.
    */
@@ -170,7 +170,7 @@ class App extends Component {
   /**
    * Remove the given productID from the cart.
    *
-   * Available as the remove method on the cart property given to the routes.
+   * Available through props.cart.get('remove').
    *
    * If the item is not found in the cart, no error is thrown.
    * @param productID ID of product to remove from cart.
@@ -191,7 +191,7 @@ class App extends Component {
   /**
    * Remove all items from the cart.
    *
-   * Available as the clear method on the cart property given to the routes.
+   * Available through props.cart.get('clear').
    */
   clearCart() {
     this.setState((prevState, props) => {

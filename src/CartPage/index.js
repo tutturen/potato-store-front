@@ -6,15 +6,48 @@ import {List} from 'immutable';
  * user start the check-out process.
  */
 class CartPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productToAdd: '',
+    };
+
+    // Deal with some of the bad parts of JavaScript
+    this.handleNewProductChange = this.handleNewProductChange.bind(this);
+    this.handleNewProductSubmit = this.handleNewProductSubmit.bind(this);
+  }
+  handleNewProductChange(e) {
+    this.setState({productToAdd: e.target.value});
+  }
+  handleNewProductSubmit(e) {
+    e.preventDefault();
+    this.setState((prevState, prevProps) => {
+      if (!prevState.productToAdd) {
+        console.warn('Cannot add empty product.');
+        return {};
+      }
+      prevProps.cart.get('add')(prevState.productToAdd);
+      return {productToAdd: ''};
+    });
+  }
   render() {
     let productList = List();
-    if (this.props.cart.products) {
-      productList = this.props.cart.products.map((p) => (
-        <p key={p.id}>{p.name} <button onClick={() => this.props.cart.remove(p.id)}>Remove</button></p>
+    if (this.props.cart.has('products')) {
+      productList = this.props.cart.get('products').map((p) => (
+        <p key={p.id}>{p.name} <button onClick={() => this.props.cart.get('remove')(p.id)}>Remove</button></p>
       ));
     }
+    const rawProductList = this.props.products.map((p) => (
+      <p key={p}>{p} <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button></p>
+    ));
     return <div>
+      <form onSubmit={this.handleNewProductSubmit}>
+        Add product by ID: <input type='text' onChange={this.handleNewProductChange} value={this.state.productToAdd} />
+        <input type='submit' value='Add'/>
+      </form>
       {productList}
+      <h3>Raw product list:</h3>
+      {rawProductList}
     </div>;
   }
 }
