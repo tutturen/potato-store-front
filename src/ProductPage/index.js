@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 import './ProductPage.css';
 
 import PageHeader from '../PageHeader';
@@ -23,19 +24,21 @@ const data = {
 
 function ProductPage(props) {
   return (
-    <div>
-      <PageHeader title={data.title} />
-      <div className="productpage-row-content">
-        <FilterMenu
-          categories={data.categories}
-          onSale={data.onSale}
-          organic={data.organic}
-          minPrice={data.minPrice}
-          maxPrice={data.maxPrice}
-        />
-        <ProductList products={milkProducts} />
+    <DocumentTitle title='Browsing items - Potato Store'>
+      <div>
+        <PageHeader title={data.title} />
+        <div className="productpage-row-content">
+          <FilterMenu
+            categories={data.categories}
+            onSale={data.onSale}
+            organic={data.organic}
+            minPrice={data.minPrice}
+            maxPrice={data.maxPrice}
+          />
+          <ProductList products={milkProducts} />
+        </div>
       </div>
-    </div>
+    </DocumentTitle>
   );
 }
 export default ProductPage;
