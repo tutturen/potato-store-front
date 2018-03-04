@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
@@ -6,17 +7,29 @@ import DocumentTitle from 'react-document-title';
 /**
  * Page where you sign up for a new account.
  */
-class SignUpPage extends React.Component {
+class SignUpPageWithoutRouter extends React.Component {
   render() {
     return (
       <DocumentTitle title="Sign up - Potato Store">
-        <SignupForm onSubmit={form => console.log(form)} />
+        <SignupForm onSubmit={form => this.handleSubmit(form)} />
       </DocumentTitle>
     );
   }
+
+  handleSubmit(form) {
+    return this.props.user
+      .get('signup')(form)
+      .then(body => {
+        // TODO: Take in URL parameter which says where we should redirect on success
+        this.props.history.push({ pathname: '/cart' });
+        return body;
+      });
+  }
 }
 
-const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
+const SignUpPage = withRouter(SignUpPageWithoutRouter);
+
+const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
     <div className="signup-container">
       <div className="signup-head-text">Create your Potato Store account.</div>
@@ -59,6 +72,7 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
           className="signup-form-element-input"
         />
       </div>
+      {errors.generic && <p>{errors.generic}</p>}
       <input
         type="submit"
         className="signup-form-button"
@@ -69,8 +83,16 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
 );
 
 const SignupForm = withFormik({
-  handleSubmit: (values, { props }) => {
-    props.onSubmit(values);
+  handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+    props
+      .onSubmit(values)
+      // TODO: Use more user-centric error messages
+      .catch(e => {
+        setErrors({
+          generic: e.message,
+        });
+      })
+      .then(() => setSubmitting(false));
   },
 })(InnerSignupForm);
 
