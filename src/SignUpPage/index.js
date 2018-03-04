@@ -1,13 +1,17 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
+import DocumentTitle from 'react-document-title';
+
 
 /**
  * Page where you sign up for a new account.
  */
 class SignUpPage extends React.Component {
   render() {
-    return <SignupForm onSubmit={form => console.log(form)} />;
+    return (<DocumentTitle title="Sign up - Potato Store">
+      <SignupForm onSubmit={form => console.log(form)} />
+    </DocumentTitle>);
   }
 }
 
