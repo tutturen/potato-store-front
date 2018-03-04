@@ -196,6 +196,84 @@ class App extends Component {
   _setLocalProducts(products) {
     localStorage.setItem(PRODUCT_LIST_KEY, JSON.stringify(products));
   }
+
+  /**************************************
+   * USER FUNCTIONS
+   *************************************/
+  login({username, password}) {
+    const query = `
+mutation DoLogin($u: String!, $p: String!) {
+  login(username: $u, password: $p) {
+    success
+    token
+    user {
+      username
+      firstName
+      lastName
+    }
+  }
+} 
+    `;
+    const variables = {
+      u: username,
+      p: password,
+    };
+    return makeApiCall(query, variables)
+      // Throw if we did not log in
+      .then(this._checkSuccessFactory('Wrong username or password'))
+      // Save values
+      .then(this._handleLoginResponse.bind(this));
+  }
+
+  signup({firstName, lastName, username, password}) {
+    const query = `
+mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: String!, $password: String!) {
+  createAccount(firstname: $firstName, lastName: $lastName, username: $username, password: $password) {
+    success
+    token
+    user {
+      username
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+    const variables = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      password: password,
+    };
+    return makeApiCall(query, variables)
+      .then(this._checkSuccessFactory('Could create account. Make sure all fields are filled!'))
+      .then(this._handleLoginResponse.bind(this));
+  }
+
+  _checkSuccessFactory(errorMessage) {
+    return (body) => {
+      if (!body.success) {
+        throw new Error(errorMessage);
+      }
+      return body;
+    }
+  }
+
+  _handleLoginResponse(body) {
+    if (body.token) {
+      localStorage.setItem('jwt', body.token);
+    }
+    if (body.user) {
+      this._setLocalUser(body.user);
+      this.setState({user: this._getUserFromLocalStorage()});
+    }
+    return body;
+  }
+
+  _setLocalUser(user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
 }
 
 export default App;
