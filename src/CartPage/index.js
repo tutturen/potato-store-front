@@ -58,7 +58,7 @@ class CartPage extends React.Component {
           <PageHeader title="Your Cart" />
           <div className="cart-content">
             <div className="cart-content-header">
-              <div className="cart-content-header-product">Produkt</div>
+              <div className="cart-content-header-product">Product</div>
               <div className="cart-content-header-price">Price</div>
             </div>
             {productList.map(product => <CartItem product={product} />)}
