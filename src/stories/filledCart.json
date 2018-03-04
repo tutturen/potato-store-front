@@ -1,0 +1,55 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Eggs",
+      "subtitle": "",
+      "image": "",
+      "price": 10,
+      "unitPrice": 10,
+      "unit": "pc",
+      "category": {
+        "name": "Dairy",
+        "id": "1"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    },
+    {
+      "id": "2",
+      "name": "Milk",
+      "subtitle": "",
+      "image": "",
+      "price": 10,
+      "unitPrice": 10,
+      "unit": "pc",
+      "category": {
+        "name": "Dairy",
+        "id": "1"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    },
+    {
+      "id": "3",
+      "name": "Beef",
+      "subtitle": "",
+      "image": "",
+      "price": 10,
+      "unitPrice": 10,
+      "unit": "pc",
+      "category": {
+        "name": "Meat",
+        "id": "2"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    }
+  ],
+  "totalBeforeDiscount": 30,
+  "totalDiscount": 0,
+  "total": 30
+}

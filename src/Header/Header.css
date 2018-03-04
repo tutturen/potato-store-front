@@ -7,14 +7,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-left: 32px;
   box-sizing: border-box;
 }
 
-.header-left-content {
+.header-left-content a {
+  padding: 1em 2em 1em 32px;
 }
 
-.header-right-content {
+.header-middle-content {
+  margin: 0 auto;
 }
 
 .header-search-bar {
@@ -67,8 +68,19 @@
   width: 140px;
 }
 
+.user-logged-out a {
+  display: inline-block;
+  padding: 1em 1em 1em 2em;
+}
+
+.header-right-content a {
+  padding: 1em 32px 1em 1em;
+  text-decoration: none;
+  color: inherit;
+}
+
 .shopping-cart-icon {
   height: 24px;
   width: 28px;
-  margin-right: 32px;
+  vertical-align: middle;
 }
