@@ -19,7 +19,8 @@ We use [environment variables](https://en.wikipedia.org/wiki/Environment_variabl
 
 Environment variable | Description | Default value
 ---------------------|-------------|--------------
-`REACT_APP_BACKEND` | URL of the backend to use. This is likely the only variable you need to set. When you run Django locally, you should set this to something like `http://localhost:8000`. | `https://potato-store.herokuapp.com` (our deployed backend).
+`REACT_APP_BACKEND` | URL of the backend to use. This and `REACT_APP_BASE_NAME` is likely the only variables you need to set. When you run Django locally, you should set this to something like `http://localhost:8000`. | `https://potato-store.herokuapp.com` (our deployed backend).
+`REACT_APP_BASE_NAME` | Path to where the React application is deployed on the server, as seen from the client. When you run the application locally, you should set this to something like `/`. | `/potato-store-front` (our deployed frontend).
 `REACT_APP_CSRF_COOKIE` | Name of cookie with the CSRF token for the backend. Must match the `CSRF_COOKIE_NAME` Django setting. | `csrftoken` (the default in Django). 
 `REACT_APP_CSRF_HEADER` | Name of header to submit CSRF token in when talking with the backend. Must match the `CSRF_HEADER_NAME` Django setting. | `X-CSRFToken` (the default in Django).
 
