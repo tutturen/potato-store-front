@@ -40,7 +40,19 @@ function SummaryRow({ text, amount }) {
  */
 class CartPage extends React.Component {
   handleBuy = () => {
-    console.log('buying products:', this.props.products);
+    this.props.cart
+      .get('buy')()
+      .then(() => {
+        this.props.history.push({ pathname: '/order' });
+      })
+      .catch(e => {
+        // TODO: Find a way to create custom Error which actually works (subclassing, like on MDN, does not work)
+        if (e instanceof Error && e.message === 'Authentication required') {
+          this.props.history.push({ pathname: '/login' });
+          return;
+        }
+        throw e;
+      });
   };
 
   render() {
