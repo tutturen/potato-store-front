@@ -1,5 +1,6 @@
 import React from 'react';
 import {List} from 'immutable';
+import DocumentTitle from 'react-document-title';
 
 /**
  * Page showing the current contents of the cart. This also serves the purpose as a confirmation page that lets the
@@ -40,7 +41,7 @@ class CartPage extends React.Component {
     const rawProductList = this.props.products.map((p) => (
       <p key={p}>{p} <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button></p>
     ));
-    return <div>
+    return <DocumentTitle title='Your cart - Potato Store'><div>
       <form onSubmit={this.handleNewProductSubmit}>
         Add product by ID: <input type='text' onChange={this.handleNewProductChange} value={this.state.productToAdd} />
         <input type='submit' value='Add'/>
@@ -48,7 +49,7 @@ class CartPage extends React.Component {
       {productList}
       <h3>Raw product list:</h3>
       {rawProductList}
-    </div>;
+    </div></DocumentTitle>;
   }
 }
 

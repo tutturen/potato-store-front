@@ -5,6 +5,7 @@ import LogInPage from '../LogInPage';
 import ProductPage from '../ProductPage';
 import CartPage from '../CartPage';
 import CheckoutPage from '../CheckoutPage';
+import PageNotFoundPage from '../PageNotFoundPage';
 
 /**
  * Component with the main routes for the application.
@@ -17,6 +18,7 @@ function Main(props) {
       <Route path="/login" render={(routeProps) => <LogInPage {...routeProps} {...props}/>} />
       <Route path="/cart" render={(routeProps) => <CartPage {...routeProps} {...props}/>} />
       <Route path="/checkout" render={(routeProps) => <CheckoutPage {...routeProps} {...props}/>} />
+      <Route component={PageNotFoundPage} />
     </Switch>
   );
 }
