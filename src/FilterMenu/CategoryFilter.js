@@ -46,7 +46,7 @@ const CategoryFilter = withFormik({
   enableReinitialize: true,
   mapPropsToValues: props => {
     const values = props.categories.reduce((acc, cat) => {
-      acc[cat.name] = (props.checkedCategories || []).includes(cat.name);
+      acc[cat.name] = (props.checkedCategories || []).includes(cat.id);
       return acc;
     }, {});
 
@@ -55,11 +55,14 @@ const CategoryFilter = withFormik({
       ...values,
     };
   },
-  validate: values => {
+  validate: (values, { categories }) => {
     const newValues = Object.assign({}, values);
     delete newValues['categories'];
     const keys = Object.keys(newValues).filter(key => newValues[key] === true);
-    setUrlState({ categories: keys });
+    const ids = categories
+      .filter(cat => keys.includes(cat.name))
+      .map(cat => cat.id);
+    setUrlState({ categories: ids });
   },
 })(FilterForm);
 

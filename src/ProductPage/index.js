@@ -70,7 +70,7 @@ class ProductPage extends React.Component {
       organic: getBool(urlData.organic),
       onSale: getBool(urlData.onSale),
       text: urlData.query || null,
-      category: urlData.category || null,
+      category: urlData.categories || [],
     };
 
     makeApiCall(productsQuery, variables).then(res => {
