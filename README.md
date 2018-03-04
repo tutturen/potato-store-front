@@ -27,14 +27,26 @@ Environment variable | Description | Default value
 
 ### Building
 
+Used when going into production, with extra optimizations. Warnings are elevated to errors, so take care.
+
 ```sh
 yarn build
 ```
 
 ### Developing
 
+Start local development server, by default at port 3000. You'll probably want to set the `REACT_APP_BACKEND` environment variable, as described above.
+
 ```sh
 yarn start
+```
+
+### [Storybook](https://storybook.js.org/)
+
+Utility for developing individual React Components, with the ability to use different properties so you can exercise different aspects of your Component.
+
+```sh
+yarn run storybook
 ```
 
 ## Technologies
