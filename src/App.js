@@ -170,12 +170,12 @@ class App extends Component {
    */
   removeProductFromCart(productID) {
     this.setState((prevState, props) => {
-      const productIndex = prevState.products.indexOf(productID);
-      if (productIndex === -1) {
+      const productIndex = prevState.products.lastKeyOf(productID);
+      if (productIndex === undefined) {
         console.warn(`Tried removing ${productID} from cart, but no such ID was found.`);
         return {};
       }
-      const newProducts = prevState.products.splice(productIndex, 1);
+      const newProducts = prevState.products.delete(productIndex);
       this._setLocalProducts(newProducts);
       return {products: this._getProductsFromLocalStorage()};
     });
