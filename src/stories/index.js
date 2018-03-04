@@ -9,6 +9,7 @@ import Layout from '../Layout';
 import { MemoryRouter } from 'react-router-dom';
 
 import ProductPage from '../ProductPage';
+import CartPage from '../CartPage';
 
 import milkProducts from './milkProducts.json';
 import {
@@ -52,5 +53,17 @@ storiesOf('ProductPage', module)
   .add('with three items in cart', () => (
     <Layout {...threeItemsInCartProps}>
       <ProductPage {...threeItemsInCartProps} />
+    </Layout>
+  ));
+
+storiesOf('CartPage', module)
+  .add('with initial props', () => (
+    <Layout {...emptyProps}>
+      <CartPage {...emptyProps} />
+    </Layout>
+  ))
+  .add('with three items in cart', () => (
+    <Layout {...threeItemsInCartProps}>
+      <CartPage {...threeItemsInCartProps} />
     </Layout>
   ));
