@@ -1,16 +1,102 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { withFormik } from 'formik';
+import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
 
-// TODO: Create generic component with a sign-up form we can embed different places (checkout, login, homepage?) and use it here as well (?)
 /**
  * Page where you sign up for a new account.
  */
-class SignUpPage extends React.Component {
+class SignUpPageWithoutRouter extends React.Component {
   render() {
-    return <DocumentTitle title='Sign up - Potato Store'>
-      <h1>Sign up page? Sign me up!</h1>
-    </DocumentTitle>;
+    return (
+      <DocumentTitle title="Sign up - Potato Store">
+        <SignupForm onSubmit={form => this.handleSubmit(form)} />
+      </DocumentTitle>
+    );
+  }
+
+  handleSubmit(form) {
+    return this.props.user
+      .get('signup')(form)
+      .then(body => {
+        // TODO: Take in URL parameter which says where we should redirect on success
+        this.props.history.push({ pathname: '/cart' });
+        return body;
+      });
   }
 }
+
+const SignUpPage = withRouter(SignUpPageWithoutRouter);
+
+const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
+  <form onSubmit={handleSubmit}>
+    <div className="signup-container">
+      <div className="signup-head-text">Create your Potato Store account.</div>
+      <div className="signup-form-element">
+        <div className="signup-form-element-label">First Name</div>
+        <input
+          autoFocus
+          onChange={handleChange}
+          name="firstName"
+          type="text"
+          className="signup-form-element-input"
+        />
+      </div>
+      <div className="signup-form-element">
+        <div className="signup-form-element-label">Last Name</div>
+        <input
+          autoFocus
+          onChange={handleChange}
+          name="lastName"
+          type="text"
+          className="signup-form-element-input"
+        />
+      </div>
+      <div className="signup-form-element">
+        <div className="signup-form-element-label">Username</div>
+        <input
+          autoFocus
+          onChange={handleChange}
+          name="username"
+          type="text"
+          className="signup-form-element-input"
+        />
+      </div>
+      <div className="signup-form-element">
+        <div className="signup-form-element-label">Password</div>
+        <input
+          onChange={handleChange}
+          name="password"
+          type="password"
+          className="signup-form-element-input"
+        />
+      </div>
+      {errors.generic && <p>{errors.generic}</p>}
+      <input
+        type="submit"
+        className="signup-form-button"
+        value="Create Account"
+      />
+      <div className="signup-form-link-text">
+        Already got an account? <Link to="/login">Log in here.</Link>
+      </div>
+    </div>
+  </form>
+);
+
+const SignupForm = withFormik({
+  handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+    setErrors({});
+    props
+      .onSubmit(values)
+      .catch(e => {
+        setErrors({
+          generic: e.message,
+        });
+      })
+      .then(() => setSubmitting(false));
+  },
+})(InnerSignupForm);
 
 export default SignUpPage;

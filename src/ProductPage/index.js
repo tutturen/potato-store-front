@@ -4,47 +4,116 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
-import milkProducts from '../stories/milkProducts.json';
 import { getState } from '../state/urlState';
+import { makeApiCall } from '../api/general';
 import './ProductPage.css';
 
-const data = {
-  categories: [
-    { name: 'fruit-and-vegetables', text: 'Fruit and vegetables', amount: 32 },
-    { name: 'milk', text: 'Milk products', amount: 14 },
-    { name: 'eggs-and-bacon', text: 'Eggs and Bacon', amount: 8 },
-    { name: 'bread', text: 'Bread and rolls', amount: 29 },
-  ],
-  products: milkProducts,
-};
+const productsQuery = `
+  query GetProducts(
+    $text: String
+    $minPrice: Float
+    $maxPrice: Float
+    $onSale: Boolean
+    $organic: Boolean
+    $category: [ID]
+  ) {
+    allProducts(
+      filter: {
+        text: $text
+        minPrice: $minPrice
+        maxPrice: $maxPrice
+        onSale: $onSale
+        organic: $organic
+        category: $category
+      }
+    ) {
+      id
+      name
+      unit
+      price
+      subtitle
+      image
+    }
+    allCategories {
+      id
+      name
+    }
+  }
+`;
 
-function ProductPage(props) {
-  const urlData = getState(props.location.search);
+function getBool(str) {
+  if (str === 'yes') {
+    return true;
+  }
+  if (str === 'no') {
+    return false;
+  }
+  return null;
+}
 
-  const organic = urlData.organic || 'ignore';
-  const sale = urlData.sale || 'ignore';
-  const minPrice = urlData.minimum || 0;
-  const maxPrice = urlData.maximum || 2000;
-  const query = urlData.query || '';
-  const title = query ? `Search for "${query}"` : 'All Products';
+class ProductPage extends React.Component {
+  state = {
+    products: [],
+    categories: [],
+  };
 
-  return (
-    <DocumentTitle title={`${title} - Potato Store`}>
-      <div>
-        <PageHeader title={title} />
-        <div className="productpage-row-content">
-          <FilterMenu
-            categories={data.categories}
-            checkedCategories={urlData.categories}
-            onSale={sale}
-            organic={organic}
-            minPrice={minPrice}
-            maxPrice={maxPrice}
-          />
-          <ProductList products={milkProducts} />
+  getUrlData() {
+    return getState(this.props.location.search);
+  }
+
+  fetchProducts() {
+    const urlData = this.getUrlData();
+    const variables = {
+      minPrice: urlData.minimum || null,
+      maxPrice: urlData.maximum || null,
+      organic: getBool(urlData.organic),
+      onSale: getBool(urlData.onSale),
+      text: urlData.query || null,
+      category: urlData.categories || [],
+    };
+
+    makeApiCall(productsQuery, variables).then(res => {
+      this.setState({
+        products: res.allProducts,
+        categories: res.allCategories,
+      });
+    });
+  }
+
+  componentDidMount() {
+    this.fetchProducts();
+  }
+
+  render() {
+    const urlData = this.getUrlData();
+    const organic = urlData.organic || 'ignore';
+    const sale = urlData.sale || 'ignore';
+    const minPrice = urlData.minimum || 0;
+    const maxPrice = urlData.maximum || 2000;
+    const query = urlData.query || '';
+    const title = query ? `Search for "${query}"` : 'All Products';
+
+    return (
+      <DocumentTitle title={`${title} - Potato Store`}>
+        <div>
+          <PageHeader title={title} />
+          <div className="productpage-row-content">
+            <FilterMenu
+              categories={this.state.categories}
+              checkedCategories={urlData.categories}
+              onSale={sale}
+              organic={organic}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+            />
+            <ProductList
+              products={this.state.products}
+              onBuyProduct={product => this.props.cart.get('add')(product.id)}
+            />
+          </div>
         </div>
-      </div>
-    </DocumentTitle>
-  );
+      </DocumentTitle>
+    );
+  }
 }
 export default withRouter(ProductPage);

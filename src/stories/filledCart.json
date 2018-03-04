@@ -1,0 +1,55 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Frokostegg Fra Frittgående Høner",
+      "subtitle": "Str L, 12 stk",
+      "image": "https://kolonial.no/media/uploads/public/290/194/684194-7c7eb-product_list.jpg",
+      "price": 44.9,
+      "unitPrice": 49.89,
+      "unit": "kg",
+      "category": {
+        "name": "Dairy",
+        "id": "1"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    },
+    {
+      "id": "2",
+      "name": "TineMelk Ekstra Lett",
+      "subtitle": "1,75 l",
+      "image": "https://kolonial.no/media/uploads/public/126/127/122527-1716e-product_list.jpg",
+      "price": 29.1,
+      "unitPrice": 16.63,
+      "unit": "l",
+      "category": {
+        "name": "Dairy",
+        "id": "1"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    },
+    {
+      "id": "3",
+      "name": "Ytrefilet av Storfe i Skiver",
+      "subtitle": "Prima, ca. 200g",
+      "image": "https://kolonial.no/media/uploads/public/53/86/371686-56bbf-product_list.jpg",
+      "price": 41.4,
+      "unitPrice": 207.0,
+      "unit": "kg",
+      "category": {
+        "name": "Meat",
+        "id": "2"
+      },
+      "organic": false,
+      "percentSale": null,
+      "packageDeal": null
+    }
+  ],
+  "totalBeforeDiscount": 43.2,
+  "totalDiscount": 13.2,
+  "total": 30
+}

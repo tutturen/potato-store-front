@@ -1,55 +1,105 @@
 import React from 'react';
-import {List} from 'immutable';
 import DocumentTitle from 'react-document-title';
+import PageHeader from '../PageHeader';
+
+import './CartPage.css';
+
+function getPrice(priceFloat) {
+  const overOne = parseInt(priceFloat, 10);
+  const belowOne = Math.round((priceFloat - overOne) * 100);
+  const belowText = belowOne < 10 ? `0${belowOne}` : belowOne;
+  return `kr ${overOne},${belowText}`;
+}
+
+function CartItem(props) {
+  const { image, name, subtitle, price } = props.product;
+
+  return (
+    <div className="cart-item-container">
+      <img src={image} className="cart-item-image" alt={name} />
+      <div className="cart-item-description">
+        <div className="cart-item-description-title">{name}</div>
+        <div className="cart-item-description-subtitle">{subtitle}</div>
+      </div>
+      <div className="cart-item-price">{getPrice(price)}</div>
+    </div>
+  );
+}
+
+function SummaryRow({ text, amount }) {
+  return (
+    <div className="summary-row">
+      <div className="summary-row-text">{text}</div>
+      <div className="summary-row-amount">{getPrice(amount)}</div>
+    </div>
+  );
+}
 
 /**
- * Page showing the current contents of the cart. This also serves the purpose as a confirmation page that lets the
- * user start the check-out process.
+ * Page showing the current contents of the cart.
  */
 class CartPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      productToAdd: '',
-    };
+  handleBuy = () => {
+    this.props.cart
+      .get('buy')()
+      .then(() => {
+        this.props.history.push({ pathname: '/order' });
+      })
+      .catch(e => {
+        // TODO: Find a way to create custom Error which actually works (subclassing, like on MDN, does not work)
+        if (e instanceof Error && e.message === 'Authentication required') {
+          this.props.history.push({ pathname: '/login' });
+          return;
+        }
+        throw e;
+      });
+  };
 
-    // Deal with some of the bad parts of JavaScript
-    this.handleNewProductChange = this.handleNewProductChange.bind(this);
-    this.handleNewProductSubmit = this.handleNewProductSubmit.bind(this);
-  }
-  handleNewProductChange(e) {
-    this.setState({productToAdd: e.target.value});
-  }
-  handleNewProductSubmit(e) {
-    e.preventDefault();
-    this.setState((prevState, prevProps) => {
-      if (!prevState.productToAdd) {
-        console.warn('Cannot add empty product.');
-        return {};
-      }
-      prevProps.cart.get('add')(prevState.productToAdd);
-      return {productToAdd: ''};
-    });
-  }
   render() {
-    let productList = List();
-    if (this.props.cart.has('products')) {
-      productList = this.props.cart.get('products').map((p) => (
-        <p key={p.id}>{p.name} <button onClick={() => this.props.cart.get('remove')(p.id)}>Remove</button></p>
-      ));
-    }
-    const rawProductList = this.props.products.map((p) => (
-      <p key={p}>{p} <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button></p>
-    ));
-    return <DocumentTitle title='Your cart - Potato Store'><div>
-      <form onSubmit={this.handleNewProductSubmit}>
-        Add product by ID: <input type='text' onChange={this.handleNewProductChange} value={this.state.productToAdd} />
-        <input type='submit' value='Add'/>
-      </form>
-      {productList}
-      <h3>Raw product list:</h3>
-      {rawProductList}
-    </div></DocumentTitle>;
+    const { cart } = this.props;
+    const productList = cart.get('products') || [];
+    const totalBeforeDiscount = cart.get('totalBeforeDiscount') || 0;
+    const totalDiscount = cart.get('totalDiscount') || 0;
+    const total = cart.get('total') || 0;
+
+    const hasProducts = !!productList.length;
+
+    return (
+      <DocumentTitle title="Your Cart - Potato Store">
+        <div className="cart-container">
+          <PageHeader title="Your Cart" />
+          <div className="cart-content">
+            <div className="cart-content-header">
+              <div className="cart-content-header-product">Product</div>
+              <div className="cart-content-header-price">Price</div>
+            </div>
+            {productList.map(product => <CartItem product={product} />)}
+            {!hasProducts && (
+              <div className="cart-content-no-items">
+                You have no products in your cart.
+              </div>
+            )}
+          </div>
+          <div className="cart-summary">
+            {totalDiscount > 0 && (
+              <SummaryRow
+                text="Total before discount:"
+                amount={totalBeforeDiscount}
+              />
+            )}
+            {totalDiscount > 0 && (
+              <SummaryRow text="Discount:" amount={totalDiscount} />
+            )}
+            <SummaryRow text="Total:" amount={total} />
+            {hasProducts && (
+              <button className="cart-buy-button" onClick={this.handleBuy}>
+                Buy
+              </button>
+            )}
+          </div>
+        </div>
+      </DocumentTitle>
+    );
   }
 }
 

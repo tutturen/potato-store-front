@@ -29,11 +29,14 @@ function MinMaxForm({ values, handleChange, handleBlur }) {
 }
 
 const MinMaxSelect = withFormik({
-  mapPropsToValues: props => ({ minimum: props.minimum, maximum: props.maximum, intervalId: null }),
+  mapPropsToValues: props => ({
+    minimum: props.minimum,
+    maximum: props.maximum,
+    intervalId: null,
+  }),
   validateOnChange: false,
   validateOnBlur: true,
   validate: values => {
-    console.log('blur?', values);
     setUrlState({
       minimum: Math.min(values.minimum, values.maximum),
       maximum: Math.max(values.minimum, values.maximum),

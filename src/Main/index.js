@@ -4,7 +4,7 @@ import SignUpPage from '../SignUpPage';
 import LogInPage from '../LogInPage';
 import ProductPage from '../ProductPage';
 import CartPage from '../CartPage';
-import CheckoutPage from '../CheckoutPage';
+import OrderPage from '../OrderPage';
 import PageNotFoundPage from '../PageNotFoundPage';
 
 /**
@@ -13,11 +13,27 @@ import PageNotFoundPage from '../PageNotFoundPage';
 function Main(props) {
   return (
     <Switch>
-      <Route exact path="/" render={(routeProps) => <ProductPage {...routeProps} {...props}/>} />
-      <Route path="/signup" render={(routeProps) => <SignUpPage {...routeProps} {...props}/>} />
-      <Route path="/login" render={(routeProps) => <LogInPage {...routeProps} {...props}/>} />
-      <Route path="/cart" render={(routeProps) => <CartPage {...routeProps} {...props}/>} />
-      <Route path="/checkout" render={(routeProps) => <CheckoutPage {...routeProps} {...props}/>} />
+      <Route
+        exact
+        path="/"
+        render={routeProps => <ProductPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/signup"
+        render={routeProps => <SignUpPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/login"
+        render={routeProps => <LogInPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/cart"
+        render={routeProps => <CartPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/order"
+        render={routeProps => <OrderPage {...routeProps} {...props} />}
+      />
       <Route component={PageNotFoundPage} />
     </Switch>
   );

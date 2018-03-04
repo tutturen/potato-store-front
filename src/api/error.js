@@ -23,6 +23,8 @@ GraphError.prototype.toString = function() {
 };
 */
 
+// Based on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Examples
+// This method does not really work, and not the one above either.
 class GraphError extends Error {
   constructor(graphErrors = [], graphData = {}, graphQuery = '', ...params) {
     super(...params);
@@ -42,15 +44,20 @@ class GraphError extends Error {
 }
 
 function graphErrorToString(graphError) {
-  const errorDescriptions = graphError.graphErrors.map(e => {
-    let locationStr = '';
-    if (e.locations) {
-      locationStr = e.locations.map(l => `Line ${l.line}, column ${l.column}`).join(' and ') + ': ';
-    }
+  const errorDescriptions = graphError.graphErrors
+    .map(e => {
+      let locationStr = '';
+      if (e.locations) {
+        locationStr =
+          e.locations
+            .map(l => `Line ${l.line}, column ${l.column}`)
+            .join(' and ') + ': ';
+      }
 
-    return `${locationStr}${e.message}`
-  }).join('; ');
+      return `${locationStr}${e.message}`;
+    })
+    .join('; ');
   return graphError.message + ': ' + errorDescriptions;
 }
 
-export {GraphError};
+export { GraphError };

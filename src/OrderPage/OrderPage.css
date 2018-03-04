@@ -1,0 +1,19 @@
+.order-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.order-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.order-emojis {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 16px;
+  margin-top: 32px;
+}
