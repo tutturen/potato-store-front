@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 
 
 /**
@@ -7,7 +8,9 @@ import React from 'react';
  */
 class CheckoutPage extends React.Component {
   render() {
-    return <h1>This is the Checkout Page.</h1>;
+    return <DocumentTitle title='Checkout - Potato Store'>
+      <h1>This is the Checkout Page.</h1>
+    </DocumentTitle>;
   }
 }
 
