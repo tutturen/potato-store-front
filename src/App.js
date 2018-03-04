@@ -246,7 +246,7 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
       password: password,
     };
     return makeApiCall(query, variables)
-      .then(this._checkSuccessFactory('Could create account. Make sure all fields are filled!'))
+      .then(this._checkSuccessFactory('Could create account. Make sure all fields are filled, or pick another username!'))
       .then(this._handleLoginResponse.bind(this));
   }
 
