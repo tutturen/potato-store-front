@@ -109,7 +109,7 @@ class ProductPage extends React.Component {
             />
             <ProductList
               products={this.state.products}
-              onBuyProduct={product => props.cart.get('add')(product.id)}
+              onBuyProduct={product => this.props.cart.get('add')(product.id)}
             />
           </div>
         </div>
