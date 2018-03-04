@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
@@ -7,41 +7,28 @@ import DocumentTitle from 'react-document-title';
 /**
  * Page where you sign up for a new account.
  */
-class SignUpPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      success: false,
-    };
-  }
+class SignUpPageWithoutRouter extends React.Component {
   render() {
-    let redirect = null;
-    if (this.state.success) {
-      // TODO: Take in URL parameter which says where we should redirect on success
-      redirect = <Redirect to="/cart" />;
-    }
     return (
       <DocumentTitle title="Sign up - Potato Store">
-        <div>
-          <SignupForm
-            onSubmit={form => this.handleSubmit(form)}
-          />
-          {redirect}
-        </div>
+        <SignupForm
+          onSubmit={form => this.handleSubmit(form)}
+        />
       </DocumentTitle>
     );
   }
 
   handleSubmit(form) {
     return this.props.user.get('signup')(form)
-      .then(this.handleSignupSuccess.bind(this))
-  }
-
-  handleSignupSuccess(body) {
-    this.setState({success: true});
-    return body;
+      .then(body => {
+        // TODO: Take in URL parameter which says where we should redirect on success
+        this.props.history.push({pathname: '/cart'});
+        return body;
+      })
   }
 }
+
+const SignUpPage = withRouter(SignUpPageWithoutRouter);
 
 const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
@@ -86,7 +73,7 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
           className="signup-form-element-input"
         />
       </div>
-      {errors.password && <p>{errors.password}</p>}
+      {errors.generic && <p>{errors.generic}</p>}
       <input
         type="submit"
         className="signup-form-button"
@@ -101,7 +88,7 @@ const SignupForm = withFormik({
     props.onSubmit(values)
       .catch(e => {
         setErrors({
-          password: e.message,
+          generic: e.message,
         });
       })
       .then(() => setSubmitting(false));
