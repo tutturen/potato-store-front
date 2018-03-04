@@ -72,7 +72,7 @@ function makeApiCall(query, variables, operationName) {
 
   const ourJwt = localStorage.getItem('jwt');
   if (ourJwt !== null) {
-    headers.set('Authorization', 'Bearer ' + ourJwt);
+    headers.set('Authorization', 'JWT ' + ourJwt);
   }
 
   return fetch(BACKEND_URL + '/graphql/', {
