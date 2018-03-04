@@ -22,25 +22,28 @@ function CheckBox(props) {
   );
 }
 
-const FilterForm = ({ values, handleChange, handleBlur }) => (
-  <FilterBox title="Category">
-    <form>
-      {values.categories.map(category => (
-        <CheckBox
-          key={category.name}
-          name={category.name}
-          text={category.text}
-          rightText={category.amount}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          checked={values[category.name]}
-        />
-      ))}
-    </form>
-  </FilterBox>
-);
+const FilterForm = ({ values, handleChange, handleBlur }) => {
+  return (
+    <FilterBox title="Category">
+      <form>
+        {values.categories.map(category => (
+          <CheckBox
+            key={category.name}
+            name={category.name}
+            text={category.name}
+            rightText=""
+            onChange={handleChange}
+            onBlur={handleBlur}
+            checked={values[category.name]}
+          />
+        ))}
+      </form>
+    </FilterBox>
+  );
+};
 
 const CategoryFilter = withFormik({
+  enableReinitialize: true,
   mapPropsToValues: props => {
     const values = props.categories.reduce((acc, cat) => {
       acc[cat.name] = (props.checkedCategories || []).includes(cat.name);
