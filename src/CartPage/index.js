@@ -1,5 +1,6 @@
 import React from 'react';
-import {List} from 'immutable';
+import { List } from 'immutable';
+import DocumentTitle from 'react-document-title';
 
 /**
  * Page showing the current contents of the cart. This also serves the purpose as a confirmation page that lets the
@@ -17,7 +18,7 @@ class CartPage extends React.Component {
     this.handleNewProductSubmit = this.handleNewProductSubmit.bind(this);
   }
   handleNewProductChange(e) {
-    this.setState({productToAdd: e.target.value});
+    this.setState({ productToAdd: e.target.value });
   }
   handleNewProductSubmit(e) {
     e.preventDefault();
@@ -27,28 +28,45 @@ class CartPage extends React.Component {
         return {};
       }
       prevProps.cart.get('add')(prevState.productToAdd);
-      return {productToAdd: ''};
+      return { productToAdd: '' };
     });
   }
   render() {
     let productList = List();
     if (this.props.cart.has('products')) {
-      productList = this.props.cart.get('products').map((p) => (
-        <p key={p.id}>{p.name} <button onClick={() => this.props.cart.get('remove')(p.id)}>Remove</button></p>
+      productList = this.props.cart.get('products').map(p => (
+        <p key={p.id}>
+          {p.name}{' '}
+          <button onClick={() => this.props.cart.get('remove')(p.id)}>
+            Remove
+          </button>
+        </p>
       ));
     }
-    const rawProductList = this.props.products.map((p) => (
-      <p key={p}>{p} <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button></p>
+    const rawProductList = this.props.products.map(p => (
+      <p key={p}>
+        {p}{' '}
+        <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button>
+      </p>
     ));
-    return <div>
-      <form onSubmit={this.handleNewProductSubmit}>
-        Add product by ID: <input type='text' onChange={this.handleNewProductChange} value={this.state.productToAdd} />
-        <input type='submit' value='Add'/>
-      </form>
-      {productList}
-      <h3>Raw product list:</h3>
-      {rawProductList}
-    </div>;
+    return (
+      <DocumentTitle title="Your cart - Potato Store">
+        <div>
+          <form onSubmit={this.handleNewProductSubmit}>
+            Add product by ID:{' '}
+            <input
+              type="text"
+              onChange={this.handleNewProductChange}
+              value={this.state.productToAdd}
+            />
+            <input type="submit" value="Add" />
+          </form>
+          {productList}
+          <h3>Raw product list:</h3>
+          {rawProductList}
+        </div>
+      </DocumentTitle>
+    );
   }
 }
 

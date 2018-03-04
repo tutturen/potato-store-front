@@ -9,6 +9,7 @@
     "js-cookie": "^2.2.0",
     "query-string": "^5.1.0",
     "react": "^16.2.0",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1"
@@ -19,7 +20,16 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "prettier": "prettier --write '{src/**/*.js, src/**/**/*.js}'"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "useTabs": false,
+    "printWidth": 80
   },
   "homepage": "http://tutturen.github.io/potato-store-front",
   "devDependencies": {

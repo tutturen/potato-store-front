@@ -1,13 +1,53 @@
 import React from 'react';
+import { withFormik } from 'formik';
+import './LoginPage.css';
+import DocumentTitle from 'react-document-title';
 
-// TODO: Consider two-pane layout where users can register and log in using same page.
 /**
- * Page where customers can log into their account.
+ * Page where you log in
  */
-class LogInPage extends React.Component {
+class LoginPage extends React.Component {
   render() {
-    return <h1>Hi, this is the login page!</h1>;
+    return (
+      <DocumentTitle title="Log in - Potato Store">
+        <LoginForm onSubmit={form => console.log(form)} />
+      </DocumentTitle>
+    );
   }
 }
 
-export default LogInPage;
+const InnerLoginForm = ({ values, handleChange, handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <div className="login-container">
+      <div className="login-head-text">Log in to the Potato Store.</div>
+      <div className="login-form-element">
+        <div className="login-form-element-label">Username</div>
+        <input
+          autoFocus
+          onChange={handleChange}
+          name="username"
+          type="text"
+          className="login-form-element-input"
+        />
+      </div>
+      <div className="login-form-element">
+        <div className="login-form-element-label">Password</div>
+        <input
+          onChange={handleChange}
+          name="password"
+          type="password"
+          className="login-form-element-input"
+        />
+      </div>
+      <input type="submit" className="login-form-button" value="Log in" />
+    </div>
+  </form>
+);
+
+const LoginForm = withFormik({
+  handleSubmit: (values, { props }) => {
+    props.onSubmit(values);
+  },
+})(InnerLoginForm);
+
+export default LoginPage;
