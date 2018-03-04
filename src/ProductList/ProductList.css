@@ -64,7 +64,7 @@
   top: 25%;
   left: 25%;
   width: 50%;
-  height: 32px;
+  padding: 0.2em 0;
   background-color: #530000;
   border-radius: 4px;
   color: #ffffff;

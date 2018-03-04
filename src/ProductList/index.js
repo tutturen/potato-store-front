@@ -29,7 +29,7 @@ function ProductList(props) {
               onClick={() => props.onBuyProduct(product)}
               className="productlist-buy-button"
             >
-              Buy
+              Add to cart
             </button>
           </div>
         ))}
