@@ -28,7 +28,12 @@ class App extends Component {
   _getUserFromLocalStorage() {
     const localStorageValueOrDefault = localStorage.getItem(USER_KEY) || '{}';
     // Use immutable Map to help us with updating state only through this.setState
-    return Map(JSON.parse(localStorageValueOrDefault));
+    const parsed = Map(JSON.parse(localStorageValueOrDefault));
+    if (parsed.has('username')) {
+      return parsed.set('loggedIn', true);
+    } else {
+      return parsed.set('loggedIn', false);
+    }
   }
 
   componentDidMount() {
