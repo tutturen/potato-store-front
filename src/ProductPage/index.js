@@ -43,7 +43,7 @@ function ProductPage(props) {
           />
           <ProductList
             products={milkProducts}
-            onBuyProduct={product => console.log(product)}
+            onBuyProduct={product => props.cart.get('add')(product.id)}
           />
         </div>
       </div>
