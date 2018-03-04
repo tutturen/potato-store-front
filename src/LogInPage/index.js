@@ -26,7 +26,7 @@ class LoginPage extends React.Component {
   }
 }
 
-const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
+const InnerLoginForm = ({ values, handleChange, handleSubmit, errors, handleBlur }) => (
   <form onSubmit={handleSubmit}>
     <div className="login-container">
       <div className="login-head-text">Log in to the Potato Store.</div>
@@ -35,6 +35,7 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
         <input
           autoFocus
           onChange={handleChange}
+          onBlur={handleBlur}
           name="username"
           type="text"
           className="login-form-element-input"
@@ -44,6 +45,7 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
         <div className="login-form-element-label">Password</div>
         <input
           onChange={handleChange}
+          onBlur={handleBlur}
           name="password"
           type="password"
           className="login-form-element-input"
@@ -60,10 +62,16 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
 
 const LoginForm = withFormik({
   handleSubmit: (values, { props, setErrors, setSubmitting }) => {
+    setErrors({});
     props
       .onSubmit(values)
-      // TODO: Use more user-centric error messages
-      .catch(e => setErrors({ generic: e.message }))
+      .catch(e => {
+        if (e.graphErrors[0].message.includes('enter valid credentials')) {
+          setErrors({generic: 'Wrong username or password'});
+        } else {
+          setErrors({generic: e.message});
+        }
+      })
       .then(() => setSubmitting(false));
   },
 })(InnerLoginForm);

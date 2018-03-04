@@ -264,8 +264,8 @@ mutation DoLogin($u: String!, $p: String!) {
 } 
     `;
     const variables = {
-      u: username,
-      p: password,
+      u: username || '',
+      p: password || '',
     };
     return (
       makeApiCall(query, variables)
@@ -292,10 +292,10 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
 }
     `;
     const variables = {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      password: password,
+      firstName: firstName || '',
+      lastName: lastName || '',
+      username: username || '',
+      password: password || '',
     };
     return makeApiCall(query, variables)
       .then(body => body.createAccount)
