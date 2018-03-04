@@ -1,6 +1,6 @@
 .signup-container {
   width: 330px;
-  height: 500px;
+  height: 530px;
   margin: auto;
   margin-top: 96px;
   border-radius: 3px;
@@ -51,4 +51,8 @@
   padding: 0 8px;
   box-sizing: border-box;
   margin-top: 16px;
+}
+
+.signup-form-link-text {
+  margin-top: 24px;
 }

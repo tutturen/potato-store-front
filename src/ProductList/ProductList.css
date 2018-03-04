@@ -49,7 +49,37 @@
   margin-bottom: 4px;
 }
 
+.productlist-item-container {
+  position: relative;
+}
+
 .productlist-item-subtitle {
   font-size: 14px;
   color: #9b9b9b;
+}
+
+.productlist-buy-button {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 32px;
+  background-color: #530000;
+  border-radius: 4px;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.productlist-item:hover + .productlist-buy-button {
+  display: block;
+}
+
+.productlist-buy-button:hover {
+  display: block;
+  background-color: #630000;
 }

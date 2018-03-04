@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './LoginPage.css';
 import DocumentTitle from 'react-document-title';
@@ -7,7 +7,7 @@ import DocumentTitle from 'react-document-title';
 /**
  * Page where you log in
  */
-class LoginPageWithoutRouter extends React.Component {
+class LoginPage extends React.Component {
   render() {
     return (
       <DocumentTitle title="Log in - Potato Store">
@@ -25,8 +25,6 @@ class LoginPageWithoutRouter extends React.Component {
       });
   }
 }
-
-const LoginPage = withRouter(LoginPageWithoutRouter);
 
 const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
@@ -53,6 +51,9 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
       </div>
       {errors.generic && <p>{errors.generic}</p>}
       <input type="submit" className="login-form-button" value="Log in" />
+      <div className="login-form-link-text">
+        Need an account? <Link to="/signup">Sign up here.</Link>
+      </div>
     </div>
   </form>
 );
@@ -67,4 +68,4 @@ const LoginForm = withFormik({
   },
 })(InnerLoginForm);
 
-export default LoginPage;
+export default withRouter(LoginPage);
