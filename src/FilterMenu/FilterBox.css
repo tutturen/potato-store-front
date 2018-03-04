@@ -1,0 +1,21 @@
+.filterbox-container {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #979797;
+  padding: 16px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+.filterbox-header {
+  font-size: 16px;
+  color: #550000;
+  width: 100%;
+  padding-bottom: 16px;
+}
+
+.filterbox-content {
+  width: 100%;
+  color: #000000;
+  font-size: 16px;
+}

@@ -1,41 +1,47 @@
 import React from 'react';
-import './ProductPage.css';
-
+import { withRouter } from 'react-router';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
 import milkProducts from '../stories/milkProducts.json';
+import { getState } from '../state/urlState';
+import './ProductPage.css';
 
 const data = {
-  title: "Search for 'milk'",
   categories: [
-    { name: 'Fruit and vegetables', amount: 32, checked: false },
-    { name: 'Milk products', amount: 14, checked: true },
-    { name: 'Eggs and Bacon', amount: 8, checked: false },
-    { name: 'Bread and rolls', amount: 29, checked: false },
+    { name: 'fruit-and-vegetables', text: 'Fruit and vegetables', amount: 32 },
+    { name: 'milk', text: 'Milk products', amount: 14 },
+    { name: 'eggs-and-bacon', text: 'Eggs and Bacon', amount: 8 },
+    { name: 'bread', text: 'Bread and rolls', amount: 29 },
   ],
-  organic: 'Yes',
-  onSale: 'Not important',
-  minPrice: 0,
-  maxPrice: 20,
   products: milkProducts,
 };
 
 function ProductPage(props) {
+  const urlData = getState(props.location.search);
+
+  const organic = urlData.organic || 'ignore';
+  const sale = urlData.sale || 'ignore';
+  const minPrice = urlData.minimum || 0;
+  const maxPrice = urlData.maximum || 2000;
+  const query = urlData.query || '';
+  const title = query ? `Search for "${query}"` : 'All Products';
+
   return (
     <div>
-      <PageHeader title={data.title} />
+      <PageHeader title={title} />
       <div className="productpage-row-content">
         <FilterMenu
           categories={data.categories}
-          onSale={data.onSale}
-          organic={data.organic}
-          minPrice={data.minPrice}
-          maxPrice={data.maxPrice}
+          checkedCategories={urlData.categories}
+          onSale={sale}
+          organic={organic}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
         />
         <ProductList products={milkProducts} />
       </div>
     </div>
   );
 }
-export default ProductPage;
+export default withRouter(ProductPage);

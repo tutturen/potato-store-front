@@ -1,0 +1,36 @@
+.tripleselect-container {
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  width: 270px;
+  border-radius: 6px;
+  border: 1px solid #550000;
+  overflow: hidden;
+}
+
+.tripleselect-item {
+  text-align: center;
+  line-height: 32px;
+  height: 32px;
+  flex-grow: 1;
+  font-size: 12px;
+  color: #550000;
+  cursor: pointer;
+  border: none;
+}
+
+.tripleselect-item:focus {
+  outline: 0;
+}
+
+.tripleselect-item:hover {
+  opacity: 0.7;
+  background-color: #550000;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.tripleselect-item-selected {
+  color: #ffffff;
+  background-color: #550000;
+}
