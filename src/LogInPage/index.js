@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 
 // TODO: Consider two-pane layout where users can register and log in using same page.
 /**
@@ -6,7 +7,9 @@ import React from 'react';
  */
 class LogInPage extends React.Component {
   render() {
-    return <h1>Hi, this is the login page!</h1>;
+    return <DocumentTitle title='Log in - Potato Store'>
+      <h1>Hi, this is the login page!</h1>
+    </DocumentTitle>;
   }
 }
 
