@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
-import milkProducts from '../stories/milkProducts.json';
 import { getState } from '../state/urlState';
 import { makeApiCall } from '../api/general';
 import './ProductPage.css';
