@@ -1,13 +1,18 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import './LoginPage.css';
+import DocumentTitle from 'react-document-title';
 
 /**
  * Page where you log in
  */
 class LoginPage extends React.Component {
   render() {
-    return <LoginForm onSubmit={form => console.log(form)} />;
+    return (
+      <DocumentTitle title="Log in - Potato Store">
+        <LoginForm onSubmit={form => console.log(form)} />
+      </DocumentTitle>
+    );
   }
 }
 

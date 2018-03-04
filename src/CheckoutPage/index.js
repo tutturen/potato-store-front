@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 
 /**
  * Shared parent of all pages related to the check-out process, in which the customer registers or logs in if not
@@ -6,7 +7,11 @@ import React from 'react';
  */
 class CheckoutPage extends React.Component {
   render() {
-    return <h1>This is the Checkout Page.</h1>;
+    return (
+      <DocumentTitle title="Checkout - Potato Store">
+        <h1>This is the Checkout Page.</h1>
+      </DocumentTitle>
+    );
   }
 }
 

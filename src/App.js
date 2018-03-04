@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DocumentTitle from 'react-document-title';
 import Main from './Main';
 import './App.css';
 import Layout from './Layout';
@@ -130,11 +131,13 @@ class App extends Component {
 
     return (
       <Layout products={this.state.products} cart={cart} user={this.state.user}>
-        <Main
-          products={this.state.products}
-          cart={cart}
-          user={this.state.user}
-        />
+        <DocumentTitle title="Potato Store">
+          <Main
+            products={this.state.products}
+            cart={cart}
+            user={this.state.user}
+          />
+        </DocumentTitle>
       </Layout>
     );
   }

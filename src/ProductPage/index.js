@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
@@ -28,20 +29,22 @@ function ProductPage(props) {
   const title = query ? `Search for "${query}"` : 'All Products';
 
   return (
-    <div>
-      <PageHeader title={title} />
-      <div className="productpage-row-content">
-        <FilterMenu
-          categories={data.categories}
-          checkedCategories={urlData.categories}
-          onSale={sale}
-          organic={organic}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-        />
-        <ProductList products={milkProducts} />
+    <DocumentTitle title={`${title} - Potato Store`}>
+      <div>
+        <PageHeader title={title} />
+        <div className="productpage-row-content">
+          <FilterMenu
+            categories={data.categories}
+            checkedCategories={urlData.categories}
+            onSale={sale}
+            organic={organic}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+          />
+          <ProductList products={milkProducts} />
+        </div>
       </div>
-    </div>
+    </DocumentTitle>
   );
 }
 export default withRouter(ProductPage);
