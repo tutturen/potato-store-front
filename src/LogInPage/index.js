@@ -61,6 +61,7 @@ const LoginForm = withFormik({
   handleSubmit: (values, { props, setErrors, setSubmitting }) => {
     props
       .onSubmit(values)
+      // TODO: Use more user-centric error messages
       .catch(e => setErrors({ generic: e.message }))
       .then(() => setSubmitting(false));
   },

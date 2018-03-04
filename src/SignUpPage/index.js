@@ -86,6 +86,7 @@ const SignupForm = withFormik({
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
     props
       .onSubmit(values)
+      // TODO: Use more user-centric error messages
       .catch(e => {
         setErrors({
           generic: e.message,
