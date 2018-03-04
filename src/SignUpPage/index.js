@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
@@ -78,6 +78,9 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
         className="signup-form-button"
         value="Create Account"
       />
+      <div className="signup-form-link-text">
+        Already got an account? <Link to="/login">Log in here.</Link>
+      </div>
     </div>
   </form>
 );

@@ -1,6 +1,6 @@
 .login-container {
   width: 330px;
-  height: 350px;
+  height: 380px;
   margin: auto;
   margin-top: 96px;
   border-radius: 3px;
@@ -51,4 +51,8 @@
   padding: 0 8px;
   box-sizing: border-box;
   margin-top: 16px;
+}
+
+.login-form-link-text {
+  margin-top: 24px;
 }

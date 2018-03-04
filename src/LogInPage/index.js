@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './LoginPage.css';
 import DocumentTitle from 'react-document-title';
@@ -51,6 +51,9 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
       </div>
       {errors.generic && <p>{errors.generic}</p>}
       <input type="submit" className="login-form-button" value="Log in" />
+      <div className="login-form-link-text">
+        Need an account? <Link to="/signup">Sign up here.</Link>
+      </div>
     </div>
   </form>
 );
