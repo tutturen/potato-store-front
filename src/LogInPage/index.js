@@ -7,7 +7,7 @@ import DocumentTitle from 'react-document-title';
 /**
  * Page where you log in
  */
-class LoginPageWithoutRouter extends React.Component {
+class LoginPage extends React.Component {
   render() {
     return (
       <DocumentTitle title="Log in - Potato Store">
@@ -25,8 +25,6 @@ class LoginPageWithoutRouter extends React.Component {
       });
   }
 }
-
-const LoginPage = withRouter(LoginPageWithoutRouter);
 
 const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
@@ -67,4 +65,4 @@ const LoginForm = withFormik({
   },
 })(InnerLoginForm);
 
-export default LoginPage;
+export default withRouter(LoginPage);

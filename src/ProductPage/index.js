@@ -41,7 +41,10 @@ function ProductPage(props) {
             minPrice={minPrice}
             maxPrice={maxPrice}
           />
-          <ProductList products={milkProducts} />
+          <ProductList
+            products={milkProducts}
+            onBuyProduct={product => console.log(product)}
+          />
         </div>
       </div>
     </DocumentTitle>
