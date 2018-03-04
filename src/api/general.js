@@ -6,6 +6,7 @@ const BACKEND_URL =
   process.env.REACT_APP_BACKEND || 'https://potato-store.herokuapp.com';
 const CSRF_COOKIE_NAME = process.env.REACT_APP_CSRF_COOKIE || 'csrftoken'; // Django default
 const CSRF_HEADER = process.env.REACT_APP_CSRF_HEADER || 'X-CSRFToken'; // Django default
+const CSRF_ENABLED = process.env.REACT_APP_CSRF_ENABLED || false;
 
 // Variable used to hold a promise which resolves when we've gotten the CSRF token.
 // Used as a synchronization mechanism in case more queries should come in while
@@ -36,7 +37,7 @@ function makeApiCall(query, variables, operationName) {
   }
 
   // Is the CSRF token available to us?
-  if (Cookies.get(CSRF_COOKIE_NAME) === undefined) {
+  if (Cookies.get(CSRF_COOKIE_NAME) === undefined && CSRF_ENABLED) {
     // This code is here to deal with the fact that the user may not have a CSRF token cookie if the user hasn't
     // visited the backend yet. We therefore do an additional request to the backend so that we have a CSRF token to
     // send with our query. That way, we can reassure Django that our queries are done with consent from the user on a
@@ -69,8 +70,11 @@ function makeApiCall(query, variables, operationName) {
   const headers = new Headers({
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',
-    [CSRF_HEADER]: Cookies.get(CSRF_COOKIE_NAME),
   });
+
+  if (CSRF_ENABLED) {
+    headers.set(CSRF_HEADER, Cookies.get(CSRF_COOKIE_NAME));
+  }
 
   const ourJwt = localStorage.getItem('jwt');
   if (ourJwt !== null) {

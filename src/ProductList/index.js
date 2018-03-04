@@ -1,6 +1,13 @@
 import React from 'react';
 import './ProductList.css';
 
+function getPrice(priceFloat) {
+  const overOne = parseInt(priceFloat, 10);
+  const belowOne = Math.round((priceFloat - overOne) * 100);
+  const belowText = belowOne < 10 ? `0${belowOne}` : belowOne;
+  return `kr ${overOne},${belowText}`;
+}
+
 function ProductList(props) {
   return (
     <div className="productlist-container">
@@ -19,7 +26,9 @@ function ProductList(props) {
                 src={product.image}
                 alt={product.name}
               />
-              <div className="productlist-item-price">{product.price}</div>
+              <div className="productlist-item-price">
+                {getPrice(product.price)}
+              </div>
               <div className="productlist-item-name">{product.name}</div>
               <div className="productlist-item-subtitle">
                 {product.subtitle}

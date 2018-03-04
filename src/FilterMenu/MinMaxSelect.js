@@ -37,7 +37,6 @@ const MinMaxSelect = withFormik({
   validateOnChange: false,
   validateOnBlur: true,
   validate: values => {
-    console.log('blur?', values);
     setUrlState({
       minimum: Math.min(values.minimum, values.maximum),
       maximum: Math.max(values.minimum, values.maximum),
