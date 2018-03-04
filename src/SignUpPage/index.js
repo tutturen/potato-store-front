@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
@@ -7,16 +8,42 @@ import DocumentTitle from 'react-document-title';
  * Page where you sign up for a new account.
  */
 class SignUpPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false,
+    };
+  }
   render() {
+    let redirect = null;
+    if (this.state.success) {
+      // TODO: Take in URL parameter which says where we should redirect on success
+      redirect = <Redirect to="/cart" />;
+    }
     return (
       <DocumentTitle title="Sign up - Potato Store">
-        <SignupForm onSubmit={form => console.log(form)} />
+        <div>
+          <SignupForm
+            onSubmit={form => this.handleSubmit(form)}
+          />
+          {redirect}
+        </div>
       </DocumentTitle>
     );
   }
+
+  handleSubmit(form) {
+    return this.props.user.get('signup')(form)
+      .then(this.handleSignupSuccess.bind(this))
+  }
+
+  handleSignupSuccess(body) {
+    this.setState({success: true});
+    return body;
+  }
 }
 
-const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
+const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
     <div className="signup-container">
       <div className="signup-head-text">Create your Potato Store account.</div>
@@ -59,6 +86,7 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
           className="signup-form-element-input"
         />
       </div>
+      {errors.password && <p>{errors.password}</p>}
       <input
         type="submit"
         className="signup-form-button"
@@ -69,8 +97,14 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
 );
 
 const SignupForm = withFormik({
-  handleSubmit: (values, { props }) => {
-    props.onSubmit(values);
+  handleSubmit: (values, { props, setSubmitting, setErrors }) => {
+    props.onSubmit(values)
+      .catch(e => {
+        setErrors({
+          password: e.message,
+        });
+      })
+      .then(() => setSubmitting(false));
   },
 })(InnerSignupForm);
 

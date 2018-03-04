@@ -129,14 +129,16 @@ class App extends Component {
     });
     const cart = this.state.cart.merge(cartMethods);
 
+    const userMethods = Map({
+      login: this.login.bind(this),
+      signup: this.signup.bind(this),
+    });
+    const user = this.state.user.merge(userMethods);
+
     return (
-      <Layout products={this.state.products} cart={cart} user={this.state.user}>
+      <Layout products={this.state.products} cart={cart} user={user}>
         <DocumentTitle title="Potato Store">
-          <Main
-            products={this.state.products}
-            cart={cart}
-            user={this.state.user}
-          />
+          <Main products={this.state.products} cart={cart} user={user}/>
         </DocumentTitle>
       </Layout>
     );
@@ -227,7 +229,7 @@ mutation DoLogin($u: String!, $p: String!) {
   signup({firstName, lastName, username, password}) {
     const query = `
 mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: String!, $password: String!) {
-  createAccount(firstname: $firstName, lastName: $lastName, username: $username, password: $password) {
+  createAccount(firstName: $firstName, lastName: $lastName, username: $username, password: $password) {
     success
     token
     user {
@@ -245,28 +247,29 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
       password: password,
     };
     return makeApiCall(query, variables)
+      .then(body => body.createAccount)
       .then(this._checkSuccessFactory('Could create account. Make sure all fields are filled, or pick another username!'))
       .then(this._handleLoginResponse.bind(this));
   }
 
   _checkSuccessFactory(errorMessage) {
-    return (body) => {
-      if (!body.success) {
+    return (result) => {
+      if (!result.success) {
         throw new Error(errorMessage);
       }
-      return body;
+      return result;
     }
   }
 
-  _handleLoginResponse(body) {
-    if (body.token) {
-      localStorage.setItem('jwt', body.token);
+  _handleLoginResponse(result) {
+    if (result.token) {
+      localStorage.setItem('jwt', result.token);
     }
-    if (body.user) {
-      this._setLocalUser(body.user);
+    if (result.user) {
+      this._setLocalUser(result.user);
       this.setState({user: this._getUserFromLocalStorage()});
     }
-    return body;
+    return result;
   }
 
   _setLocalUser(user) {
