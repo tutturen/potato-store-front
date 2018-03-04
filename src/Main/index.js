@@ -12,11 +12,27 @@ import CheckoutPage from '../CheckoutPage';
 function Main(props) {
   return (
     <Switch>
-      <Route exact path="/" render={(routeProps) => <ProductPage {...routeProps} {...props}/>} />
-      <Route path="/signup" render={(routeProps) => <SignUpPage {...routeProps} {...props}/>} />
-      <Route path="/login" render={(routeProps) => <LogInPage {...routeProps} {...props}/>} />
-      <Route path="/cart" render={(routeProps) => <CartPage {...routeProps} {...props}/>} />
-      <Route path="/checkout" render={(routeProps) => <CheckoutPage {...routeProps} {...props}/>} />
+      <Route
+        exact
+        path="/"
+        render={routeProps => <ProductPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/signup"
+        render={routeProps => <SignUpPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/login"
+        render={routeProps => <LogInPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/cart"
+        render={routeProps => <CartPage {...routeProps} {...props} />}
+      />
+      <Route
+        path="/checkout"
+        render={routeProps => <CheckoutPage {...routeProps} {...props} />}
+      />
     </Switch>
   );
 }

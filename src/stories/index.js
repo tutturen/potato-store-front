@@ -21,6 +21,12 @@ storiesOf('ProductList', module).add('with standard props', () => (
   <ProductList products={milkProducts} />
 ));
 
-storiesOf('FilterMenu', module).add('with standard props', () => <FilterMenu />);
+storiesOf('FilterMenu', module).add('with standard props', () => (
+  <FilterMenu />
+));
 
-storiesOf('ProductPage', module).add('with standard props', () => <Layout><ProductPage /></Layout>);
+storiesOf('ProductPage', module).add('with standard props', () => (
+  <Layout>
+    <ProductPage />
+  </Layout>
+));

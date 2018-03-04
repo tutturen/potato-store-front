@@ -27,7 +27,8 @@
     "tabWidth": 2,
     "singleQuote": true,
     "trailingComma": "all",
-    "useTabs": false
+    "useTabs": false,
+    "printWidth": 80
   },
   "homepage": "http://tutturen.github.io/potato-store-front",
   "devDependencies": {

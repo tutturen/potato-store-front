@@ -54,7 +54,11 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
           className="signup-form-element-input"
         />
       </div>
-      <input type="submit" className="signup-form-button" value="Create Account" />
+      <input
+        type="submit"
+        className="signup-form-button"
+        value="Create Account"
+      />
     </div>
   </form>
 );

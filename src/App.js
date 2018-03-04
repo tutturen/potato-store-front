@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Main from './Main';
 import './App.css';
 import Layout from './Layout';
-import {makeApiCall} from './api/general';
-import {List, Map} from 'immutable';
-
+import { makeApiCall } from './api/general';
+import { List, Map } from 'immutable';
 
 const PRODUCT_LIST_KEY = 'products';
 const USER_KEY = 'user';
@@ -20,7 +19,8 @@ class App extends Component {
   }
 
   _getProductsFromLocalStorage() {
-    const localStorageValueOrDefault = localStorage.getItem(PRODUCT_LIST_KEY) || '[]';
+    const localStorageValueOrDefault =
+      localStorage.getItem(PRODUCT_LIST_KEY) || '[]';
     // Use immutable List to help us with updating state only through this.setState
     return List(JSON.parse(localStorageValueOrDefault));
   }
@@ -44,8 +44,8 @@ class App extends Component {
   }
 
   updateCart() {
-    this._fetchCartFromBackend().then((cart) => {
-      this.setState({cart: Map(cart)});
+    this._fetchCartFromBackend().then(cart => {
+      this.setState({ cart: Map(cart) });
     });
   }
 
@@ -87,8 +87,7 @@ class App extends Component {
     const variables = {
       products: this.state.products,
     };
-    return makeApiCall(query, variables)
-      .then((data) => data.cart);
+    return makeApiCall(query, variables).then(data => data.cart);
   }
 
   /*_fakeFetchCartFromBackend() {
@@ -119,7 +118,6 @@ class App extends Component {
     });
   }*/
 
-
   render() {
     // Extend cart object with methods for changing it
     // (We extend cart and not products because products is a list, not an object/Map)
@@ -131,11 +129,7 @@ class App extends Component {
     const cart = this.state.cart.merge(cartMethods);
 
     return (
-      <Layout
-        products={this.state.products}
-        cart={cart}
-        user={this.state.user}
-      >
+      <Layout products={this.state.products} cart={cart} user={this.state.user}>
         <Main
           products={this.state.products}
           cart={cart}
@@ -156,7 +150,7 @@ class App extends Component {
     this.setState((prevState, props) => {
       const newProducts = prevState.products.push(productID);
       this._setLocalProducts(newProducts);
-      return {products: this._getProductsFromLocalStorage()};
+      return { products: this._getProductsFromLocalStorage() };
     });
   }
 
@@ -172,12 +166,14 @@ class App extends Component {
     this.setState((prevState, props) => {
       const productIndex = prevState.products.indexOf(productID);
       if (productIndex === -1) {
-        console.warn(`Tried removing ${productID} from cart, but no such ID was found.`);
+        console.warn(
+          `Tried removing ${productID} from cart, but no such ID was found.`,
+        );
         return {};
       }
       const newProducts = prevState.products.splice(productIndex, 1);
       this._setLocalProducts(newProducts);
-      return {products: this._getProductsFromLocalStorage()};
+      return { products: this._getProductsFromLocalStorage() };
     });
   }
 
@@ -189,7 +185,7 @@ class App extends Component {
   clearCart() {
     this.setState((prevState, props) => {
       this._setLocalProducts(List());
-      return {products: this._getProductsFromLocalStorage()};
+      return { products: this._getProductsFromLocalStorage() };
     });
   }
 
