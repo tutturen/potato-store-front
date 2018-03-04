@@ -1,5 +1,4 @@
 import React from 'react';
-import { List } from 'immutable';
 import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
 
@@ -17,7 +16,7 @@ function CartItem(props) {
 
   return (
     <div className="cart-item-container">
-      <img src={image} className="cart-item-image" />
+      <img src={image} className="cart-item-image" alt={name} />
       <div className="cart-item-description">
         <div className="cart-item-description-title">{name}</div>
         <div className="cart-item-description-subtitle">{subtitle}</div>
