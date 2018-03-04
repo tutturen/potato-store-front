@@ -30,17 +30,19 @@ function ProductPage(props) {
 
   return (
     <DocumentTitle title={`${title} - Potato Store`}>
-      <PageHeader title={title} />
-      <div className="productpage-row-content">
-        <FilterMenu
-          categories={data.categories}
-          checkedCategories={urlData.categories}
-          onSale={sale}
-          organic={organic}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-        />
-        <ProductList products={milkProducts} />
+      <div>
+        <PageHeader title={title} />
+        <div className="productpage-row-content">
+          <FilterMenu
+            categories={data.categories}
+            checkedCategories={urlData.categories}
+            onSale={sale}
+            organic={organic}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+          />
+          <ProductList products={milkProducts} />
+        </div>
       </div>
     </DocumentTitle>
   );

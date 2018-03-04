@@ -18,4 +18,5 @@ deploy:
   on:
     branch: master
   local-dir: build
-
+notifications:
+  email: false
