@@ -25,8 +25,12 @@ addDecorator(story => <MemoryRouter>{story()}</MemoryRouter>);
 storiesOf('Header', module)
   .add('with initial props', () => <Header {...emptyProps} />)
   .add('with three items in cart', () => <Header {...threeItemsInCartProps} />)
-  .add('with logged in user, no items', () => <Header {...emptyLoggedInProps} />)
-  .add('with logged in user, three items', () => <Header {...threeItemsInCartLoggedInProps} />);
+  .add('with logged in user, no items', () => (
+    <Header {...emptyLoggedInProps} />
+  ))
+  .add('with logged in user, three items', () => (
+    <Header {...threeItemsInCartLoggedInProps} />
+  ));
 
 storiesOf('PageHeader', module).add('with standard props', () => (
   <PageHeader title="Milk Products" backText="All categories" />
@@ -36,7 +40,9 @@ storiesOf('ProductList', module).add('with standard props', () => (
   <ProductList products={milkProducts} />
 ));
 
-storiesOf('FilterMenu', module).add('with standard props', () => <FilterMenu />);
+storiesOf('FilterMenu', module).add('with standard props', () => (
+  <FilterMenu />
+));
 
 storiesOf('ProductPage', module)
   .add('with initial props', () => (

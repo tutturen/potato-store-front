@@ -64,14 +64,21 @@ class CartPage extends React.Component {
             </div>
             {productList.map(product => <CartItem product={product} />)}
             {!hasProducts && (
-              <div className="cart-content-no-items">You have no products in your cart.</div>
+              <div className="cart-content-no-items">
+                You have no products in your cart.
+              </div>
             )}
           </div>
           <div className="cart-summary">
             {totalDiscount > 0 && (
-              <SummaryRow text="Total before discount:" amount={totalBeforeDiscount} />
+              <SummaryRow
+                text="Total before discount:"
+                amount={totalBeforeDiscount}
+              />
             )}
-            {totalDiscount > 0 && <SummaryRow text="Discount:" amount={totalDiscount} />}
+            {totalDiscount > 0 && (
+              <SummaryRow text="Discount:" amount={totalDiscount} />
+            )}
             <SummaryRow text="Total:" amount={total} />
             {hasProducts && (
               <button className="cart-buy-button" onClick={this.handleBuy}>

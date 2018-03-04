@@ -36,13 +36,17 @@ class CartPage extends React.Component {
     if (this.props.cart.has('products')) {
       productList = this.props.cart.get('products').map(p => (
         <p key={p.id}>
-          {p.name} <button onClick={() => this.props.cart.get('remove')(p.id)}>Remove</button>
+          {p.name}{' '}
+          <button onClick={() => this.props.cart.get('remove')(p.id)}>
+            Remove
+          </button>
         </p>
       ));
     }
     const rawProductList = this.props.products.map(p => (
       <p key={p}>
-        {p} <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button>
+        {p}{' '}
+        <button onClick={() => this.props.cart.get('remove')(p)}>Remove</button>
       </p>
     ));
     return (
