@@ -28,7 +28,12 @@ class App extends Component {
   _getUserFromLocalStorage() {
     const localStorageValueOrDefault = localStorage.getItem(USER_KEY) || '{}';
     // Use immutable Map to help us with updating state only through this.setState
-    return Map(JSON.parse(localStorageValueOrDefault));
+    const parsed = Map(JSON.parse(localStorageValueOrDefault));
+    if (parsed.has('username')) {
+      return parsed.set('loggedIn', true);
+    } else {
+      return parsed.set('loggedIn', false);
+    }
   }
 
   componentDidMount() {
@@ -129,14 +134,17 @@ class App extends Component {
     });
     const cart = this.state.cart.merge(cartMethods);
 
+    const userMethods = Map({
+      login: this.login.bind(this),
+      signup: this.signup.bind(this),
+      logout: this.logout.bind(this),
+    });
+    const user = this.state.user.merge(userMethods);
+
     return (
-      <Layout products={this.state.products} cart={cart} user={this.state.user}>
+      <Layout products={this.state.products} cart={cart} user={user}>
         <DocumentTitle title="Potato Store">
-          <Main
-            products={this.state.products}
-            cart={cart}
-            user={this.state.user}
-          />
+          <Main products={this.state.products} cart={cart} user={user} />
         </DocumentTitle>
       </Layout>
     );
@@ -194,6 +202,97 @@ class App extends Component {
 
   _setLocalProducts(products) {
     localStorage.setItem(PRODUCT_LIST_KEY, JSON.stringify(products));
+  }
+
+  /**************************************
+   * USER FUNCTIONS
+   *************************************/
+  login({ username, password }) {
+    const query = `
+mutation DoLogin($u: String!, $p: String!) {
+  login(username: $u, password: $p) {
+    success
+    token
+    user {
+      username
+      firstName
+      lastName
+    }
+  }
+} 
+    `;
+    const variables = {
+      u: username,
+      p: password,
+    };
+    return (
+      makeApiCall(query, variables)
+        .then(body => body.login)
+        // Throw if we did not log in
+        .then(this._checkSuccessFactory('Wrong username or password'))
+        // Save values
+        .then(this._handleLoginResponse.bind(this))
+    );
+  }
+
+  signup({ firstName, lastName, username, password }) {
+    const query = `
+mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: String!, $password: String!) {
+  createAccount(firstName: $firstName, lastName: $lastName, username: $username, password: $password) {
+    success
+    token
+    user {
+      username
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+    const variables = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      password: password,
+    };
+    return makeApiCall(query, variables)
+      .then(body => body.createAccount)
+      .then(
+        this._checkSuccessFactory(
+          'Could create account. Make sure all fields are filled, or pick another username!',
+        ),
+      )
+      .then(this._handleLoginResponse.bind(this));
+  }
+
+  _checkSuccessFactory(errorMessage) {
+    return result => {
+      if (!result.success) {
+        throw new Error(errorMessage);
+      }
+      return result;
+    };
+  }
+
+  _handleLoginResponse(result) {
+    if (result.token) {
+      localStorage.setItem('jwt', result.token);
+    }
+    if (result.user) {
+      this._setLocalUser(result.user);
+      this.setState({ user: this._getUserFromLocalStorage() });
+    }
+    return result;
+  }
+
+  _setLocalUser(user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  logout() {
+    localStorage.removeItem('jwt');
+    this._setLocalUser(Map());
+    this.setState({ user: this._getUserFromLocalStorage() });
   }
 }
 
