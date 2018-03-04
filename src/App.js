@@ -220,6 +220,7 @@ mutation DoLogin($u: String!, $p: String!) {
       p: password,
     };
     return makeApiCall(query, variables)
+      .then(body => body.login)
       // Throw if we did not log in
       .then(this._checkSuccessFactory('Wrong username or password'))
       // Save values
