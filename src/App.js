@@ -238,7 +238,11 @@ mutation PerformPurchase($products: [ID!]!) {
         }
         return buy;
       })
-      .then(buy => buy.cart);
+      .then(buy => buy.cart)
+      .then(oldCart => {
+        this.clearCart();
+        return oldCart;
+      });
   }
   /**************************************
    * USER FUNCTIONS
