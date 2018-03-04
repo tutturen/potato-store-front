@@ -11,20 +11,19 @@ class SignUpPageWithoutRouter extends React.Component {
   render() {
     return (
       <DocumentTitle title="Sign up - Potato Store">
-        <SignupForm
-          onSubmit={form => this.handleSubmit(form)}
-        />
+        <SignupForm onSubmit={form => this.handleSubmit(form)} />
       </DocumentTitle>
     );
   }
 
   handleSubmit(form) {
-    return this.props.user.get('signup')(form)
+    return this.props.user
+      .get('signup')(form)
       .then(body => {
         // TODO: Take in URL parameter which says where we should redirect on success
-        this.props.history.push({pathname: '/cart'});
+        this.props.history.push({ pathname: '/cart' });
         return body;
-      })
+      });
   }
 }
 
@@ -85,7 +84,8 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
 
 const SignupForm = withFormik({
   handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-    props.onSubmit(values)
+    props
+      .onSubmit(values)
       .catch(e => {
         setErrors({
           generic: e.message,

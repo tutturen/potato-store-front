@@ -138,7 +138,7 @@ class App extends Component {
     return (
       <Layout products={this.state.products} cart={cart} user={user}>
         <DocumentTitle title="Potato Store">
-          <Main products={this.state.products} cart={cart} user={user}/>
+          <Main products={this.state.products} cart={cart} user={user} />
         </DocumentTitle>
       </Layout>
     );
@@ -201,7 +201,7 @@ class App extends Component {
   /**************************************
    * USER FUNCTIONS
    *************************************/
-  login({username, password}) {
+  login({ username, password }) {
     const query = `
 mutation DoLogin($u: String!, $p: String!) {
   login(username: $u, password: $p) {
@@ -219,15 +219,17 @@ mutation DoLogin($u: String!, $p: String!) {
       u: username,
       p: password,
     };
-    return makeApiCall(query, variables)
-      .then(body => body.login)
-      // Throw if we did not log in
-      .then(this._checkSuccessFactory('Wrong username or password'))
-      // Save values
-      .then(this._handleLoginResponse.bind(this));
+    return (
+      makeApiCall(query, variables)
+        .then(body => body.login)
+        // Throw if we did not log in
+        .then(this._checkSuccessFactory('Wrong username or password'))
+        // Save values
+        .then(this._handleLoginResponse.bind(this))
+    );
   }
 
-  signup({firstName, lastName, username, password}) {
+  signup({ firstName, lastName, username, password }) {
     const query = `
 mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: String!, $password: String!) {
   createAccount(firstName: $firstName, lastName: $lastName, username: $username, password: $password) {
@@ -249,17 +251,21 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
     };
     return makeApiCall(query, variables)
       .then(body => body.createAccount)
-      .then(this._checkSuccessFactory('Could create account. Make sure all fields are filled, or pick another username!'))
+      .then(
+        this._checkSuccessFactory(
+          'Could create account. Make sure all fields are filled, or pick another username!',
+        ),
+      )
       .then(this._handleLoginResponse.bind(this));
   }
 
   _checkSuccessFactory(errorMessage) {
-    return (result) => {
+    return result => {
       if (!result.success) {
         throw new Error(errorMessage);
       }
       return result;
-    }
+    };
   }
 
   _handleLoginResponse(result) {
@@ -268,7 +274,7 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
     }
     if (result.user) {
       this._setLocalUser(result.user);
-      this.setState({user: this._getUserFromLocalStorage()});
+      this.setState({ user: this._getUserFromLocalStorage() });
     }
     return result;
   }
@@ -276,7 +282,6 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
   _setLocalUser(user) {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-
 }
 
 export default App;

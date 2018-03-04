@@ -17,9 +17,10 @@ class LoginPageWithoutRouter extends React.Component {
   }
 
   handleSubmit(form) {
-    return this.props.user.get('login')(form)
+    return this.props.user
+      .get('login')(form)
       .then(body => {
-        this.props.history.replace({pathname: '/cart'});
+        this.props.history.replace({ pathname: '/cart' });
         return body;
       });
   }
@@ -58,8 +59,9 @@ const InnerLoginForm = ({ values, handleChange, handleSubmit, errors }) => (
 
 const LoginForm = withFormik({
   handleSubmit: (values, { props, setErrors, setSubmitting }) => {
-    props.onSubmit(values)
-      .catch(e => setErrors({generic: e.message}))
+    props
+      .onSubmit(values)
+      .catch(e => setErrors({ generic: e.message }))
       .then(() => setSubmitting(false));
   },
 })(InnerLoginForm);
