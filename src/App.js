@@ -234,6 +234,8 @@ mutation PerformPurchase($products: [ID!]!) {
       .then(body => body.buy)
       .then(buy => {
         if (!buy.success) {
+          // Make sure we're in sync with reality
+          this.logout();
           throw new Error('Authentication required');
         }
         return buy;
