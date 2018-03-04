@@ -42,15 +42,20 @@ class GraphError extends Error {
 }
 
 function graphErrorToString(graphError) {
-  const errorDescriptions = graphError.graphErrors.map(e => {
-    let locationStr = '';
-    if (e.locations) {
-      locationStr = e.locations.map(l => `Line ${l.line}, column ${l.column}`).join(' and ') + ': ';
-    }
+  const errorDescriptions = graphError.graphErrors
+    .map(e => {
+      let locationStr = '';
+      if (e.locations) {
+        locationStr =
+          e.locations
+            .map(l => `Line ${l.line}, column ${l.column}`)
+            .join(' and ') + ': ';
+      }
 
-    return `${locationStr}${e.message}`
-  }).join('; ');
+      return `${locationStr}${e.message}`;
+    })
+    .join('; ');
   return graphError.message + ': ' + errorDescriptions;
 }
 
-export {GraphError};
+export { GraphError };

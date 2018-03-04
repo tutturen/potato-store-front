@@ -3,15 +3,16 @@ import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
 
-
 /**
  * Page where you sign up for a new account.
  */
 class SignUpPage extends React.Component {
   render() {
-    return (<DocumentTitle title="Sign up - Potato Store">
-      <SignupForm onSubmit={form => console.log(form)} />
-    </DocumentTitle>);
+    return (
+      <DocumentTitle title="Sign up - Potato Store">
+        <SignupForm onSubmit={form => console.log(form)} />
+      </DocumentTitle>
+    );
   }
 }
 
@@ -58,7 +59,11 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
           className="signup-form-element-input"
         />
       </div>
-      <input type="submit" className="signup-form-button" value="Create Account" />
+      <input
+        type="submit"
+        className="signup-form-button"
+        value="Create Account"
+      />
     </div>
   </form>
 );

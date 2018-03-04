@@ -10,13 +10,21 @@ function Header(props) {
     <div className="header-container">
       <div className="header-left-content">
         <img src={potatoLogo} className="potato-logo" alt="Potato Logo" />
-        <img src={potatoLogoText} className="potato-logo-text" alt="Potato Store" />
+        <img
+          src={potatoLogoText}
+          className="potato-logo-text"
+          alt="Potato Store"
+        />
       </div>
       <div className="header-middle-content">
         <SearchBar text="melk" />
       </div>
       <div className="header-right-content">
-        <img src={shoppingCartIcon} className="shopping-cart-icon" alt="Shopping Cart" />
+        <img
+          src={shoppingCartIcon}
+          className="shopping-cart-icon"
+          alt="Shopping Cart"
+        />
       </div>
     </div>
   );
