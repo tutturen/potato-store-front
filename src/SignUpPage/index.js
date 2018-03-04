@@ -24,7 +24,7 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
         <input
           autoFocus
           onChange={handleChange}
-          name="firstname"
+          name="firstName"
           type="text"
           className="signup-form-element-input"
         />
@@ -34,7 +34,7 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit }) => (
         <input
           autoFocus
           onChange={handleChange}
-          name="lastname"
+          name="lastName"
           type="text"
           className="signup-form-element-input"
         />
