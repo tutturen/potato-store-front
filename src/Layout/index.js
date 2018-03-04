@@ -7,12 +7,12 @@ import Content from '../Content';
  */
 class Layout extends React.Component {
   render() {
-    return <div>
-      <Header {...this.props}/>
-      <Content>
-        {this.props.children}
-      </Content>
-    </div>;
+    return (
+      <div>
+        <Header {...this.props} />
+        <Content>{this.props.children}</Content>
+      </div>
+    );
   }
 }
 

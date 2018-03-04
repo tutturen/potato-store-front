@@ -8,7 +8,10 @@ import MinMaxSelect from './MinMaxSelect';
 function FilterMenu(props) {
   return (
     <div className="filtermenu-container">
-      <CategoryFilter categories={props.categories} checkedCategories={props.checkedCategories} />
+      <CategoryFilter
+        categories={props.categories}
+        checkedCategories={props.checkedCategories}
+      />
 
       <FilterBox title="Organic">
         <TripleSelect

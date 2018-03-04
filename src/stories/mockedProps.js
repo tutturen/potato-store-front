@@ -1,6 +1,5 @@
-import {Map, List} from 'immutable';
+import { Map, List } from 'immutable';
 import filledCart from './filledCart.json';
-
 
 export const productsFilled = List([0, 3, 2]);
 export const cartFilledBase = Map(filledCart);

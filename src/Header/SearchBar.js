@@ -14,7 +14,11 @@ const SearchForm = ({ values, handleChange, handleSubmit }) => (
         type="text"
         value={values.query}
       />
-      <input type="submit" value="search" className="header-search-bar-button" />
+      <input
+        type="submit"
+        value="search"
+        className="header-search-bar-button"
+      />
     </div>
   </form>
 );
