@@ -137,6 +137,7 @@ class App extends Component {
     const userMethods = Map({
       login: this.login.bind(this),
       signup: this.signup.bind(this),
+      logout: this.logout.bind(this),
     });
     const user = this.state.user.merge(userMethods);
 
@@ -286,6 +287,12 @@ mutation DoAccountCreation($firstName: String!, $lastName: String!, $username: S
 
   _setLocalUser(user) {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  logout() {
+    localStorage.removeItem('jwt');
+    this._setLocalUser(Map());
+    this.setState({ user: this._getUserFromLocalStorage() });
   }
 }
 
