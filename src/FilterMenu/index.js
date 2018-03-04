@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import './FilterMenu.css';
 import CategoryFilter from './CategoryFilter';
 import FilterBox from './FilterBox';

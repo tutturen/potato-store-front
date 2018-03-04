@@ -28,10 +28,6 @@ function MinMaxForm({ values, handleChange, handleBlur }) {
   );
 }
 
-function changeUrlState(minimum, maximum) {
-  console.log('changing url state to', minimum, maximum);
-}
-
 const MinMaxSelect = withFormik({
   mapPropsToValues: props => ({ minimum: props.minimum, maximum: props.maximum, intervalId: null }),
   validateOnChange: false,
