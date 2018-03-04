@@ -23,6 +23,8 @@ GraphError.prototype.toString = function() {
 };
 */
 
+// Based on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Examples
+// This method does not really work, and not the one above either.
 class GraphError extends Error {
   constructor(graphErrors = [], graphData = {}, graphQuery = '', ...params) {
     super(...params);

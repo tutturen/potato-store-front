@@ -9,6 +9,37 @@ import { List, Map } from 'immutable';
 const PRODUCT_LIST_KEY = 'products';
 const USER_KEY = 'user';
 
+const cartQueryContents = `
+      products {
+        id
+        name
+        subtitle
+        image
+        price
+        unitPrice
+        unit
+        category {
+          name
+          id
+        }
+        organic
+        percentSale {
+          cut
+        }
+        packageDeal {
+          product {
+            id
+            name
+          }
+          paidQuantity
+          minimumQuantity
+        }
+      }
+      totalBeforeDiscount
+      totalDiscount
+      total
+`;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -59,34 +90,7 @@ class App extends Component {
     const query = `
   query FetchCart($products: [ID!]!) {
     cart(products: $products) {
-      products {
-        id
-        name
-        subtitle
-        image
-        price
-        unitPrice
-        unit
-        category {
-          name
-          id
-        }
-        organic
-        percentSale {
-          cut
-        }
-        packageDeal {
-          product {
-            id
-            name
-          }
-          paidQuantity
-          minimumQuantity
-        }
-      }
-      totalBeforeDiscount
-      totalDiscount
-      total
+      ${cartQueryContents}
     }
   }
   `;
@@ -131,6 +135,7 @@ class App extends Component {
       add: this.addProductToCart.bind(this),
       remove: this.removeProductFromCart.bind(this),
       clear: this.clearCart.bind(this),
+      buy: this.buyCart.bind(this),
     });
     const cart = this.state.cart.merge(cartMethods);
 
@@ -204,6 +209,43 @@ class App extends Component {
     localStorage.setItem(PRODUCT_LIST_KEY, JSON.stringify(products));
   }
 
+  /**
+   * Buy the current contents of the cart.
+   *
+   * Returns a promise which resolves to the cart, the way it was when
+   * purchased. If the user is not logged in, the promise will be rejected with
+   * a MustAuthenticate error (from src/api/error.js).
+   */
+  buyCart() {
+    const query = `
+mutation PerformPurchase($products: [ID!]!) {
+  buy(products: $products) {
+    success
+    cart {
+      ${cartQueryContents}
+    }
+  }
+}
+    `;
+    const variables = {
+      products: this.state.products,
+    };
+    return makeApiCall(query, variables)
+      .then(body => body.buy)
+      .then(buy => {
+        if (!buy.success) {
+          // Make sure we're in sync with reality
+          this.logout();
+          throw new Error('Authentication required');
+        }
+        return buy;
+      })
+      .then(buy => buy.cart)
+      .then(oldCart => {
+        this.clearCart();
+        return oldCart;
+      });
+  }
   /**************************************
    * USER FUNCTIONS
    *************************************/
