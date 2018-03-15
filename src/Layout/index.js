@@ -9,7 +9,7 @@ class Layout extends React.Component {
   render() {
     return (
       <div>
-        <Header {...this.props} />
+        <Header />
         <Content>{this.props.children}</Content>
       </div>
     );

@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
@@ -8,7 +10,7 @@ import { getState } from '../state/urlState';
 import { makeApiCall } from '../api/general';
 import './ProductPage.css';
 
-const productsQuery = `
+const PRODUCTS_QUERY = gql`
   query GetProducts(
     $text: String
     $minPrice: Float
@@ -51,69 +53,52 @@ function getBool(str) {
   return null;
 }
 
-class ProductPage extends React.Component {
-  state = {
-    products: [],
-    categories: [],
+function ProductPage(props) {
+  const urlData = getState(props.location.search);
+  const organic = urlData.organic || 'ignore';
+  const sale = urlData.sale || 'ignore';
+  const minPrice = urlData.minimum || 0;
+  const maxPrice = urlData.maximum || 2000;
+  const query = urlData.query || '';
+  const title = query ? `Search for "${query}"` : 'All Products';
+
+  const variables = {
+    minPrice: urlData.minimum || null,
+    maxPrice: urlData.maximum || null,
+    organic: getBool(urlData.organic),
+    onSale: getBool(urlData.onSale),
+    text: urlData.query || null,
+    category: urlData.categories || [],
   };
 
-  getUrlData() {
-    return getState(this.props.location.search);
-  }
-
-  fetchProducts() {
-    const urlData = this.getUrlData();
-    const variables = {
-      minPrice: urlData.minimum || null,
-      maxPrice: urlData.maximum || null,
-      organic: getBool(urlData.organic),
-      onSale: getBool(urlData.onSale),
-      text: urlData.query || null,
-      category: urlData.categories || [],
-    };
-
-    makeApiCall(productsQuery, variables).then(res => {
-      this.setState({
-        products: res.allProducts,
-        categories: res.allCategories,
-      });
-    });
-  }
-
-  componentDidMount() {
-    this.fetchProducts();
-  }
-
-  render() {
-    const urlData = this.getUrlData();
-    const organic = urlData.organic || 'ignore';
-    const sale = urlData.sale || 'ignore';
-    const minPrice = urlData.minimum || 0;
-    const maxPrice = urlData.maximum || 2000;
-    const query = urlData.query || '';
-    const title = query ? `Search for "${query}"` : 'All Products';
-
-    return (
-      <DocumentTitle title={`${title} - Potato Store`}>
-        <div>
-          <PageHeader title={title} />
-          <div className="productpage-row-content">
-            <FilterMenu
-              categories={this.state.categories}
-              checkedCategories={urlData.categories}
-              onSale={sale}
-              organic={organic}
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-            />
-            <ProductList
-              products={this.state.products}
-              onBuyProduct={product => this.props.cart.get('add')(product.id)}
-            />
-          </div>
-        </div>
-      </DocumentTitle>
-    );
-  }
+  return (
+    <DocumentTitle title={`${title} - Potato Store`}>
+      <div>
+        <PageHeader title={title} />
+        <Query query={PRODUCTS_QUERY} variables={variables}>
+          {({ loading, error, data }) => {
+            console.log(loading, error, data);
+            return (
+              <div className="productpage-row-content">
+                <FilterMenu
+                  categories={data.allCategories || []}
+                  checkedCategories={urlData.categories}
+                  onSale={sale}
+                  organic={organic}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                />
+                <ProductList
+                  products={data.allProducts || []}
+                  onBuyProduct={product => props.cart.get('add')(product.id)}
+                />
+              </div>
+            );
+          }}
+        </Query>
+      </div>
+    </DocumentTitle>
+  );
 }
+
 export default withRouter(ProductPage);

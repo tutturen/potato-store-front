@@ -16,23 +16,20 @@ function Main(props) {
       <Route
         exact
         path="/"
-        render={routeProps => <ProductPage {...routeProps} {...props} />}
+        render={routeProps => <ProductPage {...routeProps} />}
       />
       <Route
         path="/signup"
-        render={routeProps => <SignUpPage {...routeProps} {...props} />}
+        render={routeProps => <SignUpPage {...routeProps} />}
       />
       <Route
         path="/login"
-        render={routeProps => <LogInPage {...routeProps} {...props} />}
+        render={routeProps => <LogInPage {...routeProps} />}
       />
-      <Route
-        path="/cart"
-        render={routeProps => <CartPage {...routeProps} {...props} />}
-      />
+      <Route path="/cart" render={routeProps => <CartPage {...routeProps} />} />
       <Route
         path="/order"
-        render={routeProps => <OrderPage {...routeProps} {...props} />}
+        render={routeProps => <OrderPage {...routeProps} />}
       />
       <Route component={PageNotFoundPage} />
     </Switch>

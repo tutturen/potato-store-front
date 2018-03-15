@@ -16,7 +16,7 @@ function ProductList(props) {
       </div>
       <div className="productlist-products">
         {props.products.map(product => (
-          <div className="productlist-item-container">
+          <div className="productlist-item-container" key={product.id}>
             <div
               className="productlist-item"
               key={product.name + product.image}
