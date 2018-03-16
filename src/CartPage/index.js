@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
-import { Query, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import './CartPage.css';
@@ -41,14 +41,12 @@ function SummaryRow({ text, amount }) {
  * Page showing the current contents of the cart.
  */
 function CartPage(props) {
-  console.log('PROPS', props);
   const { loading, error, cart } = props.data;
 
-  if (props.data.loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
-  if (props.data.error) {
-    console.error(error);
+  if (error) {
     return <div>Error!</div>;
   }
 

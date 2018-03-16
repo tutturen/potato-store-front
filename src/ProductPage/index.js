@@ -7,7 +7,6 @@ import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
 import ProductList from '../ProductList';
 import { getState } from '../state/urlState';
-import { makeApiCall } from '../api/general';
 import './ProductPage.css';
 
 const PRODUCTS_QUERY = gql`
@@ -77,7 +76,6 @@ function ProductPage(props) {
         <PageHeader title={title} />
         <Query query={PRODUCTS_QUERY} variables={variables}>
           {({ loading, error, data }) => {
-            console.log(loading, error, data);
             return (
               <div className="productpage-row-content">
                 <FilterMenu

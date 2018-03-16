@@ -7,7 +7,7 @@ import shoppingCartIcon from './shopping-cart.svg';
 import SearchBar from './SearchBar';
 
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, graphql } from 'react-apollo';
 
 const HEADER_QUERY = gql`
   query {
@@ -26,7 +26,10 @@ function LoggedInMessage(props) {
     <p className="user-logged-in">
       Welcome, {props.user.firstName} {props.user.lastName}. (<a
         href=""
-        onClick={props.logout}
+        onClick={e => {
+          e.preventDefault();
+          props.logOut();
+        }}
       >
         Sign out
       </a>)
@@ -46,7 +49,6 @@ function Header(props) {
   return (
     <Query query={HEADER_QUERY}>
       {({ loading, error, data }) => {
-        console.log(loading, error, data);
         if (loading) {
           return <div>Loading...</div>;
         }
@@ -75,7 +77,7 @@ function Header(props) {
             </div>
             <div className="header-user">
               {data.user.loggedIn ? (
-                <LoggedInMessage user={data.user} />
+                <LoggedInMessage user={data.user} logOut={props.logOut} />
               ) : (
                 <LoggedOutMessage />
               )}
@@ -97,4 +99,10 @@ function Header(props) {
   );
 }
 
-export default Header;
+const LOG_OUT = gql`
+  mutation {
+    logOut @client
+  }
+`;
+
+export default graphql(LOG_OUT, { name: 'logOut' })(Header);

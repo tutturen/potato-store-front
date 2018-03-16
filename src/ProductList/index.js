@@ -10,7 +10,6 @@ function getPrice(priceFloat) {
 
 function ProductListItem(props) {
   const { product } = props;
-  console.log('PRODUCT', product);
   return (
     <div className="productlist-item-container">
       <div className="productlist-item" key={product.name + product.image}>

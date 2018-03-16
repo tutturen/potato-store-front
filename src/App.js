@@ -9,6 +9,7 @@ import { withClientState } from 'apollo-link-state';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import gql from 'graphql-tag';
+import { persistCache } from 'apollo-cache-persist';
 
 import Layout from './Layout';
 import Main from './Main';
@@ -16,7 +17,8 @@ import Main from './Main';
 const cache = new InMemoryCache();
 
 const typeDefs = `
-  type User {
+  type UserType {
+    id: ID!
     loggedIn: Bool!
     firstName: String
     lastName: String
@@ -24,7 +26,7 @@ const typeDefs = `
   }
 
   type Query {
-    user: User
+    user: UserType
     cartItems: [Int!]!
   }
 
@@ -32,6 +34,18 @@ const typeDefs = `
     addToCart(productId: Int!): Int
   }
 `;
+
+const defaultState = {
+  user: {
+    id: 0,
+    __typename: 'UserType',
+    loggedIn: false,
+    username: 'John',
+    firstName: 'John',
+    lastName: 'Johnson',
+  },
+  cartItems: [],
+};
 
 const stateLink = withClientState({
   cache,
@@ -50,18 +64,12 @@ const stateLink = withClientState({
         cache.writeData({ data });
         return productId;
       },
+      logOut: (_, __, { cache }) => {
+        cache.writeData({ data: defaultState });
+      },
     },
   },
-  defaults: {
-    user: {
-      __typename: 'User',
-      loggedIn: false,
-      username: 'John',
-      firstName: 'John',
-      lastName: 'Johnson',
-    },
-    cartItems: [1, 2, 3],
-  },
+  defaults: defaultState,
   typeDefs,
 });
 
@@ -80,6 +88,11 @@ const authLink = setContext((_, { headers }) => {
       Authorization: token ? `JWT ${token}` : '',
     },
   };
+});
+
+persistCache({
+  cache,
+  storage: window.localStorage,
 });
 
 const client = new ApolloClient({
