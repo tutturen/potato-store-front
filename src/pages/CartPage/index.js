@@ -3,15 +3,8 @@ import DocumentTitle from 'react-document-title';
 import PageHeader from '../../components/PageHeader';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import './CartPage.css';
-
-function getPrice(priceFloat) {
-  const overOne = parseInt(priceFloat, 10);
-  const belowOne = Math.round((priceFloat - overOne) * 100);
-  const belowText = belowOne < 10 ? `0${belowOne}` : belowOne;
-  return `kr ${overOne},${belowText}`;
-}
+import getPrice from '../../utils/getPrice';
 
 function CartItem(props) {
   const { image, name, subtitle, price } = props.product;
