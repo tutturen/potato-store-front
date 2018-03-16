@@ -7,6 +7,15 @@ const query = gql`
   }
 `;
 
-const options = { name: 'logOut' };
+const options = {
+  props: ({ ownProps, mutate }) => ({
+    logOut: () =>
+      mutate({
+        update: () => {
+          ownProps.history.push({ pathname: '/' });
+        },
+      }),
+  }),
+};
 
 export default graphql(query, options);

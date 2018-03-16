@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Query, compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import potatoLogo from './potato-logo.svg';
 import potatoLogoText from './potato-logo-text.svg';
 import shoppingCartIcon from './shopping-cart.svg';
@@ -87,4 +88,4 @@ function Header(props) {
   );
 }
 
-export default compose(logout)(Header);
+export default compose(withRouter, logout)(Header);
