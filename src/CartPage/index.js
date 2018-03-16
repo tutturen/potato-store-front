@@ -37,31 +37,6 @@ function SummaryRow({ text, amount }) {
   );
 }
 
-const CART_QUERY = gql`
-  query FetchCart($products: [ID!]!) {
-    cart(products: $products) {
-      products {
-        id
-        name
-        subtitle
-        price
-        image
-      }
-      total
-      totalDiscount
-      totalBeforeDiscount
-    }
-  }
-`;
-
-const BUY_CART = gql`
-  mutation PerformPurchase($products: [ID!]!) {
-    buy(products: $products) {
-      success
-    }
-  }
-`;
-
 /**
  * Page showing the current contents of the cart.
  */
@@ -126,12 +101,30 @@ const CART_ITEMS_QUERY = gql`
   }
 `;
 
-/*
-{
-  props: ({ mutate }) => ({
-    submit: (repoFullName) => mutate({ variables: { repoFullName } }),
-  }),
-*/
+const CART_QUERY = gql`
+  query FetchCart($products: [ID!]!) {
+    cart(products: $products) {
+      products {
+        id
+        name
+        subtitle
+        price
+        image
+      }
+      total
+      totalDiscount
+      totalBeforeDiscount
+    }
+  }
+`;
+
+const BUY_CART = gql`
+  mutation PerformPurchase($products: [ID!]!) {
+    buy(products: $products) {
+      success
+    }
+  }
+`;
 
 export default compose(
   graphql(CART_ITEMS_QUERY),
@@ -144,15 +137,12 @@ export default compose(
     props: ({ ownProps, mutate }) => {
       return {
         buyCart() {
-          console.log('ownProps:', ownProps);
           return mutate({
             variables: {
               products: ownProps.data.cart.products.map(prod => prod.id),
             },
             update: (store, response) => {
               if (response.data.buy.success) {
-                // Empty the cart
-
                 // Empty cart query
                 const cartItemsQuery = gql`
                   query {
