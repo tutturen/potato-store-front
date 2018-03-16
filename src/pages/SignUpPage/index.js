@@ -3,8 +3,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
-import { compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { compose } from 'react-apollo';
+import signUpMutation from '../../mutations/signup';
 
 /**
  * Page where you sign up for a new account.
@@ -79,82 +79,10 @@ const SignupForm = withFormik({
     props
       .onSubmit(values)
       .catch(e => {
-        setErrors({
-          generic: e.message,
-        });
+        setErrors({ generic: e.message });
       })
       .then(() => setSubmitting(false));
   },
 })(InnerSignupForm);
-
-const SIGNUP = gql`
-  mutation CreateAccount(
-    $firstName: String!
-    $lastName: String!
-    $username: String!
-    $password: String!
-  ) {
-    createAccount(
-      firstName: $firstName
-      lastName: $lastName
-      username: $username
-      password: $password
-    ) {
-      success
-      token
-      user {
-        id
-        username
-        firstName
-        lastName
-      }
-    }
-  }
-`;
-
-const signUpMutation = graphql(SIGNUP, {
-  props: ({ ownProps, mutate }) => ({
-    createAccount: ({ username, password, firstName, lastName }) =>
-      mutate({
-        variables: { username, password, firstName, lastName },
-        update: (store, response) => {
-          const { token, user, success } = response.data.createAccount;
-
-          // Why do we even bother with a success param if we throw errors
-          // when the login fails?
-          if (success) {
-            localStorage.setItem('jwt', token);
-
-            if (user) {
-              const userQuery = gql`
-                query {
-                  user @client {
-                    id
-                    username
-                    firstName
-                    lastName
-                    loggedIn
-                  }
-                }
-              `;
-
-              const newUser = Object.assign({}, user, {
-                loggedIn: true,
-              });
-
-              store.writeQuery({
-                query: userQuery,
-                data: { user: newUser },
-              });
-            }
-
-            // Redirect the user to cart page
-            ownProps.history.push({ pathname: '/cart' });
-            return response;
-          }
-        },
-      }),
-  }),
-});
 
 export default compose(signUpMutation, withRouter)(SignUpPage);

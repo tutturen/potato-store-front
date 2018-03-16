@@ -3,8 +3,8 @@ import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './LoginPage.css';
 import DocumentTitle from 'react-document-title';
-import { compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { compose } from 'react-apollo';
+import loginMutation from '../../mutations/login';
 
 /**
  * Page where you log in
@@ -69,65 +69,5 @@ const LoginForm = withFormik({
     });
   },
 })(InnerLoginForm);
-
-const LOGIN_MUTATION = gql`
-  mutation Login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      user {
-        id
-        username
-        firstName
-        lastName
-      }
-      success
-      token
-    }
-  }
-`;
-
-const loginMutation = graphql(LOGIN_MUTATION, {
-  props: ({ ownProps, mutate }) => ({
-    login: values =>
-      mutate({
-        variables: { username: values.username, password: values.password },
-        update: (store, response) => {
-          const { token, user, success } = response.data.login;
-
-          // Why do we even bother with a success param if we throw errors
-          // when the login fails?
-          if (success) {
-            localStorage.setItem('jwt', token);
-
-            if (user) {
-              const userQuery = gql`
-                query {
-                  user @client {
-                    id
-                    username
-                    firstName
-                    lastName
-                    loggedIn
-                  }
-                }
-              `;
-
-              const newUser = Object.assign({}, user, {
-                loggedIn: true,
-              });
-
-              store.writeQuery({
-                query: userQuery,
-                data: { user: newUser },
-              });
-            }
-
-            // Redirect the user to cart page
-            ownProps.history.push({ pathname: '/cart' });
-            return response;
-          }
-        },
-      }),
-  }),
-});
 
 export default compose(loginMutation, withRouter)(LoginPage);
