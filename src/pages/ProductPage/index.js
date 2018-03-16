@@ -1,46 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import DocumentTitle from 'react-document-title';
-import { Query, compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Query, compose } from 'react-apollo';
 import PageHeader from '../../components/PageHeader';
 import FilterMenu from '../../components/FilterMenu';
 import ProductList from '../../components/ProductList';
 import { getState } from '../../state/urlState';
 import './ProductPage.css';
 
-const PRODUCTS_QUERY = gql`
-  query GetProducts(
-    $text: String
-    $minPrice: Float
-    $maxPrice: Float
-    $onSale: Boolean
-    $organic: Boolean
-    $category: [ID]
-  ) {
-    allProducts(
-      filter: {
-        text: $text
-        minPrice: $minPrice
-        maxPrice: $maxPrice
-        onSale: $onSale
-        organic: $organic
-        category: $category
-      }
-    ) {
-      id
-      name
-      unit
-      price
-      subtitle
-      image
-    }
-    allCategories {
-      id
-      name
-    }
-  }
-`;
+import addToCart from '../../mutations/addToCart';
+import { query as productsQuery } from '../../queries/products';
 
 function getBool(str) {
   if (str === 'yes') {
@@ -74,7 +43,7 @@ function ProductPage(props) {
     <DocumentTitle title={`${title} - Potato Store`}>
       <div>
         <PageHeader title={title} />
-        <Query query={PRODUCTS_QUERY} variables={variables}>
+        <Query query={productsQuery} variables={variables}>
           {({ loading, error, data }) => {
             return (
               <div className="productpage-row-content">
@@ -99,17 +68,4 @@ function ProductPage(props) {
   );
 }
 
-const ADD_TO_CART = gql`
-  mutation AddToCart($productId: Int!) {
-    addToCart(productId: $productId) @client
-  }
-`;
-
-export default compose(
-  graphql(ADD_TO_CART, {
-    props: ({ mutate }) => ({
-      addToCart: product => mutate({ variables: { productId: product.id } }),
-    }),
-  }),
-  withRouter,
-)(ProductPage);
+export default compose(addToCart, withRouter)(ProductPage);
