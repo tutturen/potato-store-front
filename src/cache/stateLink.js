@@ -5,7 +5,7 @@ import { withClientState } from 'apollo-link-state';
 const typeDefs = `
   type UserType {
     id: ID!
-    loggedIn: Bool!
+    loggedIn: Boolean!
     firstName: String
     lastName: String
     username: String
@@ -18,6 +18,7 @@ const typeDefs = `
 
   type Mutation {
     addToCart(productId: Int!): Int
+    logOut: Boolean
   }
 `;
 
@@ -52,6 +53,7 @@ const stateLink = withClientState({
       },
       logOut: (_, __, { cache }) => {
         cache.writeData({ data: defaultState });
+        return true;
       },
     },
   },
