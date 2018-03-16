@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { Link } from 'react-router-dom';
-import PageHeader from '../PageHeader';
+import PageHeader from '../../components/PageHeader';
 
 export default function PageNotFoundPage(props) {
   return (

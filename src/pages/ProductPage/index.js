@@ -3,10 +3,10 @@ import { withRouter } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import { Query, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import PageHeader from '../PageHeader';
-import FilterMenu from '../FilterMenu';
-import ProductList from '../ProductList';
-import { getState } from '../state/urlState';
+import PageHeader from '../../components/PageHeader';
+import FilterMenu from '../../components/FilterMenu';
+import ProductList from '../../components/ProductList';
+import { getState } from '../../state/urlState';
 import './ProductPage.css';
 
 const PRODUCTS_QUERY = gql`

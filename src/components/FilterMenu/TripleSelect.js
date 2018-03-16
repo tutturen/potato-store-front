@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { withFormik } from 'formik';
 import './TripleSelect.css';
-import setUrlState from '../state/urlState';
+import setUrlState from '../../state/urlState';
 
 function TripleSelectForm({ values, handleChange, handleSubmit }) {
   return (

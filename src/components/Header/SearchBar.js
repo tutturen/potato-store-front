@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import './SearchBar.css';
-import setUrlState from '../state/urlState';
+import setUrlState from '../../state/urlState';
 
 const SearchForm = ({ values, handleChange, handleSubmit }) => (
   <form onSubmit={handleSubmit}>

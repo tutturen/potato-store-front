@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFormik } from 'formik';
-import setUrlState from '../state/urlState';
+import setUrlState from '../../state/urlState';
 import FilterBox from './FilterBox';
 import './CategoryFilter.css';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import PageHeader from '../PageHeader';
+import PageHeader from '../../components/PageHeader';
 import './OrderPage.css';
 
 /**

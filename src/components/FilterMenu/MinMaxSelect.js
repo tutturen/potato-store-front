@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import './MinMaxSelect.css';
-import setUrlState from '../state/urlState';
+import setUrlState from '../../state/urlState';
 
 function MinMaxForm({ values, handleChange, handleBlur }) {
   return (
