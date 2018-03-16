@@ -9,15 +9,13 @@ import gql from 'graphql-tag';
 /**
  * Page where you sign up for a new account.
  */
-function SignUpPageWithoutRouter(props) {
+function SignUpPage(props) {
   return (
     <DocumentTitle title="Sign up - Potato Store">
       <SignupForm onSubmit={props.createAccount} />
     </DocumentTitle>
   );
 }
-
-const SignUpPage = withRouter(SignUpPageWithoutRouter);
 
 const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
   <form onSubmit={handleSubmit}>
@@ -159,4 +157,4 @@ const signUpMutation = graphql(SIGNUP, {
   }),
 });
 
-export default compose(signUpMutation)(SignUpPage);
+export default compose(signUpMutation, withRouter)(SignUpPage);
