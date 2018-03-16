@@ -5,7 +5,7 @@ import thrashIcon from './thrash.svg';
 function DeleteButton(props) {
   return (
     <button className="delete-button-container" onClick={props.onClick}>
-      <img src={thrashIcon} />
+      <img src={thrashIcon} alt="Remove item" />
     </button>
   );
 }
