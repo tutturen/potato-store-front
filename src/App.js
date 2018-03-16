@@ -8,6 +8,7 @@ import { ApolloProvider } from 'react-apollo';
 import { withClientState } from 'apollo-link-state';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
+import gql from 'graphql-tag';
 
 import Layout from './Layout';
 import Main from './Main';
@@ -26,15 +27,35 @@ const typeDefs = `
     user: User
     cartItems: [Int!]!
   }
+
+  type Mutation {
+    addToCart(productId: Int!): Int
+  }
 `;
 
 const stateLink = withClientState({
   cache,
-  resolvers: {},
+  resolvers: {
+    Mutation: {
+      addToCart: (_, { productId }, { cache }) => {
+        const query = gql`
+          query GetCartItems {
+            cartItems @client
+          }
+        `;
+        const previous = cache.readQuery({ query });
+        const data = {
+          cartItems: previous.cartItems.concat([productId]),
+        };
+        cache.writeData({ data });
+        return productId;
+      },
+    },
+  },
   defaults: {
     user: {
       __typename: 'User',
-      loggedIn: true,
+      loggedIn: false,
       username: 'John',
       firstName: 'John',
       lastName: 'Johnson',

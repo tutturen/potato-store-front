@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import DocumentTitle from 'react-document-title';
-import { Query } from 'react-apollo';
+import { Query, compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import PageHeader from '../PageHeader';
 import FilterMenu from '../FilterMenu';
@@ -90,7 +90,7 @@ function ProductPage(props) {
                 />
                 <ProductList
                   products={data.allProducts || []}
-                  onBuyProduct={product => props.cart.get('add')(product.id)}
+                  onBuyProduct={props.addToCart}
                 />
               </div>
             );
@@ -101,4 +101,17 @@ function ProductPage(props) {
   );
 }
 
-export default withRouter(ProductPage);
+const ADD_TO_CART = gql`
+  mutation AddToCart($productId: Int!) {
+    addToCart(productId: $productId) @client
+  }
+`;
+
+export default compose(
+  graphql(ADD_TO_CART, {
+    props: ({ mutate }) => ({
+      addToCart: product => mutate({ variables: { productId: product.id } }),
+    }),
+  }),
+  withRouter,
+)(ProductPage);

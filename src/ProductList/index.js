@@ -8,6 +8,31 @@ function getPrice(priceFloat) {
   return `kr ${overOne},${belowText}`;
 }
 
+function ProductListItem(props) {
+  const { product } = props;
+  console.log('PRODUCT', product);
+  return (
+    <div className="productlist-item-container">
+      <div className="productlist-item" key={product.name + product.image}>
+        <img
+          className="productlist-item-image"
+          src={product.image}
+          alt={product.name}
+        />
+        <div className="productlist-item-price">{getPrice(product.price)}</div>
+        <div className="productlist-item-name">{product.name}</div>
+        <div className="productlist-item-subtitle">{product.subtitle}</div>
+      </div>
+      <button
+        onClick={() => props.onBuyProduct(product)}
+        className="productlist-buy-button"
+      >
+        Add to cart
+      </button>
+    </div>
+  );
+}
+
 function ProductList(props) {
   return (
     <div className="productlist-container">
@@ -16,31 +41,11 @@ function ProductList(props) {
       </div>
       <div className="productlist-products">
         {props.products.map(product => (
-          <div className="productlist-item-container" key={product.id}>
-            <div
-              className="productlist-item"
-              key={product.name + product.image}
-            >
-              <img
-                className="productlist-item-image"
-                src={product.image}
-                alt={product.name}
-              />
-              <div className="productlist-item-price">
-                {getPrice(product.price)}
-              </div>
-              <div className="productlist-item-name">{product.name}</div>
-              <div className="productlist-item-subtitle">
-                {product.subtitle}
-              </div>
-            </div>
-            <button
-              onClick={() => props.onBuyProduct(product)}
-              className="productlist-buy-button"
-            >
-              Add to cart
-            </button>
-          </div>
+          <ProductListItem
+            product={product}
+            key={product.id}
+            onBuyProduct={props.onBuyProduct}
+          />
         ))}
       </div>
     </div>
