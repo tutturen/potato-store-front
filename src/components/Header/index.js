@@ -1,25 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
+import { Query, compose } from 'react-apollo';
 import potatoLogo from './potato-logo.svg';
 import potatoLogoText from './potato-logo-text.svg';
 import shoppingCartIcon from './shopping-cart.svg';
 import SearchBar from './SearchBar';
-
-import gql from 'graphql-tag';
-import { Query, graphql } from 'react-apollo';
-
-const HEADER_QUERY = gql`
-  query {
-    user @client {
-      loggedIn
-      username
-      firstName
-      lastName
-    }
-    cartItems @client
-  }
-`;
+import { query as headerQuery } from '../../queries/header';
+import logout from '../../mutations/logout';
+import './Header.css';
 
 function LoggedInMessage(props) {
   return (
@@ -47,7 +35,7 @@ function LoggedOutMessage(props) {
 
 function Header(props) {
   return (
-    <Query query={HEADER_QUERY}>
+    <Query query={headerQuery}>
       {({ loading, error, data }) => {
         if (loading) {
           return <div>Loading...</div>;
@@ -73,7 +61,7 @@ function Header(props) {
               </Link>
             </div>
             <div className="header-middle-content">
-              <SearchBar text="melk" />
+              <SearchBar />
             </div>
             <div className="header-user">
               {data.user.loggedIn ? (
@@ -99,10 +87,4 @@ function Header(props) {
   );
 }
 
-const LOG_OUT = gql`
-  mutation {
-    logOut @client
-  }
-`;
-
-export default graphql(LOG_OUT, { name: 'logOut' })(Header);
+export default compose(logout)(Header);
