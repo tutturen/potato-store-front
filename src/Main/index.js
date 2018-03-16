@@ -13,11 +13,7 @@ import PageNotFoundPage from '../PageNotFoundPage';
 function Main(props) {
   return (
     <Switch>
-      <Route
-        exact
-        path="/"
-        render={routeProps => <ProductPage {...routeProps} />}
-      />
+      <Route exact path="/" render={routeProps => <ProductPage />} />
       <Route
         path="/signup"
         render={routeProps => <SignUpPage {...routeProps} />}

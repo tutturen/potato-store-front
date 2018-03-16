@@ -1,6 +1,8 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import PageHeader from '../PageHeader';
+import { Query, graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import './CartPage.css';
 
@@ -35,72 +37,141 @@ function SummaryRow({ text, amount }) {
   );
 }
 
+const CART_QUERY = gql`
+  query FetchCart($products: [ID!]!) {
+    cart(products: $products) {
+      products {
+        id
+        name
+        subtitle
+        price
+        image
+      }
+      total
+      totalDiscount
+      totalBeforeDiscount
+    }
+  }
+`;
+
+const BUY_CART = gql`
+  mutation PerformPurchase($products: [ID!]!) {
+    buy(products: $products) {
+      success
+    }
+  }
+`;
+
 /**
  * Page showing the current contents of the cart.
  */
-class CartPage extends React.Component {
-  handleBuy = () => {
-    this.props.cart
-      .get('buy')()
-      .then(() => {
-        this.props.history.push({ pathname: '/order' });
-      })
-      .catch(e => {
-        // TODO: Find a way to create custom Error which actually works (subclassing, like on MDN, does not work)
-        if (e instanceof Error && e.message === 'Authentication required') {
-          this.props.history.push({ pathname: '/login' });
-          return;
-        }
-        throw e;
-      });
-  };
+function CartPage(props) {
+  console.log('PROPS', props);
+  const { loading, error, cart } = props.data;
 
-  render() {
-    const { cart } = this.props;
-    const productList = cart.get('products') || [];
-    const totalBeforeDiscount = cart.get('totalBeforeDiscount') || 0;
-    const totalDiscount = cart.get('totalDiscount') || 0;
-    const total = cart.get('total') || 0;
-
-    const hasProducts = !!productList.length;
-
-    return (
-      <DocumentTitle title="Your Cart - Potato Store">
-        <div className="cart-container">
-          <PageHeader title="Your Cart" />
-          <div className="cart-content">
-            <div className="cart-content-header">
-              <div className="cart-content-header-product">Product</div>
-              <div className="cart-content-header-price">Price</div>
-            </div>
-            {productList.map(product => <CartItem product={product} />)}
-            {!hasProducts && (
-              <div className="cart-content-no-items">
-                You have no products in your cart.
-              </div>
-            )}
-          </div>
-          <div className="cart-summary">
-            {totalDiscount > 0 && (
-              <SummaryRow
-                text="Total before discount:"
-                amount={totalBeforeDiscount}
-              />
-            )}
-            {totalDiscount > 0 && (
-              <SummaryRow text="Discount:" amount={totalDiscount} />
-            )}
-            <SummaryRow text="Total:" amount={total} />
-            {hasProducts && (
-              <button className="cart-buy-button" onClick={this.handleBuy}>
-                Buy
-              </button>
-            )}
-          </div>
-        </div>
-      </DocumentTitle>
-    );
+  if (props.data.loading) {
+    return <div>Loading...</div>;
   }
+  if (props.data.error) {
+    console.error(error);
+    return <div>Error!</div>;
+  }
+
+  const { products, total, totalDiscount, totalBeforeDiscount } = cart;
+  const hasProducts = products && !!products.length;
+  return (
+    <DocumentTitle title="Your Cart - Potato Store">
+      <div className="cart-container">
+        <PageHeader title="Your Cart" />
+        <div className="cart-content">
+          <div className="cart-content-header">
+            <div className="cart-content-header-product">Product</div>
+            <div className="cart-content-header-price">Price</div>
+          </div>
+          {products.map(product => (
+            <CartItem key={product.id} product={product} />
+          ))}
+          {!hasProducts && (
+            <div className="cart-content-no-items">
+              You have no products in your cart.
+            </div>
+          )}
+        </div>
+        <div className="cart-summary">
+          {totalDiscount > 0 && (
+            <SummaryRow
+              text="Total before discount:"
+              amount={totalBeforeDiscount}
+            />
+          )}
+          {totalDiscount > 0 && (
+            <SummaryRow text="Discount:" amount={totalDiscount} />
+          )}
+          <SummaryRow text="Total:" amount={total} />
+          {hasProducts && (
+            <button className="cart-buy-button" onClick={props.buyCart}>
+              Buy
+            </button>
+          )}
+        </div>
+      </div>
+    </DocumentTitle>
+  );
 }
 
-export default CartPage;
+// Get the cart from localStorage
+const CART_ITEMS_QUERY = gql`
+  query {
+    cartItems @client
+  }
+`;
+
+/*
+{
+  props: ({ mutate }) => ({
+    submit: (repoFullName) => mutate({ variables: { repoFullName } }),
+  }),
+*/
+
+export default compose(
+  graphql(CART_ITEMS_QUERY),
+  graphql(CART_QUERY, {
+    options: props => {
+      return { variables: { products: props.data.cartItems } };
+    },
+  }),
+  graphql(BUY_CART, {
+    props: ({ ownProps, mutate }) => {
+      return {
+        buyCart() {
+          console.log('ownProps:', ownProps);
+          return mutate({
+            variables: {
+              products: ownProps.data.cart.products.map(prod => prod.id),
+            },
+            update: (store, response) => {
+              if (response.data.buy.success) {
+                // Empty the cart
+
+                // Empty cart query
+                const cartItemsQuery = gql`
+                  query {
+                    cartItems @client
+                  }
+                `;
+                store.writeQuery({
+                  query: cartItemsQuery,
+                  data: { cartItems: [] },
+                });
+                // Redirect the user to order page
+                ownProps.history.push({ pathname: '/order' });
+              } else {
+                console.error('Buying cart failed', response);
+              }
+            },
+          });
+        },
+      };
+    },
+  }),
+)(CartPage);
