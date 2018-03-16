@@ -13,6 +13,7 @@ import cache from './cache/cache';
 import stateLink from './cache/stateLink';
 import authLink from './cache/authLink';
 import httpLink from './cache/httpLink';
+import './App.css';
 
 persistCache({
   cache,
