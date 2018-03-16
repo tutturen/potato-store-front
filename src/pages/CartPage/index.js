@@ -4,31 +4,8 @@ import PageHeader from '../../components/PageHeader';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import './CartPage.css';
-import getPrice from '../../utils/getPrice';
-
-function CartItem(props) {
-  const { image, name, subtitle, price } = props.product;
-
-  return (
-    <div className="cart-item-container">
-      <img src={image} className="cart-item-image" alt={name} />
-      <div className="cart-item-description">
-        <div className="cart-item-description-title">{name}</div>
-        <div className="cart-item-description-subtitle">{subtitle}</div>
-      </div>
-      <div className="cart-item-price">{getPrice(price)}</div>
-    </div>
-  );
-}
-
-function SummaryRow({ text, amount }) {
-  return (
-    <div className="summary-row">
-      <div className="summary-row-text">{text}</div>
-      <div className="summary-row-amount">{getPrice(amount)}</div>
-    </div>
-  );
-}
+import CartItem from './CartItem';
+import SummaryRow from './SummaryRow';
 
 /**
  * Page showing the current contents of the cart.
