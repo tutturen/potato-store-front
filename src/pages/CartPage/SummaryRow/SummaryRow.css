@@ -1,0 +1,14 @@
+.summary-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+.summary-row-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+.summary-row-amount {
+  font-size: 18px;
+  width: 110px;
+  text-align: right;
+}
