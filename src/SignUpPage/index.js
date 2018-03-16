@@ -3,28 +3,18 @@ import { withRouter, Link } from 'react-router-dom';
 import { withFormik } from 'formik';
 import './SignUpPage.css';
 import DocumentTitle from 'react-document-title';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 /**
  * Page where you sign up for a new account.
  */
-class SignUpPageWithoutRouter extends React.Component {
-  render() {
-    return (
-      <DocumentTitle title="Sign up - Potato Store">
-        <SignupForm onSubmit={form => this.handleSubmit(form)} />
-      </DocumentTitle>
-    );
-  }
-
-  handleSubmit(form) {
-    return this.props.user
-      .get('signup')(form)
-      .then(body => {
-        // TODO: Take in URL parameter which says where we should redirect on success
-        this.props.history.push({ pathname: '/cart' });
-        return body;
-      });
-  }
+function SignUpPageWithoutRouter(props) {
+  return (
+    <DocumentTitle title="Sign up - Potato Store">
+      <SignupForm onSubmit={props.createAccount} />
+    </DocumentTitle>
+  );
 }
 
 const SignUpPage = withRouter(SignUpPageWithoutRouter);
@@ -99,4 +89,74 @@ const SignupForm = withFormik({
   },
 })(InnerSignupForm);
 
-export default SignUpPage;
+const SIGNUP = gql`
+  mutation CreateAccount(
+    $firstName: String!
+    $lastName: String!
+    $username: String!
+    $password: String!
+  ) {
+    createAccount(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      password: $password
+    ) {
+      success
+      token
+      user {
+        id
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+const signUpMutation = graphql(SIGNUP, {
+  props: ({ ownProps, mutate }) => ({
+    createAccount: ({ username, password, firstName, lastName }) =>
+      mutate({
+        variables: { username, password, firstName, lastName },
+        update: (store, response) => {
+          const { token, user, success } = response.data.createAccount;
+
+          // Why do we even bother with a success param if we throw errors
+          // when the login fails?
+          if (success) {
+            localStorage.setItem('jwt', token);
+
+            if (user) {
+              const userQuery = gql`
+                query {
+                  user @client {
+                    id
+                    username
+                    firstName
+                    lastName
+                    loggedIn
+                  }
+                }
+              `;
+
+              const newUser = Object.assign({}, user, {
+                loggedIn: true,
+              });
+
+              store.writeQuery({
+                query: userQuery,
+                data: { user: newUser },
+              });
+            }
+
+            // Redirect the user to cart page
+            ownProps.history.push({ pathname: '/cart' });
+            return response;
+          }
+        },
+      }),
+  }),
+});
+
+export default compose(signUpMutation)(SignUpPage);
