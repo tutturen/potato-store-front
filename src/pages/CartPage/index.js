@@ -7,6 +7,10 @@ import './CartPage.css';
 import CartItem from './CartItem';
 import SummaryRow from './SummaryRow';
 
+import productIdsInCart from '../../queries/productIdsInCart';
+import cart from '../../queries/cart';
+import buyCart from '../../mutations/buyCart';
+
 /**
  * Page showing the current contents of the cart.
  */
@@ -62,74 +66,4 @@ function CartPage(props) {
   );
 }
 
-// Get the cart from localStorage
-const CART_ITEMS_QUERY = gql`
-  query {
-    cartItems @client
-  }
-`;
-
-const CART_QUERY = gql`
-  query FetchCart($products: [ID!]!) {
-    cart(products: $products) {
-      products {
-        id
-        name
-        subtitle
-        price
-        image
-      }
-      total
-      totalDiscount
-      totalBeforeDiscount
-    }
-  }
-`;
-
-const BUY_CART = gql`
-  mutation PerformPurchase($products: [ID!]!) {
-    buy(products: $products) {
-      success
-    }
-  }
-`;
-
-export default compose(
-  graphql(CART_ITEMS_QUERY),
-  graphql(CART_QUERY, {
-    options: props => {
-      return { variables: { products: props.data.cartItems } };
-    },
-  }),
-  graphql(BUY_CART, {
-    props: ({ ownProps, mutate }) => {
-      return {
-        buyCart() {
-          return mutate({
-            variables: {
-              products: ownProps.data.cart.products.map(prod => prod.id),
-            },
-            update: (store, response) => {
-              if (response.data.buy.success) {
-                // Empty cart query
-                const cartItemsQuery = gql`
-                  query {
-                    cartItems @client
-                  }
-                `;
-                store.writeQuery({
-                  query: cartItemsQuery,
-                  data: { cartItems: [] },
-                });
-                // Redirect the user to order page
-                ownProps.history.push({ pathname: '/order' });
-              } else {
-                console.error('Buying cart failed', response);
-              }
-            },
-          });
-        },
-      };
-    },
-  }),
-)(CartPage);
+export default compose(productIdsInCart, cart, buyCart)(CartPage);
