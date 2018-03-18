@@ -3,6 +3,8 @@ import { withFormik } from 'formik';
 import setUrlState from '../../state/urlState';
 import FilterBox from './FilterBox';
 import './CategoryFilter.css';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'react-apollo';
 
 function CheckBox(props) {
   return (
@@ -22,7 +24,7 @@ function CheckBox(props) {
   );
 }
 
-const FilterForm = ({ values, handleChange, handleBlur }) => {
+const CategoryFilter = ({ values, handleChange, handleBlur }) => {
   return (
     <FilterBox title="Category">
       <form>
@@ -42,7 +44,7 @@ const FilterForm = ({ values, handleChange, handleBlur }) => {
   );
 };
 
-const CategoryFilter = withFormik({
+const withForm = withFormik({
   enableReinitialize: true,
   mapPropsToValues: props => {
     const values = props.categories.reduce((acc, cat) => {
@@ -55,15 +57,18 @@ const CategoryFilter = withFormik({
       ...values,
     };
   },
-  validate: (values, { categories }) => {
+  validate: (values, props) => {
     const newValues = Object.assign({}, values);
     delete newValues['categories'];
     const keys = Object.keys(newValues).filter(key => newValues[key] === true);
-    const ids = categories
+    const ids = props.categories
       .filter(cat => keys.includes(cat.name))
       .map(cat => cat.id);
-    setUrlState({ categories: ids });
+    setUrlState(
+      { categories: ids },
+      { location: props.location, history: props.history },
+    );
   },
-})(FilterForm);
+});
 
-export default CategoryFilter;
+export default compose(withRouter, withForm)(CategoryFilter);

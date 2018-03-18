@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { withFormik } from 'formik';
 import './TripleSelect.css';
 import setUrlState from '../../state/urlState';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 function TripleSelectForm({ values, handleChange, handleSubmit }) {
   return (
@@ -23,19 +25,23 @@ function TripleSelectForm({ values, handleChange, handleSubmit }) {
   );
 }
 
-const TripleSelect = withFormik({
+const withForm = withFormik({
   mapPropsToValues: props => ({
     options: props.options,
     selected: props.selected,
     name: props.name,
   }),
-  validate: values => {
+  enableReinitialize: true,
+  validate: (values, props) => {
     const key = values.name;
     const option = values.options.find(option => option.value === values[key]);
-    setUrlState({
-      [key]: option.name,
-    });
+    setUrlState(
+      {
+        [key]: option.name,
+      },
+      { history: props.history, location: props.location },
+    );
   },
-})(TripleSelectForm);
+});
 
-export default TripleSelect;
+export default compose(withRouter, withForm)(TripleSelectForm);

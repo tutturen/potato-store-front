@@ -30,7 +30,7 @@ const SearchBar = withFormik({
       {
         query: values.query,
       },
-      null,
+      { flushSearch: true },
     );
   },
 })(SearchForm);

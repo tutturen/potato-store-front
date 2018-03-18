@@ -2,6 +2,8 @@ import React from 'react';
 import { withFormik } from 'formik';
 import './MinMaxSelect.css';
 import setUrlState from '../../state/urlState';
+import { compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 function MinMaxForm({ values, handleChange, handleBlur }) {
   return (
@@ -28,7 +30,7 @@ function MinMaxForm({ values, handleChange, handleBlur }) {
   );
 }
 
-const MinMaxSelect = withFormik({
+const withForm = withFormik({
   mapPropsToValues: props => ({
     minimum: props.minimum,
     maximum: props.maximum,
@@ -36,12 +38,15 @@ const MinMaxSelect = withFormik({
   }),
   validateOnChange: false,
   validateOnBlur: true,
-  validate: values => {
-    setUrlState({
-      minimum: Math.min(values.minimum, values.maximum),
-      maximum: Math.max(values.minimum, values.maximum),
-    });
+  validate: (values, props) => {
+    setUrlState(
+      {
+        minimum: Math.min(values.minimum, values.maximum),
+        maximum: Math.max(values.minimum, values.maximum),
+      },
+      { history: props.history, location: props.location },
+    );
   },
-})(MinMaxForm);
+});
 
-export default MinMaxSelect;
+export default compose(withRouter, withForm)(MinMaxForm);
