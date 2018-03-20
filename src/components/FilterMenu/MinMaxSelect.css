@@ -23,3 +23,9 @@
   min-width: 32px;
   line-height: 32px;
 }
+
+.minmaxselect-error {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #ff0000;
+}
