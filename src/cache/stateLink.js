@@ -66,6 +66,7 @@ const stateLink = withClientState({
         return productId;
       },
       logOut: (_, __, { cache }) => {
+        localStorage.removeItem('jwt');
         cache.writeData({ data: defaultState });
         return true;
       },
