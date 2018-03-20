@@ -28,6 +28,7 @@ const SearchForm = ({ values, handleChange, handleSubmit }) => (
 const withForm = withFormik({
   mapPropsToValues: props => ({ query: props.query }),
   handleSubmit: (values, { props }) => {
+  handleSubmit: (values, props) => {
     setUrlState(
       {
         query: values.query,
