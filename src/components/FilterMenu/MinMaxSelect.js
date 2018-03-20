@@ -13,7 +13,6 @@ function MinMaxForm({ values, handleChange, handleBlur, errors }) {
         <input
           id="minimum"
           min="0"
-          max="50000"
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.minimum}
@@ -24,7 +23,6 @@ function MinMaxForm({ values, handleChange, handleBlur, errors }) {
         <input
           id="maximum"
           min="0"
-          max="50000"
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.maximum}
