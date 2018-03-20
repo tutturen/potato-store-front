@@ -25,8 +25,8 @@ function ProductPage(props) {
   const urlData = getState(props.location.search);
   const organic = urlData.organic || 'ignore';
   const sale = urlData.sale || 'ignore';
-  const minPrice = urlData.minimum || 0;
-  const maxPrice = urlData.maximum || 2000;
+  const minPrice = urlData.minimum || '';
+  const maxPrice = urlData.maximum || '';
   const query = urlData.query || '';
   const title = query ? `Search for "${query}"` : 'All Products';
 

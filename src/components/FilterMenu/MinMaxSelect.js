@@ -55,17 +55,27 @@ const withForm = withFormik({
   validate: (values, props) => {
     const minOverZero = Math.max(values.minimum, 0);
     const maxOverZero = Math.max(values.maximum, 0);
-    setUrlState(
-      {
-        minimum: minOverZero,
-        maximum: maxOverZero,
-      },
-      { history: props.history, location: props.location },
-    );
+    // By default: unset both minimum and maximum…
+    const newState = { minimum: undefined, maximum: undefined };
+
+    // …then set them if specified
+    if (values.minimum !== '') {
+      newState.minimum = minOverZero;
+    }
+    if (values.maximum !== '') {
+      newState.maximum = maxOverZero;
+    }
+
+    // TODO: Find a cleaner way to auto-submit than putting the submit handler inside validate
+    setUrlState(newState, {
+      history: props.history,
+      location: props.location,
+    });
 
     const errors = {};
 
-    if (maxOverZero < minOverZero) {
+    const bothSet = values.minimum !== '' && values.maximum !== '';
+    if (bothSet && maxOverZero < minOverZero) {
       errors.generic = 'Not recommended to have larger minimum than maximum.';
     }
 
