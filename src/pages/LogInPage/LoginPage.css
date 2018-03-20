@@ -54,3 +54,8 @@
 .login-form-link-text {
   margin-top: 24px;
 }
+
+.login-form-error {
+  color: #e60000;
+  font-weight: bold;
+}
