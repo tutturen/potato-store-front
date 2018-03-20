@@ -18,6 +18,7 @@ const typeDefs = `
 
   type Mutation {
     addToCart(productId: Int!): Int
+    removeFromCart(productId: Int!): Int
     logOut: Boolean
   }
 `;
@@ -49,6 +50,19 @@ const stateLink = withClientState({
           cartItems: previous.cartItems.concat([productId]),
         };
         cache.writeData({ data });
+        return productId;
+      },
+      removeFromCart: (_, { productId }, { cache }) => {
+        const query = gql`
+          query GetCartItems {
+            cartItems @client
+          }
+        `;
+        const data = cache.readQuery({ query });
+        const newData = {
+          cartItems: data.cartItems.filter(id => id !== productId),
+        };
+        cache.writeData({ data: newData });
         return productId;
       },
       logOut: (_, __, { cache }) => {
