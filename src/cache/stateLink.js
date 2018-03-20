@@ -59,7 +59,6 @@ const stateLink = withClientState({
           }
         `;
         const data = cache.readQuery({ query });
-        console.log(data);
         const newData = {
           cartItems: data.cartItems.filter(id => id !== productId),
         };
