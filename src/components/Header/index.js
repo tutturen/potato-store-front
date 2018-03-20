@@ -78,7 +78,9 @@ function Header(props) {
                   className="shopping-cart-icon"
                   alt="Shopping Cart"
                 />
-                <span className="cart-size">&nbsp;{data.cartItems.length}</span>
+                <span className="cart-size">
+                  &nbsp; Cart ({data.cartItems.length})
+                </span>
               </Link>
             </div>
           </div>
