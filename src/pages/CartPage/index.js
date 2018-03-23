@@ -24,8 +24,8 @@ function CartPage(props) {
     return <div>Error!</div>;
   }
 
-  const { products, total, totalDiscount, totalBeforeDiscount } = cart;
-  const hasProducts = products && !!products.length;
+  const { items, total, totalDiscount, totalBeforeDiscount } = cart;
+  const hasItems = items && !!items.length;
   return (
     <DocumentTitle title="Your Cart - Potato Store">
       <div className="cart-container">
@@ -35,10 +35,8 @@ function CartPage(props) {
             <div className="cart-content-header-product">Product</div>
             <div className="cart-content-header-price">Price</div>
           </div>
-          {products.map(product => (
-            <CartItem key={product.id} product={product} />
-          ))}
-          {!hasProducts && (
+          {items.map(item => <CartItem key={item.id} item={item} />)}
+          {!hasItems && (
             <div className="cart-content-no-items">
               You have no products in your cart.
             </div>
@@ -55,7 +53,7 @@ function CartPage(props) {
             <SummaryRow text="Discount:" amount={totalDiscount} />
           )}
           <SummaryRow text="Total:" amount={total} />
-          {hasProducts && (
+          {hasItems && (
             <button className="cart-buy-button" onClick={props.buyCart}>
               Buy
             </button>
