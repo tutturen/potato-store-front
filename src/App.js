@@ -4,7 +4,6 @@ import DocumentTitle from 'react-document-title';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloLink } from 'apollo-link';
-import { persistCache } from 'apollo-cache-persist';
 
 import Layout from './components/Layout';
 import Main from './pages/Main';
@@ -13,12 +12,10 @@ import cache from './cache/cache';
 import stateLink from './cache/stateLink';
 import authLink from './cache/authLink';
 import httpLink from './cache/httpLink';
+import persistCache from './cache/persist';
 import './App.css';
 
-persistCache({
-  cache,
-  storage: window.localStorage,
-});
+persistCache(cache);
 
 const client = new ApolloClient({
   link: ApolloLink.from([stateLink, authLink.concat(httpLink)]),
