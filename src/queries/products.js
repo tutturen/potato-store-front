@@ -26,6 +26,9 @@ export const query = gql`
       price
       subtitle
       image
+      percentSale {
+        cut
+      }
     }
     allCategories {
       id

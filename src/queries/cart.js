@@ -10,6 +10,9 @@ export const query = gql`
         subtitle
         price
         image
+        percentSale {
+          cut
+        }
       }
       total
       totalDiscount

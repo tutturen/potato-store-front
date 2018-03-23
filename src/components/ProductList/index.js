@@ -1,6 +1,7 @@
 import React from 'react';
 import './ProductList.css';
 import getPrice from '../../utils/getPrice';
+import getSalePrice from '../../utils/getSalePrice';
 
 function ProductListItem(props) {
   const { product } = props;
@@ -12,7 +13,29 @@ function ProductListItem(props) {
           src={product.image}
           alt={product.name}
         />
-        <div className="productlist-item-price">{getPrice(product.price)}</div>
+        {product.percentSale && (
+          <div className="productlist-sale-container">
+            -{product.percentSale.cut}%
+          </div>
+        )}
+        <div className="productlist-item-price-container">
+          {product.percentSale && (
+            <div className="productlist-item-prev-price">
+              {getPrice(product.price)}
+            </div>
+          )}
+          {product.percentSale && (
+            <div className="productlist-item-sale-price">
+              {getSalePrice(product.price, product.percentSale.cut)}
+            </div>
+          )}
+
+          {!product.percentSale && (
+            <div className="productlist-item-price">
+              {getPrice(product.price)}
+            </div>
+          )}
+        </div>
         <div className="productlist-item-name">{product.name}</div>
         <div className="productlist-item-subtitle">{product.subtitle}</div>
       </div>
