@@ -43,7 +43,7 @@ export function Header(props) {
     return <div>Error</div>;
   }
 
-  const quantities = data.cartItems.map(c => c.quantity);
+  const quantities = cartItems.map(c => c.quantity);
   const numItems = quantities.reduce((a, b) => a + b, 0);
 
   return (
@@ -62,8 +62,8 @@ export function Header(props) {
         <SearchBar />
       </div>
       <div className="header-user">
-        {data.user.loggedIn ? (
-          <LoggedInMessage user={data.user} logOut={props.logOut} />
+        {user.loggedIn ? (
+          <LoggedInMessage user={user} logOut={props.logOut} />
         ) : (
           <LoggedOutMessage />
         )}

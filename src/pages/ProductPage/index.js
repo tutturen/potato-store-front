@@ -33,8 +33,8 @@ function ProductPage(props) {
   const variables = {
     minPrice: urlData.minimum || null,
     maxPrice: urlData.maximum || null,
-    organic: getBool(urlData.organic),
-    onSale: getBool(urlData.onSale),
+    organic: getBool(organic),
+    onSale: getBool(sale),
     text: urlData.query || null,
     category: urlData.categories || [],
   };

@@ -13,7 +13,7 @@ function CartItem(props) {
     <div className="cart-item-container">
       <div className="cart-item-quantity-container">
         <button className="cart-item-quantity-button">▲</button>
-        <div className="cart-item-quantity-number">1</div>
+        <div className="cart-item-quantity-number">{quantity}</div>
         <button className="cart-item-quantity-button">▼</button>
       </div>
       <img src={image} className="cart-item-image" alt={name} />
@@ -22,11 +22,13 @@ function CartItem(props) {
         <div className="cart-item-description-subtitle">{subtitle}</div>
       </div>
       {percentSale && (
-        <div className="cart-item-prev-price">{getPrice(price)}</div>
+        <div className="cart-item-prev-price">
+          {getPrice(originalPrice * quantity)}
+        </div>
       )}
       {percentSale && (
         <div className="cart-item-sale-price">
-          {getSalePrice(price, percentSale.cut)}
+          {getSalePrice(unitPrice * quantity, percentSale.cut)}
         </div>
       )}
       {!percentSale && <div className="cart-item-price">{getPrice(price)}</div>}
