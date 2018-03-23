@@ -25,6 +25,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 8px;
+  position: relative;
 }
 
 .productlist-item-image {
@@ -83,4 +84,20 @@
 .productlist-buy-button:hover {
   display: block;
   background-color: #630000;
+}
+
+.productlist-sale-container {
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #530000;
+  background-color: #f2d1ab;
+  border-radius: 50%;
+  font-weight: bold;
+  top: 87px;
+  left: 25px;
 }

@@ -4,6 +4,7 @@ import getPrice from '../../utils/getPrice';
 
 function ProductListItem(props) {
   const { product } = props;
+  console.log(product);
   return (
     <div className="productlist-item-container">
       <div className="productlist-item" key={product.name + product.image}>
@@ -12,6 +13,11 @@ function ProductListItem(props) {
           src={product.image}
           alt={product.name}
         />
+        {product.percentSale && (
+          <div className="productlist-sale-container">
+            -{product.percentSale.cut}%
+          </div>
+        )}
         <div className="productlist-item-price">{getPrice(product.price)}</div>
         <div className="productlist-item-name">{product.name}</div>
         <div className="productlist-item-subtitle">{product.subtitle}</div>
