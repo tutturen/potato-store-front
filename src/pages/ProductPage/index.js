@@ -45,6 +45,14 @@ function ProductPage(props) {
         <PageHeader title={title} />
         <Query query={productsQuery} variables={variables}>
           {({ loading, error, data }) => {
+            if (loading) {
+              return <div>Loading…</div>;
+            }
+            if (error) {
+              console.dir(error);
+              return <div>Error</div>;
+            }
+
             return (
               <div className="productpage-row-content">
                 <FilterMenu

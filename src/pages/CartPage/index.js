@@ -6,7 +6,7 @@ import './CartPage.css';
 import CartItem from './CartItem';
 import SummaryRow from './SummaryRow';
 
-import productIdsInCart from '../../queries/productIdsInCart';
+import cartItems from '../../queries/cartItems';
 import cart from '../../queries/cart';
 import buyCart from '../../mutations/buyCart';
 
@@ -65,4 +65,4 @@ function CartPage(props) {
   );
 }
 
-export default compose(productIdsInCart, cart, buyCart)(CartPage);
+export default compose(cartItems, cart, buyCart)(CartPage);

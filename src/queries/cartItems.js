@@ -3,7 +3,10 @@ import { graphql } from 'react-apollo';
 
 const query = gql`
   query {
-    cartItems @client
+    cartItems @client {
+      id
+      quantity
+    }
   }
 `;
 

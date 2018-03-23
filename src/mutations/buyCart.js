@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 export const query = gql`
-  mutation PerformPurchase($products: [ID!]!) {
+  mutation PerformPurchase($products: [CartItemInput!]!) {
     buy(products: $products) {
       success
     }
@@ -15,14 +15,17 @@ export const options = {
       buyCart() {
         return mutate({
           variables: {
-            products: ownProps.data.cart.products.map(prod => prod.id),
+            products: ownProps.data.cartItems,
           },
           update: (store, response) => {
             if (response.data.buy.success) {
               // Empty cart query
               const cartItemsQuery = gql`
                 query {
-                  cartItems @client
+                  cartItems @client {
+                    id
+                    quantity
+                  }
                 }
               `;
               store.writeQuery({

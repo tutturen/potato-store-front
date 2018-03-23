@@ -2,14 +2,14 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const query = gql`
-  mutation AddOneToCart($productId: Int!) {
-    addOneToCart(productId: $productId) @client
+  mutation RemoveOneCartItem($productId: Int!) {
+    removeOneFromCart(productId: $productId) @client
   }
 `;
 
 const options = {
   props: ({ mutate }) => ({
-    addToCart: product => mutate({ variables: { productId: product.id } }),
+    removeOneFromCart: productId => mutate({ variables: { productId } }),
   }),
 };
 

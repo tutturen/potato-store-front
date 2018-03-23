@@ -45,6 +45,10 @@ function Header(props) {
           return <div>Error</div>;
         }
 
+        // Summarize the quantity of all products in cart
+        const quantities = data.cartItems.map(c => c.quantity);
+        const numItems = quantities.reduce((a, b) => a + b, 0);
+
         return (
           <div className="header-container">
             <div className="header-left-content">
@@ -78,9 +82,7 @@ function Header(props) {
                   className="shopping-cart-icon"
                   alt="Shopping Cart"
                 />
-                <span className="cart-size">
-                  &nbsp; Cart ({data.cartItems.length})
-                </span>
+                <span className="cart-size">&nbsp; Cart ({numItems})</span>
               </Link>
             </div>
           </div>
