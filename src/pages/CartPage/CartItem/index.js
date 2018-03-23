@@ -3,6 +3,8 @@ import getPrice from '../../../utils/getPrice';
 import getSalePrice from '../../../utils/getSalePrice';
 import DeleteButton from '../DeleteButton';
 import removeFromCart from '../../../mutations/removeFromCart';
+import addOneToCart from '../../../mutations/addToCart';
+import removeOneFromCart from '../../../mutations/removeOneFromCart';
 import { compose } from 'react-apollo';
 import './CartItem.css';
 
@@ -12,9 +14,19 @@ function CartItem(props) {
   return (
     <div className="cart-item-container">
       <div className="cart-item-quantity-container">
-        <button className="cart-item-quantity-button">▲</button>
+        <button
+          onClick={() => props.addToCart(product)}
+          className="cart-item-quantity-button"
+        >
+          ▲
+        </button>
         <div className="cart-item-quantity-number">{quantity}</div>
-        <button className="cart-item-quantity-button">▼</button>
+        <button
+          onClick={() => props.removeOneFromCart(product)}
+          className="cart-item-quantity-button"
+        >
+          ▼
+        </button>
       </div>
       <img src={image} className="cart-item-image" alt={name} />
       <div className="cart-item-description">
@@ -39,4 +51,6 @@ function CartItem(props) {
   );
 }
 
-export default compose(removeFromCart)(CartItem);
+export default compose(removeFromCart, addOneToCart, removeOneFromCart)(
+  CartItem,
+);

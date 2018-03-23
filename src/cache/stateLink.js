@@ -22,7 +22,7 @@ const typeDefs = `
     removeOneFromCart(productId: Int!): Int
     logOut: Boolean
   }
-  
+
   type CartItem {
     id: Int!
     quantity: Int!
@@ -101,7 +101,7 @@ const stateLink = withClientState({
         // Should we modify existing entry, or add a new?
         const previousCartItem = previousItems.find(c => c.id === productId);
         let itemsWithThis = null;
-        if (previousCartItem !== undefined) {
+        if (previousCartItem) {
           // Modify existing, increase quantity
           const newQuantity = previousCartItem.quantity + 1;
           const itemsExceptThis = previousItems.filter(c => c.id !== productId);
