@@ -66,7 +66,11 @@ const removeFromCartGeneric = (_, { productId, all }, { cache }) => {
     // Do not add new item to maybeThis, thereby removing it completely
   } else {
     const newQuantity = (previousCartItem.quantity -= 1);
-    const newItem = { id: productId, quantity: newQuantity };
+    const newItem = {
+      id: productId,
+      quantity: newQuantity,
+      __typename: 'CartItem',
+    };
     maybeThis.push(newItem);
   }
   const newItemList = itemsExceptThis.concat(maybeThis);
@@ -101,11 +105,19 @@ const stateLink = withClientState({
           // Modify existing, increase quantity
           const newQuantity = previousCartItem.quantity + 1;
           const itemsExceptThis = previousItems.filter(c => c.id !== productId);
-          const newItem = { id: productId, quantity: newQuantity };
+          const newItem = {
+            id: productId,
+            quantity: newQuantity,
+            __typename: 'CartItem',
+          };
           itemsWithThis = itemsExceptThis.concat([newItem]);
         } else {
           // Add new
-          const newItem = { id: productId, quantity: 1 };
+          const newItem = {
+            id: productId,
+            quantity: 1,
+            __typename: 'CartItem',
+          };
           itemsWithThis = previousItems.concat([newItem]);
         }
         // Make change

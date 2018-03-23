@@ -20,6 +20,7 @@ function CartPage(props) {
     return <div>Loading...</div>;
   }
   if (error) {
+    console.dir(error);
     return <div>Error!</div>;
   }
 
