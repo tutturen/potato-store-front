@@ -38,8 +38,10 @@ const InnerLoginForm = ({
           type="text"
           className="login-form-element-input"
         />
-        {touched.username && errors.username &&
-        <p className="login-form-error">{errors.username}</p>}
+        {touched.username &&
+          errors.username && (
+            <p className="login-form-error">{errors.username}</p>
+          )}
       </div>
       <div className="login-form-element">
         <div className="login-form-element-label">Password</div>
@@ -50,8 +52,10 @@ const InnerLoginForm = ({
           type="password"
           className="login-form-element-input"
         />
-        {touched.password && errors.password &&
-        <p className="login-form-error">{errors.password}</p>}
+        {touched.password &&
+          errors.password && (
+            <p className="login-form-error">{errors.password}</p>
+          )}
       </div>
       {errors.generic && <p className="login-form-error">{errors.generic}</p>}
       <input type="submit" className="login-form-button" value="Log in" />
