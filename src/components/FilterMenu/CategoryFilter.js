@@ -2,27 +2,9 @@ import React from 'react';
 import { withFormik } from 'formik';
 import setUrlState from '../../state/urlState';
 import FilterBox from './FilterBox';
-import './CategoryFilter.css';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'react-apollo';
-
-function CheckBox(props) {
-  return (
-    <div className="filterbox-checkbox">
-      <label>
-        <input
-          type="checkbox"
-          onChange={props.onChange}
-          onBlur={props.onBlur}
-          name={props.name}
-          checked={props.checked}
-        />
-        {props.text}
-      </label>
-      <div className="filterbox-checkbox-right-text">{props.rightText}</div>
-    </div>
-  );
-}
+import CheckBox from './CheckBox';
 
 const CategoryFilter = ({ values, handleChange, handleBlur }) => {
   return (
