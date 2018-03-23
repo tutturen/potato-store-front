@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Query, compose } from 'react-apollo';
+import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import potatoLogo from './potato-logo.svg';
 import potatoLogoText from './potato-logo-text.svg';
