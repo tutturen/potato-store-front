@@ -33,6 +33,9 @@
   height: 140px;
   margin-bottom: 8px;
   padding-top: 4px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .productlist-item-price-container {

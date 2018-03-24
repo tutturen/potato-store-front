@@ -15,7 +15,10 @@ export const options = {
       buyCart() {
         return mutate({
           variables: {
-            products: ownProps.data.cartItems,
+            products: ownProps.data.cart.items.map(item => ({
+              product: item.product.id,
+              quantity: item.quantity,
+            })),
           },
           update: (store, response) => {
             if (response.data.buy.success) {

@@ -10,21 +10,36 @@ import cartItems from '../../queries/cartItems';
 import cart from '../../queries/cart';
 import buyCart from '../../mutations/buyCart';
 
+const emptyCart = {
+  items: [],
+  total: 0,
+  totalDiscount: 0,
+  totalBeforeDiscount: 0,
+};
+
+function itemComparator(a, b) {
+  if (a.product.id < b.product.id) {
+    return -1;
+  }
+  if (a.product.id > b.product.id) {
+    return 1;
+  }
+  return 0;
+}
+
 /**
  * Page showing the current contents of the cart.
  */
 function CartPage(props) {
   const { loading, error, cart } = props.data;
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   if (error) {
     console.dir(error);
     return <div>Error!</div>;
   }
 
-  const { items, total, totalDiscount, totalBeforeDiscount } = cart;
+  const { items, total, totalDiscount, totalBeforeDiscount } =
+    cart || emptyCart;
   const hasItems = items && !!items.length;
   return (
     <DocumentTitle title="Your Cart - Potato Store">
@@ -35,10 +50,14 @@ function CartPage(props) {
             <div className="cart-content-header-product">Product</div>
             <div className="cart-content-header-price">Price</div>
           </div>
-          {items.map(item => <CartItem key={item.id} item={item} />)}
+          {items
+            .slice(0)
+            .sort(itemComparator)
+            .map(item => <CartItem key={item.product.id} item={item} />)}
           {!hasItems && (
             <div className="cart-content-no-items">
-              You have no products in your cart.
+              {!loading && 'You have no products in your cart.'}
+              {loading && 'Loading...'}
             </div>
           )}
         </div>

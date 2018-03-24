@@ -9,7 +9,7 @@ const query = gql`
 
 const options = {
   props: ({ mutate }) => ({
-    removeFromCart: productId => mutate({ variables: { productId } }),
+    removeFromCart: product => mutate({ variables: { productId: product.id } }),
   }),
 };
 

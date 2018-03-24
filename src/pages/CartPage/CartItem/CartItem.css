@@ -12,7 +12,7 @@
   width: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-right: 24px;
 }
@@ -28,6 +28,7 @@
   padding: 0;
   cursor: pointer;
   box-sizing: border-box;
+  margin: 4px 0px;
 }
 
 .cart-item-quantity-number {
@@ -64,12 +65,15 @@
   text-decoration: line-through;
   text-align: right;
   margin-right: 8px;
+  width: 80px;
 }
 
 .cart-item-sale-price {
   font-size: 18px;
   font-weight: bold;
   color: #530000;
+  width: 101px;
+  text-align: right;
 }
 
 .cart-item-price {

@@ -9,10 +9,9 @@ function ProductListItem(props) {
   return (
     <div className="productlist-item-container">
       <div className="productlist-item" key={product.name + product.image}>
-        <img
+        <div
+          style={{ backgroundImage: `url(${product.image})` }}
           className="productlist-item-image"
-          src={product.image}
-          alt={product.name}
         />
         {hasSale && (
           <div className="productlist-sale-container">

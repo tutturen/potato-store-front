@@ -1,12 +1,12 @@
 .cart-container {
-  max-width: 600px;
+  max-width: 650px;
   margin: auto;
 }
 
 .cart-content {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 650px;
   margin-top: 16px;
 }
 

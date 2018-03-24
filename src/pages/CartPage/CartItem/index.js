@@ -10,7 +10,7 @@ import './CartItem.css';
 
 function CartItem(props) {
   const { product, quantity, unitPrice, originalPrice } = props.item;
-  const { id, image, name, subtitle, price, percentSale } = product;
+  const { image, name, subtitle, percentSale } = product;
   return (
     <div className="cart-item-container">
       <div className="cart-item-quantity-container">
@@ -21,31 +21,35 @@ function CartItem(props) {
           ▲
         </button>
         <div className="cart-item-quantity-number">{quantity}</div>
-        <button
-          onClick={() => props.removeOneFromCart(product)}
-          className="cart-item-quantity-button"
-        >
-          ▼
-        </button>
+        {quantity > 1 && (
+          <button
+            onClick={() => props.removeOneFromCart(product)}
+            className="cart-item-quantity-button"
+          >
+            ▼
+          </button>
+        )}
       </div>
       <img src={image} className="cart-item-image" alt={name} />
       <div className="cart-item-description">
         <div className="cart-item-description-title">{name}</div>
         <div className="cart-item-description-subtitle">{subtitle}</div>
       </div>
-      {percentSale && (
+      {percentSale.length > 0 && (
         <div className="cart-item-prev-price">
           {getPrice(originalPrice * quantity)}
         </div>
       )}
-      {percentSale && (
+      {percentSale.length > 0 && (
         <div className="cart-item-sale-price">
           {getSalePrice(unitPrice * quantity, percentSale.cut)}
         </div>
       )}
-      {!percentSale && <div className="cart-item-price">{getPrice(price)}</div>}
+      {percentSale.length === 0 && (
+        <div className="cart-item-price">{getPrice(unitPrice * quantity)}</div>
+      )}
       <div className="cart-item-delete-button">
-        <DeleteButton onClick={() => props.removeFromCart(id)} />
+        <DeleteButton onClick={() => props.removeFromCart(product)} />
       </div>
     </div>
   );

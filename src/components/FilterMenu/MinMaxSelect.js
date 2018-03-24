@@ -6,7 +6,6 @@ import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 
 function MinMaxForm({ values, handleChange, handleBlur, errors }) {
-  console.log(errors);
   return (
     <div>
       <div className="minmaxselect-container">
