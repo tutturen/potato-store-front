@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik } from 'formik';
 import './SearchBar.css';
-import setUrlState from '../../state/urlState';
+import setUrlState, { getState } from '../../state/urlState';
 import { compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 
@@ -26,7 +26,11 @@ const SearchForm = ({ values, handleChange, handleSubmit }) => (
 );
 
 const withForm = withFormik({
-  mapPropsToValues: props => ({ query: props.query }),
+  enableReinitialize: true,
+  mapPropsToValues: props => {
+    const urlData = getState(props.location.search);
+    return { query: props.query || urlData.query || '' };
+  },
   handleSubmit: (values, { props }) => {
     setUrlState(
       {
