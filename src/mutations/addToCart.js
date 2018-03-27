@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const query = gql`
-  mutation AddToCart($productId: Int!) {
-    addToCart(productId: $productId) @client
+  mutation AddOneToCart($productId: Int!) {
+    addOneToCart(productId: $productId) @client
   }
 `;
 

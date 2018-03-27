@@ -1,7 +1,6 @@
 import queryString from 'query-string';
 
 function setState(newState, options = {}) {
-  console.log('OPTIONS', options);
   const loc = options.location || window.location;
   const query = options && options.flushSearch ? null : loc.search;
 
@@ -11,7 +10,6 @@ function setState(newState, options = {}) {
 
   // use browser history if available, to skip a page refresh
   if (options.history) {
-    console.log(`${loc.pathname}?${stringified}`);
     options.history.push({ pathname: loc.pathname, search: stringified });
   } else {
     window.location.search = stringified;

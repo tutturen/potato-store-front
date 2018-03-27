@@ -2,17 +2,25 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 export const query = gql`
-  query FetchCart($products: [ID!]!) {
+  query FetchCart($products: [CartItemInput!]!) {
     cart(products: $products) {
-      products {
-        id
-        name
-        subtitle
-        price
-        image
-        percentSale {
-          cut
+      items {
+        product {
+          image
+          name
+          id
+          subtitle
+          unitPrice
+          unit
+          organic
+          price
+          percentSale {
+            cut
+          }
         }
+        quantity
+        unitPrice
+        originalPrice
       }
       total
       totalDiscount
@@ -23,7 +31,14 @@ export const query = gql`
 
 export const options = {
   options: props => {
-    return { variables: { products: props.data.cartItems } };
+    return {
+      variables: {
+        products: props.data.cartItems.map(({ id, quantity }) => ({
+          product: parseInt(id, 10),
+          quantity,
+        })),
+      },
+    };
   },
 };
 

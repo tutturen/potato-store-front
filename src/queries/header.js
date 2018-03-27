@@ -9,7 +9,10 @@ export const query = gql`
       firstName
       lastName
     }
-    cartItems @client
+    cartItems @client {
+      id
+      quantity
+    }
   }
 `;
 

@@ -43,6 +43,9 @@ export function Header(props) {
     return <div>Error</div>;
   }
 
+  const quantities = cartItems.map(c => c.quantity);
+  const numItems = quantities.reduce((a, b) => a + b, 0);
+
   return (
     <div className="header-container">
       <div className="header-left-content">
@@ -72,7 +75,7 @@ export function Header(props) {
             className="shopping-cart-icon"
             alt="Shopping Cart"
           />
-          <span className="cart-size">&nbsp; Cart ({cartItems.length})</span>
+          <span className="cart-size">&nbsp; Cart ({numItems})</span>
         </Link>
       </div>
     </div>

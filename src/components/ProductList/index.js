@@ -5,32 +5,39 @@ import getSalePrice from '../../utils/getSalePrice';
 
 function ProductListItem(props) {
   const { product } = props;
+  const hasPercentSale = product.percentSale.length > 0;
+  const hasPackageDeal = product.packageDeal.length > 0;
   return (
     <div className="productlist-item-container">
       <div className="productlist-item" key={product.name + product.image}>
-        <img
+        <div
+          style={{ backgroundImage: `url(${product.image})` }}
           className="productlist-item-image"
-          src={product.image}
-          alt={product.name}
         />
-        {product.percentSale && (
+        {hasPercentSale && (
           <div className="productlist-sale-container">
-            -{product.percentSale.cut}%
+            -{product.percentSale[0].cut}%
+          </div>
+        )}
+        {hasPackageDeal && (
+          <div className="productlist-package-sale-container">
+            {product.packageDeal[0].minimumQuantity} for{' '}
+            {product.packageDeal[0].paidQuantity}
           </div>
         )}
         <div className="productlist-item-price-container">
-          {product.percentSale && (
+          {hasPercentSale && (
             <div className="productlist-item-prev-price">
               {getPrice(product.price)}
             </div>
           )}
-          {product.percentSale && (
+          {hasPercentSale && (
             <div className="productlist-item-sale-price">
-              {getSalePrice(product.price, product.percentSale.cut)}
+              {getSalePrice(product.price, product.percentSale[0].cut)}
             </div>
           )}
 
-          {!product.percentSale && (
+          {!hasPercentSale && (
             <div className="productlist-item-price">
               {getPrice(product.price)}
             </div>

@@ -33,8 +33,8 @@ function ProductPage(props) {
   const variables = {
     minPrice: urlData.minimum || null,
     maxPrice: urlData.maximum || null,
-    organic: getBool(urlData.organic),
-    onSale: getBool(urlData.onSale),
+    organic: getBool(organic),
+    onSale: getBool(sale),
     text: urlData.query || null,
     category: urlData.categories || [],
   };
@@ -45,6 +45,11 @@ function ProductPage(props) {
         <PageHeader title={title} />
         <Query query={productsQuery} variables={variables}>
           {({ loading, error, data }) => {
+            if (error) {
+              console.dir(error);
+              return <div>Error</div>;
+            }
+
             return (
               <div className="productpage-row-content">
                 <FilterMenu
@@ -54,8 +59,10 @@ function ProductPage(props) {
                   organic={organic}
                   minPrice={minPrice}
                   maxPrice={maxPrice}
+                  loading={loading}
                 />
                 <ProductList
+                  loading={loading}
                   products={data.allProducts || []}
                   onBuyProduct={props.addToCart}
                 />
