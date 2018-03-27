@@ -42,7 +42,7 @@ function CartItem(props) {
       )}
       {percentSale.length > 0 && (
         <div className="cart-item-sale-price">
-          {getSalePrice(unitPrice * quantity, percentSale.cut)}
+          {getPrice(unitPrice * quantity)}
         </div>
       )}
       {percentSale.length === 0 && (
