@@ -1,6 +1,5 @@
 import React from 'react';
 import getPrice from '../../../utils/getPrice';
-import getSalePrice from '../../../utils/getSalePrice';
 import DeleteButton from '../DeleteButton';
 import removeFromCart from '../../../mutations/removeFromCart';
 import addOneToCart from '../../../mutations/addToCart';
@@ -10,7 +9,7 @@ import './CartItem.css';
 
 function CartItem(props) {
   const { product, quantity, unitPrice, originalPrice } = props.item;
-  const { image, name, subtitle, percentSale } = product;
+  const { image, name, subtitle } = product;
   const onSale = (unitPrice !== originalPrice);
   return (
     <div className="cart-item-container">
