@@ -9,7 +9,7 @@ import './CartItem.css';
 
 function CartItem(props) {
   const { product, quantity, unitPrice, originalPrice } = props.item;
-  const { image, name, subtitle } = product;
+  const { image, name, subtitle, packageDeal } = product;
   const onSale = (unitPrice !== originalPrice);
   return (
     <div className="cart-item-container">
@@ -35,6 +35,11 @@ function CartItem(props) {
         <div className="cart-item-description-title">{name}</div>
         <div className="cart-item-description-subtitle">{subtitle}</div>
       </div>
+      {packageDeal.length > 0 && (
+        <div>
+          {packageDeal[0].minimumQuantity} for {packageDeal[0].paidQuantity}
+        </div>
+      )}
       {onSale && (
         <React.Fragment>
           <div className="cart-item-prev-price">
