@@ -10,7 +10,7 @@ import './CartItem.css';
 function CartItem(props) {
   const { product, quantity, unitPrice, originalPrice } = props.item;
   const { image, name, subtitle, packageDeal } = product;
-  const onSale = (unitPrice !== originalPrice);
+  const onSale = unitPrice !== originalPrice;
   return (
     <div className="cart-item-container">
       <div className="cart-item-quantity-container">

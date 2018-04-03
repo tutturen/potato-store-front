@@ -50,11 +50,11 @@ function ProductListItem(props) {
         onClick={() => props.onBuyProduct(product)}
         className="productlist-buy-button"
       >
-        {numInCart === 0 && (
-          <React.Fragment>Add to cart</React.Fragment>
-        )}
+        {numInCart === 0 && <React.Fragment>Add to cart</React.Fragment>}
         {numInCart > 0 && (
-          <React.Fragment>✓ {numInCart} in cart<br/>Add more?</React.Fragment>
+          <React.Fragment>
+            ✓ {numInCart} in cart<br />
+          </React.Fragment>
         )}
       </button>
     </div>
@@ -70,10 +70,7 @@ function ProductList(props) {
       <div className="productlist-products">
         {props.products.map(product => {
           const maybeCartItem = props.cartItems.find(c => c.id === product.id);
-          let numInCart = 0;
-          if (maybeCartItem) {
-            numInCart = maybeCartItem.quantity;
-          }
+          let numInCart = maybeCartItem ? maybeCartItem.quantity : 0;
 
           return (
             <ProductListItem
@@ -83,8 +80,7 @@ function ProductList(props) {
               numInCart={numInCart}
             />
           );
-        }
-        )}
+        })}
       </div>
     </div>
   );
