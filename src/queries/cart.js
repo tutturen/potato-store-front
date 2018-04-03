@@ -17,6 +17,10 @@ export const query = gql`
           percentSale {
             cut
           }
+          packageDeal {
+            minimumQuantity
+            paidQuantity
+          }
         }
         quantity
         unitPrice
