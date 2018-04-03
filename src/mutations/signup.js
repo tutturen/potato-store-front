@@ -7,12 +7,14 @@ export const query = gql`
     $lastName: String!
     $username: String!
     $password: String!
+    $mail: String!
   ) {
     createAccount(
       firstName: $firstName
       lastName: $lastName
       username: $username
       password: $password
+      email: $email
     ) {
       success
       token
@@ -21,6 +23,7 @@ export const query = gql`
         username
         firstName
         lastName
+        email
       }
     }
   }
@@ -28,9 +31,9 @@ export const query = gql`
 
 export const options = {
   props: ({ ownProps, mutate }) => ({
-    createAccount: ({ username, password, firstName, lastName }) =>
+    createAccount: ({ username, password, firstName, lastName, email }) =>
       mutate({
-        variables: { username, password, firstName, lastName },
+        variables: { username, password, firstName, lastName, email },
         update: (store, response) => {
           const { token, user, success } = response.data.createAccount;
           // Why do we even bother with a success param if we throw errors
@@ -45,6 +48,7 @@ export const options = {
                     username
                     firstName
                     lastName
+                    email
                     loggedIn
                   }
                 }
