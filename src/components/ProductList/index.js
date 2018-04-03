@@ -4,7 +4,7 @@ import getPrice from '../../utils/getPrice';
 import getSalePrice from '../../utils/getSalePrice';
 
 function ProductListItem(props) {
-  const { product } = props;
+  const { product, numInCart } = props;
   const hasPercentSale = product.percentSale.length > 0;
   const hasPackageDeal = product.packageDeal.length > 0;
   return (
@@ -50,7 +50,12 @@ function ProductListItem(props) {
         onClick={() => props.onBuyProduct(product)}
         className="productlist-buy-button"
       >
-        Add to cart
+        {numInCart === 0 && <React.Fragment>Add to cart</React.Fragment>}
+        {numInCart > 0 && (
+          <React.Fragment>
+            ✓ {numInCart} in cart<br />
+          </React.Fragment>
+        )}
       </button>
     </div>
   );
@@ -63,13 +68,19 @@ function ProductList(props) {
         {props.products.length || 0} products listed
       </div>
       <div className="productlist-products">
-        {props.products.map(product => (
-          <ProductListItem
-            product={product}
-            key={product.id}
-            onBuyProduct={props.onBuyProduct}
-          />
-        ))}
+        {props.products.map(product => {
+          const maybeCartItem = props.cartItems.find(c => c.id === product.id);
+          let numInCart = maybeCartItem ? maybeCartItem.quantity : 0;
+
+          return (
+            <ProductListItem
+              product={product}
+              key={product.id}
+              onBuyProduct={props.onBuyProduct}
+              numInCart={numInCart}
+            />
+          );
+        })}
       </div>
     </div>
   );

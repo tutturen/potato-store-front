@@ -10,6 +10,7 @@ import './ProductPage.css';
 
 import addToCart from '../../mutations/addToCart';
 import { query as productsQuery } from '../../queries/products';
+import cartItems from '../../queries/cartItems';
 
 function getBool(str) {
   if (str === 'yes') {
@@ -65,6 +66,7 @@ function ProductPage(props) {
                   loading={loading}
                   products={data.allProducts || []}
                   onBuyProduct={props.addToCart}
+                  cartItems={props.data.cartItems}
                 />
               </div>
             );
@@ -75,4 +77,4 @@ function ProductPage(props) {
   );
 }
 
-export default compose(addToCart, withRouter)(ProductPage);
+export default compose(addToCart, cartItems, withRouter)(ProductPage);
