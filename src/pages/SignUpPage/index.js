@@ -34,7 +34,6 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
       <div className="signup-form-element">
         <div className="signup-form-element-label">Last Name</div>
         <input
-          autoFocus
           onChange={handleChange}
           name="lastName"
           type="text"
@@ -42,9 +41,17 @@ const InnerSignupForm = ({ values, handleChange, handleSubmit, errors }) => (
         />
       </div>
       <div className="signup-form-element">
+        <div className="signup-form-element-label">E-mail</div>
+        <input
+          onChange={handleChange}
+          name="email"
+          type="email"
+          className="signup-form-element-input"
+        />
+      </div>
+      <div className="signup-form-element">
         <div className="signup-form-element-label">Username</div>
         <input
-          autoFocus
           onChange={handleChange}
           name="username"
           type="text"
