@@ -1,6 +1,5 @@
 import React from 'react';
 import getPrice from '../../../utils/getPrice';
-import getSalePrice from '../../../utils/getSalePrice';
 import DeleteButton from '../DeleteButton';
 import removeFromCart from '../../../mutations/removeFromCart';
 import addOneToCart from '../../../mutations/addToCart';
@@ -10,7 +9,8 @@ import './CartItem.css';
 
 function CartItem(props) {
   const { product, quantity, unitPrice, originalPrice } = props.item;
-  const { image, name, subtitle, percentSale } = product;
+  const { image, name, subtitle, packageDeal } = product;
+  const onSale = (unitPrice !== originalPrice);
   return (
     <div className="cart-item-container">
       <div className="cart-item-quantity-container">
@@ -35,17 +35,22 @@ function CartItem(props) {
         <div className="cart-item-description-title">{name}</div>
         <div className="cart-item-description-subtitle">{subtitle}</div>
       </div>
-      {percentSale.length > 0 && (
-        <div className="cart-item-prev-price">
-          {getPrice(originalPrice * quantity)}
+      {packageDeal.length > 0 && (
+        <div>
+          {packageDeal[0].minimumQuantity} for {packageDeal[0].paidQuantity}
         </div>
       )}
-      {percentSale.length > 0 && (
-        <div className="cart-item-sale-price">
-          {getSalePrice(unitPrice * quantity, percentSale.cut)}
-        </div>
+      {onSale && (
+        <React.Fragment>
+          <div className="cart-item-prev-price">
+            {getPrice(originalPrice * quantity)}
+          </div>
+          <div className="cart-item-sale-price">
+            {getPrice(unitPrice * quantity)}
+          </div>
+        </React.Fragment>
       )}
-      {percentSale.length === 0 && (
+      {!onSale && (
         <div className="cart-item-price">{getPrice(unitPrice * quantity)}</div>
       )}
       <div className="cart-item-delete-button">
