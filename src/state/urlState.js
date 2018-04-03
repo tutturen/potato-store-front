@@ -1,14 +1,19 @@
 import queryString from 'query-string';
 
-function setState(newState, keepOtherParams = true) {
-  const query = keepOtherParams ? window.location.search : null;
+function setState(newState, options = {}) {
+  const loc = options.location || window.location;
+  const query = options && options.flushSearch ? null : loc.search;
 
   const stringified = queryString.stringify(
     Object.assign({}, queryString.parse(query), newState),
   );
 
-  // might add that we only update if changed
-  window.location.search = stringified;
+  // use browser history if available, to skip a page refresh
+  if (options.history) {
+    options.history.push({ pathname: loc.pathname, search: stringified });
+  } else {
+    window.location.search = stringified;
+  }
 }
 
 export function getState(search = window.location.search) {
